@@ -26,3 +26,6 @@ stage/release
 stage/resources/
 stage/samples/
 stage/src.zip
+
+#Eclipse project
+.project
