@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 /**
  * The PairwiseAggregator implements the pairwise algorithm discussed by
  * Chan's paper at <a href=
- * "ftp://reports.stanford.edu/pub/cstr/reports/cs/tr/79/773/CS-TR-79-773.pdf"
+ * "http://i.stanford.edu/pub/cstr/reports/cs/tr/79/773/CS-TR-79-773.pdf"
  * >Updating Formulae and a Pairwise Algorithm for Computing Sample
  * Variances</a>
  *

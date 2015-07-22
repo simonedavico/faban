@@ -656,7 +656,7 @@ public class Metrics implements Serializable, Cloneable,
      * variances come from a sample set with N1 and N2 samples and sum
      * of T1 and T2 respectively. This aggregation uses Chan's algorithm
      * published in <a href=
-     * "ftp://reports.stanford.edu/pub/cstr/reports/cs/tr/79/773/CS-TR-79-773.pdf"
+     * "http://i.stanford.edu/pub/cstr/reports/cs/tr/79/773/CS-TR-79-773.pdf"
      * >Updating Formulae and a Pairwise Algorithm for Computing Sample
      * Variances</a> referenced by the Wikipedia article <a href=
      * "http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance"
