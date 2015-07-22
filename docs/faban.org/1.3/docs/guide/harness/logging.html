@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/harness/logging.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:03:56 GMT -->
+<head>
+  
+  <title>Manage Logging</title><meta content="AKARA SUCHARITAKUL" name="author">
+  <link href="../../css/default.css" rel="stylesheet" type="text/css">
+<body>
+<a accesskey="p" href="results.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Harness_Users_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1>Manage Logging</h1>
+<p><br>
+</p>
+<h2>Overview</h2>
+<p>The Faban harness makes use of the Java SE logging subsystem. It
+provides a log server that receives and consolidates log messages from
+all systems in the rig. While Faban drivers and harness components will
+be automatically configured to send log messages back to the log
+server, other infrastructure such as database servers and application
+servers will need to be configured manually to do so.<br>
+</p>
+<p>The log configuration is one of the few things that cannot yet be
+done through the GUI. Moreover, logging is configured on a per-system
+basis. This allows the flexibility of having only one of the systems
+send out detailed log messages. But it also means you have to logon to
+individual systems in the rig to configure logging.<br>
+</p>
+<br>
+<h2>The Log Configuration File<br>
+</h2>
+<span style="font-weight: bold;"></span>
+<p>The Faban log configuration file is located at
+FABAN_HOME/config/logging.properties on each of the systems partaking
+in the benchmark run. It is a java properties file that can be edited
+using any text editor. Following is how the configuration entries look
+like by default:<br>
+</p>
+<pre>    #Faban logging properties<br>    #Tue May 09 14:28:22 PDT 2006<br>    java.util.logging.SocketHandler.formatter=com.sun.faban.harness.agent.RemoteLogFormatter<br>    handlers=java.util.logging.SocketHandler, java.util.logging.FileHandler<br>    java.util.logging.SocketHandler.host=brazilian.sfbay<br>    com.sun.level=INFO<br>    java.util.logging.FileHandler.formatter=java.util.logging.SimpleFormatter<br>    java.util.logging.FileHandler.pattern=/tmp/fabanagent%u.log<br>    java.util.logging.SocketHandler.port=9999<br></pre>
+<p>The Faban harness automatically edits certain entries of this file
+to ensure that the logs are indeed transmitted to the log server for
+consolidation. These entries should not be modified by hand. They are:<br>
+</p>
+<ul>
+  <li style="font-family: monospace;">java.util.logging.SocketHandler.formatter</li>
+  <li style="font-family: monospace;">java.util.logging.SocketHandler.host</li>
+  <li style="font-family: monospace;">java.util.logging.SocketHandler.port</li>
+</ul>
+<p>Also, <span style="font-family: monospace;">java.util.logging.SocketHandler</span>
+must always stay in the list of handlers in the <span style="font-family: monospace;">handlers</span> entry.<br>
+</p>
+<p>The main addition/modification one will want to make to the log file
+is to change the log level for certain loggers.. The entry <span style="font-family: monospace;">com.sun.level=INFO</span> can be
+edited to be any of the levels supported by the Java SE logging
+infrastructure. In addition, you may want to set a log level for a
+certain package/logger, for example - adding <span style="font-family: monospace;">com.mycompany.mybenchmark.level=FINE</span>.
+Just note that the precedence order for the log level is important.
+Subsequent log level settings override previously defined ones. So if
+you have multiple log level entries with overlapping scope, you'll need
+to be very careful about the order they are put into the configuration
+file.<br>
+</p>
+<p>Other additions you may want to make is to add another log handler
+or log target. This is less common in a benchmarking environment but
+may be useful in certain situations.<br>
+</p>
+<p>For details on the Java SE logging infrastructure and the logging
+configuration file, please refer to the <a target="_blank" href="http://java.sun.com/j2se/1.5.0/docs/guide/logging/overview.html">Java
+logging documentation</a>.<br>
+</p>
+<h2>Effects of Log Configuration Modifications</h2>
+<p>The log configuration file is read and re-read every time a new run
+is started. You can edit a configuration file while a run is going on.
+However, the change will not take effect until the file is re-read,
+which is usually at the beginning of every run.<br>
+</p>
+<br>
+<a accesskey="p" href="results.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Harness_Users_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+<script type="text/javascript" language="javascript">
+var sc_project=1267791;
+var sc_invisible=1;
+var sc_partition=11;
+var sc_security="34f5f6d1";
+</script><script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js">
+</script><noscript><a href="http://www.statcounter.com/"
+target="_blank"><img
+src="http://c12.statcounter.com/counter.php?sc_project=1267791&amp;java=0&amp;security=34f5f6d1&amp;invisible=1"
+alt="counter hit xanga" border="0"></a></noscript>
+<!-- End of StatCounter Code -->
+<!-- Start of StatCounter Code -->
+<script type="text/javascript" language="javascript">
+var sc_project=1126578;
+var sc_invisible=1;
+var sc_partition=10;
+var sc_security="488b7ec0";
+</script><script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js">
+</script><noscript><a href="http://www.statcounter.com/"
+target="_blank"><img
+src="http://c11.statcounter.com/counter.php?sc_project=1126578&amp;java=0&amp;security=488b7ec0&amp;invisible=1"
+alt="free tracking" border="0"></a></noscript>
+<!-- End of StatCounter Code -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-237864-1";
+_udn="opensparc.net";
+urchinTracker();
+</script>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/harness/logging.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:03:56 GMT -->
+</html>

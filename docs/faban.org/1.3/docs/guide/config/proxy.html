@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<!-- Mirrored from faban.org/1.3/docs/guide/config/proxy.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:07 GMT -->
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Submission Proxy</title>
+  <meta content="AKARA SUCHARITAKUL" name="author">
+  <link href="../../css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a href="repository.html"><img alt="Previous"
+ src="../../img/previous.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<a acccesskey="c"
+ href="../../toc.html#Faban_Harness_Configuration_Guide_"
+ title="Beginning"><img alt="Beginning" src="../../img/up.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ href="tuning.html"><img alt="Next" src="../../img/next.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1><a name="Introduction"></a>Submission Proxy<br>
+</h1>
+<p>The submission proxy is a special configuration of two or more
+Faban harness deployments to allow users outside a firewall to submit
+runs and obtain results from rigs inside the firewall. This opens doors
+to collaborative testing between multiple organizations while not
+jeopardizing the security of a performance test rig, which is usually
+lowly guarded except by the firewall. The picture below shows a simple
+and typical submission proxy configuration:</p>
+<p></p>
+<p style="text-align: center;"><img style="width: 639px; height: 354px;"
+ alt="Image showing proxy configuration" src="img/proxy.gif"></p>
+<p style="text-align: left;"></p>
+<p style="text-align: left;">In
+the proxy configuration, Faban is installed on a system outside the
+firewall and configured to be a proxy. The actual Faban master is
+configured to poll submitted runs from the proxy. Polling is done via
+an outgoing HTTP request and therefore can commonly passe through
+firewalls and HTTP proxy servers. As runs are submitted on the proxy,
+it will get downloaded by the master actually conducting the run as the
+master becomes available. The run status is then marked as RECEIVED.
+Users accessing the proxy won't be able to view the runs in progress.
+The logs are not updated to the proxy while the run is being conducted.
+After the run is finished, the results and all the logs are uploaded to
+the proxy all at once and can then be viewed by users on the proxy. The
+run results and logs can also be viewed from the Faban master directly,
+i.e. it is not removed from the master. Note that the runId for the
+runs on the proxy does not coincide with the runId on the master.
+However, you'll be able to clearly see both of the runIds in the result
+and correlate between the runs listed on the proxy and on the master.</p>
+<h2>Configuring the Faban Proxy</h2>
+<p>The Faban proxy and the master is configured in the following
+section:</p>
+<p><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; ....<br>
+&nbsp; &nbsp; &lt;runDaemon mode="pollee"&gt;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- poller/pollee/local/disbled --&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;host enabled="true"&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;master1&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;url&gt;http://master1:9980&lt;/url&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;key&gt;ABCDEFGHIJKLMNOP&lt;/key&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;proxyHost&gt;&lt;/proxyHost&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;proxyPort&gt;&lt;/proxyPort&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/host&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;host enabled="false"&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;master2&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;url&gt;http://master2:9980&lt;/url&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;key&gt;QRSTUVWXYZABCDEF&lt;/key&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;proxyHost&gt;&lt;/proxyHost&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;proxyPort&gt;&lt;/proxyPort&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/host&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;/runDaemon&gt;<br>
+&nbsp; &nbsp; ....</span></p>
+<p>On the Faban proxy side, you will need to set the runDaemon mode to "<span
+ style="font-family: monospace;">pollee</span>."
+This means the instance of the Faban harness will be polled by another
+Faban master. Also you need to set the masters that are allowed to poll
+and download runs and set the enabled attribute to true. The host URL
+is not significant for the proxy configuration, just for the master.
+The key is a crude authentication mechanism to ensure only the master
+with the key in question is allowed to poll. The proxyHost and
+proxyPort fields are not used for the proxy.<span
+ style="font-family: monospace;"></span></p>
+<h2>Configuring the Faban Master for Polling</h2>
+<p>We use the same section of the configuration file to configure the
+master or poller, just configure it differently:</p>
+<p><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; ....<br>
+&nbsp; &nbsp; &lt;runDaemon mode="poller"&gt;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- poller/pollee/local/disbled --&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;host enabled="true"&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;proxy1&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;url&gt;http://proxy1:9980&lt;/url&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;key&gt;ABCDEFGHIJKLMNOP&lt;/key&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;proxyHost&gt;&lt;/proxyHost&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;proxyPort&gt;&lt;/proxyPort&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/host&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;host enabled="false"&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;proxy2&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;url&gt;http://proxy2:9980&lt;/url&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;key&gt;QRSTUVWXYZABCDEF&lt;/key&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;proxyHost&gt;&lt;/proxyHost&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;proxyPort&gt;&lt;/proxyPort&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/host&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;/runDaemon&gt;<br>
+&nbsp; &nbsp; ....</span></p>
+<p>Here,
+on the master, we set the runDaemon to be a poller. This means it will
+go poll another host. The hosts to be polled need to be listed and
+enabled. The master will use provided URL to poll. The key will be sent
+over as a crude authentication. The key for a master/proxy pair must
+match or polling won't be authorized. The name element is not used for
+the polling master configuration. And the proxyHost and proxyPort
+elements are used in case you need to pass through an HTTP proxy going
+out the firewall.</p>
+<p>As both the submission proxy and polling
+masters are configured and the Faban master started or restarted on
+both sides, the master will start to poll the proxies once every 10
+seconds when no run is in progress. Otherwise the master will poll at
+the end of the run. The age of the submitted run is used to decide
+whether to pick the run from the proxy's run queue or the master's own
+run queue so that runs submitted first will be started first, no matter
+whether they are submitted though the submission proxy or locally on
+the master.</p>
+<h2>Run Daemon Configuration Modes&nbsp;&nbsp;&nbsp;</h2>
+<p>You
+may have already noticed from the comments that there are 4
+configuration modes for the run daemon. For completeness, we will
+explain it here:</p>
+<ol>
+  <ol>
+    <li>poller - Sets the Faban harness instance to poll other hosts
+for runs in their run queue.<br>
+Note that setting the run daemon to poller without having any host
+enabled is just like setting the run daemon mode to local.<br>
+    </li>
+    <li>pollee
+- Sets the Faban harness instance to being polled. A harness instance
+set as pollee will have a run queue but the run daemon wil never start
+a run. So there will never be local runs.<br>
+    </li>
+    <li>local - Sets the
+Faban harness instance to be a standalone master. It neither polls
+other hosts nor receives polling requests. This is the most common
+Faban harness deployment.<br>
+Note that setting the run daemon to poller without having any host
+enabled is just like setting it to local.<br>
+    </li>
+    <li>disabled
+- The run daemon is disabled. You cannot submit runs for this rig. This
+is a mode reserved for future use allowing a Faban master to become a
+result server for many rigs. The result server neither makes runs nor
+accepts run submissions. It only receives and manages runs conducted on
+other rigs and replicated here. The replication element briefly
+mentioned in the configuration file is used for such upload or
+replication to a result server in this mode. This functionality is not
+yet complete. Look for it in a future version of Faban.</li>
+  </ol>
+</ol>
+<a href="repository.html"><img alt="Previous"
+ src="../../img/previous.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ acccesskey="c" href="../../toc.html#Faban_Harness_Configuration_Guide_"
+ title="Beginning"><img alt="Beginning" src="../../img/up.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ href="tuning.html"><img alt="Next" src="../../img/next.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+</body>
+
+<!-- Mirrored from faban.org/1.3/docs/guide/config/proxy.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:08 GMT -->
+</html>

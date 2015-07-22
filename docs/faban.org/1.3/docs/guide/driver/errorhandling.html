@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/errorhandling.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Error Handling</title>
+
+<meta content="AKARA SUCHARITAKUL" name="author">
+<link href="../../css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="communication.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="logging.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1>Error Handling</h1>
+<p class="Textbody">Exceptions
+thrown at construction of the driver are considered severe/fatal. If
+the Faban driver framework cannot successfully construct the driver
+object for each thread, the agent detecting the condition will signal
+the master. The master in turn will signal all other agents to
+terminate the run.&nbsp;</p>
+<p class="Textbody">If an operation detects a condition
+where the whole
+run should be aborted, it should throw a <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/FatalException.html">com.sun.faban.driver.FatalException</a>.
+Once the driver framework detects a FatalException it will log a SEVERE
+message with the information provided in the exception and signal the
+master and all other agents to terminate the run.</p>
+<p class="Textbody">If
+any other exception is thrown from an operation, it will be caught and
+logged by the driver framework as a WARNING. An operation throwing such
+an exception is considered a failed operation. The framework will not
+record throughput and response times for failed operations to the
+benchmark metrics. Instead, an error count will be recorded.&nbsp;</p>
+<h2><a name="Cycle_Management"></a>Cycle
+Management</h2>
+<p class="Textbody">If
+the exception occurred before the critical section such as at data
+preparation time, the driver has not yet slept waiting for the
+operation launch time, the cycle is considered unused. The driver
+framework will try to schedule the next operation using the end time of
+the previous operation. However, if there are recurring errors and the
+scheduled operation begin time has already passed, the driver framework
+will base the cycle time on the last scheduled operation begin
+time.&nbsp;</p>
+<p class="Textbody">Cycle
+or think times will be recorded if the cycle was actually waited for,
+no matter whether the operation succeeded or failed. For failed
+operations, this means that the operation failed at or after the
+critical section. Exceptions at data preparation time will not have the
+cycle or think time recorded as the cycle is not executed. <br>
+</p>
+<h2>Impact on Mixes</h2>
+<p class="Textbody">Errors may have impact on stateful
+mixes. An error
+in an operation may cause subsequent operations in the mix to return an
+error. An example is for accessing web pages, if the login page does
+not succeed, subsequent pages will return an "Access Denied." Such
+error conditions demand the state of the mix to be reset. Drivers with
+such error conditions will want to catch the exception and reset the
+mix from the catch block. This is done by calling <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#resetMix%28%29">DriverContext.resetMix()</a>.<br>
+</p>
+<h2><a name="Guidelines"></a>Guidelines </h2>
+<p class="Textbody">Before
+returning from the operation, the driver implementation has the
+opportunity to catch the exception, keep miscellaneous statistics on
+these exceptions, and either re-throw or not expose the exception. Due
+to these various options, we provide the following guidelines for
+handling exceptions or error conditions inside operations:&nbsp;</p>
+<ol style="margin-left: 0.5cm; list-style-type: decimal;">
+<li style="margin-left: 0cm;" class="P36">
+<p style="margin-left: 0cm;" class="P36">Acceptable
+errors. These are errors that may cause the benchmark run to be invalid
+if they occur in large enough quantities. Most benchmarks accept a
+small number of miscellaneous failures. &nbsp;If the benchmark does
+not
+account for these errors, the driver implementation may not want to
+catch these at all. Otherwise, the driver implementation will have the
+opportunity to use <a href="metrics.html">miscellaneous
+statistics</a>
+to keep track of such errors and still re-throw the
+exception.</p>
+</li>
+<li style="margin-left: 0cm;" class="P36">
+<p style="margin-left: 0cm;" class="P36">Fatal
+errors. Some benchmarks may not allow for error conditions at all.
+Other benchmarks may not allow for certain error conditions. If these
+happen, the benchmark run should terminate. In such cases, the
+operation should catch the exceptions and throw a <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/FatalException.html">FatalException</a>
+with
+the original exception as the cause. &nbsp;</p>
+</li>
+<li style="margin-left: 0cm;" class="P36">
+<p style="margin-left: 0cm;" class="P36">Expected
+conditions. These are exceptions that are expected but might need to be
+controlled. Such exceptions usually do not indicate a failure of any
+component in the system under test. Moreover, a large code path may
+lead to determining this error. Common examples of such conditions are
+invalid state of the user or data. In such cases, the driver must catch
+the exception and <span style="font-weight: bold;">not </span>re-throw
+it. The transaction will be counted as a
+successful transaction. The driver may want to use <a href="metrics.html">miscellaneous
+statistics</a> to keep track of such conditions and make sure
+they are
+in
+an acceptable rate. <br>
+</p>
+</li>
+</ol>
+<a accesskey="p" href="communication.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="logging.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/errorhandling.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+</html>

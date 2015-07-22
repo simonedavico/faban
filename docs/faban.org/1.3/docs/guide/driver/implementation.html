@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/implementation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Implementing the Drivers</title>
+
+<link href="../../css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="elements.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="drivercontext.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1>Implementing the Drivers<br>
+</h1>
+<br>
+<p>Once you have defined the driver and the annotations, it is
+time to
+move to implementing all the details needed for your driver. To start,
+we will discuss some of the important characteristics of the driver
+object and dice into more detail on the constructor and methods. In
+following pages, you will also learn about the timing characteristics
+of the driver.<br>
+</p>
+<h2>Driver Object Characteristics&nbsp; <br>
+</h2>
+<p>A driver runs in a container which provides services and
+invokes the
+driver according to the model in the annotations which define the benchmark and the driver.
+A driver
+class defines one or more operations for
+the driver. It may also contain any number of methods which are not
+benchmark operations. A driver object is instantiated for each
+simulated client thread and remains attached to the client thread until
+the end of the benchmark run where the threads, and therefore the
+driver objects get terminated. This also means all instance variables
+are only used by one thread and therefore access to all instance
+variables need not be synchronized. Sharing of information between
+operations in the same driver object and thread are done using such
+instance variables. Behavior of information sharing between driver
+instances and between threads is not defined. <br>
+</p>
+<h2>Driver Instance Variables</h2>
+<p>The driver implementor may define as many instance variables
+as needed.
+These driver object is not shared between simulated users and threads
+so access to these instance variables only happen from a single thread.
+Access to these instance variables need not be synchronized. Following
+are the common instance variables a driver object will want to keep:</p>
+<ol>
+<li>The <a href="drivercontext.html">driver
+context</a></li>
+<li>The <a href="logging.html#Driver_Implementation_Logging">logger</a></li>
+<li>The random value generator</li>
+<li>Benchmark and/or driver configuration information</li>
+</ol>
+<br>
+<span style="font-weight: bold;"></span>
+<h2>Constructor</h2>
+<p>The driver framework demands the driver's constructor to be a
+public
+and no-argument constructor. The constructor may throw exceptions. An
+exception thrown from a constructor is always considered fatal. The
+benchmark will terminate immediately after a fatal exception.</p>
+<p>The driver
+constructor commonly does the followings:</p>
+<ol>
+<li>Obtain the driver context reference.<br>
+</li>
+<li>Obtain the logger.</li>
+<li>Obtain the random value generator.</li>
+<li>Read benchmark and/or driver configuration information.</li>
+<li>Optionally open and initialize the connection to the SUT.<br>
+</li>
+</ol>
+<br>
+<h2>Operations</h2>
+<p class="Textbody"><span style="font-weight: bold;"></span>An
+operation is a method annotated with the @BenchmarkOperation
+annotation. The
+method implementing an operation must be public. The method return type
+must be void and the method must not take any arguments. It can throw
+any number of exceptions,
+both declared and run-time exceptions. Please see <a href="errorhandling.html">Error Handling</a>, for more
+information how
+the driver is expected to handle the errors
+and what the framework will do with the errors. <br>
+</p>
+<p>
+An operation's logic is typically divided into 3 typical sections:</p>
+<ol>
+<li>Data preparation &#8211; The
+operation prepares the data to be used</li>
+<li>Critical section &#8211; The
+operation processes or submits the data to the server and waiting for
+the
+response. </li>
+<li>Validation &#8211; The operation
+validates the results from the critical section to ensure it is
+properly processed or performed.</li>
+</ol>
+<p>The Faban Driver Framework measures the response
+times around the critical section. If <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/Timing.html#MANUAL">manual
+timing</a> is <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/BenchmarkOperation.html#timing%28%29">specified</a>
+for the operation, the <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#recordTime%28%29">DriverContext.recordTime()</a>
+method must be called at the beginning and at the end of the critical
+section. If <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/Timing.html#AUTO">automatic
+timing</a> is specified, all timings will be handled by the
+underlying
+protocol. Only the critical section will be timed, automatically.</p>
+<p>
+During the critical section, most benchmarks will want to communicate
+with the server or the system under test. Please see "<a href="communication.html">Communicating with the SUT</a>"
+for more
+detail.<br>
+<br>
+</p>
+<h2>Collecting Statistics</h2>
+<p>The Faban driver framework automatically collects vital
+statistics such
+as throughput, response times, cycle times, and generates a standard
+xml report with all the measurements. Many benchmarks will however wish
+to collect certain statistics beyond that. We will call them custom
+statistics or miscellaneous statistics. In order to collect
+miscellaneous statistics, the driver implementor will need to implement
+a <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.html">CustomMetrics</a>
+class and ensure that all stats are collected and
+reported there. Please see "<a href="metrics.html">Metrics,
+Data
+Collection, and Reporting</a>" for more detail.</p>
+<p class="Textbody"><br>
+</p>
+<a accesskey="p" href="elements.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="drivercontext.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/implementation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+</html>

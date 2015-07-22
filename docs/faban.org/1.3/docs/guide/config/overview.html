@@ -1,0 +1,588 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<!-- Mirrored from faban.org/1.3/docs/guide/config/overview.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:06 GMT -->
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Faban Harness Configuration Overview</title>
+  <meta content="AKARA SUCHARITAKUL" name="author">
+  <link href="../../css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a acccesskey="c"
+ href="../../toc.html#Faban_Harness_Configuration_Guide_"
+ title="Beginning"><img alt="Beginning" src="../../img/up.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ accesskey="n" href="security.html" title="Next"><img alt="Next"
+ src="../../img/next.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1><a name="Introduction"></a>Faban Harness
+Configuration Overview<br>
+</h1>
+<p>One of the central design philosophies of Faban is drop and
+play.
+Means no configuration or administration required. All you need is
+already explained in <a href="../../install.html">Installation
+and Getting Started</a>.
+Unless you need some of the more advanced - and, actually, rarely used
+- features of Faban, you can skip this guide. The Faban Harness
+Configuration Guide will explain the Faban package, configuration
+files, and independent features that need enabling by configuring the
+Faban harness.</p>
+<h2>Structure of the Faban Package<br>
+</h2>
+<p style="margin-left: 40px;"><img style="width: 20px; height: 20px;"
+ alt="" src="../../img/folder.gif" align="middle"> faban<a
+ href="../harnessdev/overview.html#config"><br>
+</a>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> analysis<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> ant<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> benchmarks<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> bin<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-open.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> config<a href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> profiles<a href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> runq<a href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-open.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> Linux<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/v.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/file.gif" align="middle"> cmdmap.xml<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/v.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/l-file.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/file.gif" align="middle"> toolsets.xml<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-open.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> SunOS<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/v.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/file.gif" align="middle"> cmdmap.xml<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/v.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/l-file.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/file.gif" align="middle"> toolsets.xml<br>
+<a href="../harnessdev/overview.html#lib"></a><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-open.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> Windows<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/v.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/file.gif" align="middle"> cmdmap.xml<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/v.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/l-file.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/file.gif" align="middle"> toolsets.xml<br>
+<a href="../harnessdev/overview.html#lib"></a><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> faban.policy<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> harness.xml<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle">
+logging.properties<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/l-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> sequence
+<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> legal<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> lib<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> logs<br>
+<img style="border: 0px solid ; width: 20px; height: 20px;" alt=""
+ src="../../img/t-open.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> master<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> bin<a href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> common<a href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> conf<a href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> logs<a href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> server<a href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> shared<a href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> temp<a href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-open.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> webapps<a href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/v.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/t-closed.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/folder.gif" align="middle"> balancer<a
+ href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/v.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/t-closed.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/folder.gif" align="middle"> faban<a
+ href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/v.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/t-closed.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/folder.gif" align="middle"> fenxi<a
+ href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/v.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/t-closed.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/folder.gif" align="middle"> ROOT<a
+ href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/v.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/file.gif" align="middle"> faban.war<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/v.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/l-file.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/file.gif" align="middle"> fenxi.war<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> work<a href="../harnessdev/overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> LICENSE<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> NOTICE<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> RELEASE-NOTES<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/l-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> RUNNING.txt<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> output<br>
+<img style="border: 0px solid ; width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> samples<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle">
+build.properties<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> build.xml<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> javadocs.zip<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> README<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> release<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/l-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> src.zip
+</p>
+<ol>
+</ol>
+<p>Lets go through the more relevant files and top level
+directories first (not in any order). The <span
+ style="font-weight: bold;">config</span>
+directory contains Faban configuration files and benchmark
+configuration files. Files in this directory are the files we work with
+to configure the Faban harness for different functionality. The <span
+ style="font-weight: bold;">benchmarks</span> directory
+is where benchmarks get deployed. The <span style="font-weight: bold;">bin</span>
+directory, by
+convention, contains all binaries and scripts, and the <span
+ style="font-weight: bold;">lib</span> directory
+contains the libraries including the jar files. The <span
+ style="font-weight: bold;">logs</span> , and the <span
+ style="font-weight: bold;">master/logs</span>
+directory is where Faban writes the log files. This is the place you'll
+want to look for troubleshooting Faban. The <span
+ style="font-weight: bold;">master</span>
+directory contains the Faban master. This is the Apache Tomcat web
+server that allows you to access Faban via the web interface. Faban
+agent installations may not have the master directory, depending on how
+they were installed. The <span style="font-weight: bold;">output</span>
+directory contains the output of Faban benchmark runs, and the <span
+ style="font-weight: bold;">analysis</span> directory
+has the analysis output from comparing and analyzing run data. Analyses
+are accessible through the result list page.</p>
+<h2>The Faban Harness Configuration File</h2>
+<p>The Faban harness configuration file is located at
+config/harness.xml. It is the central configuration file for the Faban
+harness. The included default configuration file is sufficient for most
+cases. You want to change this file only to enable some of the rarely
+used features. Below is the content of the default configuration file:</p>
+<p style="margin-left: 40px;"><span style="font-family: monospace;">&lt;?xml
+version="1.0"
+encoding="UTF-8"?&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&lt;!-- Note:
+Some parameters have not yet been implemented --&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&lt;FabanHarness&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;security enabled="false"&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;loginPrompt&gt;User ID&lt;/loginPrompt&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;loginHint&gt;Enter your user id&lt;/loginHint&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;passwordPrompt&gt;Password&lt;/passwordPrompt&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;passwordHint&gt;Enter your
+password&lt;/passwordHint&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;loginModule&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;class&gt;com.sun.security.auth.module.UnixLoginModule&lt;/class&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;debug&lt;/name&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;true&lt;/value&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/loginModule&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- Note: The LdapLoginModule is in JDK6 &gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;loginModule&gt;&lt;class&gt;com.sun.security.auth.module.LdapLoginModule&lt;/class&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;userProvider&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;ldap://ds1/ou=people,dc=sun,dc=com&lt;/value&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;userFilter&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;(&amp;amp;(uid={USERNAME})(objectClass=inetOrgPerson))&lt;/value&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;debug&lt;/name&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;true&lt;/value&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;authzIdentity&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;monitorRole&lt;/value&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;useSSL&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;true&lt;/value&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/loginModule--&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;managePrincipals&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--name&gt;akara&lt;/name--&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/managePrincipals&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;deployUser&gt;deployer&lt;/deployUser&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;deployPassword&gt;adminadmin&lt;/deployPassword&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cliSubmitter&gt;CLI&lt;/cliSubmitter&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;submitPassword&gt;canSubmit&lt;/submitPassword&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;/security&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;runDaemon
+mode="poller"&gt;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- poller/pollee/local/disbled --&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;host
+enabled="false"&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;master1&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;url&gt;http://master1:9980&lt;/url&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;key&gt;ABCDEFGHIJKLMNOP&lt;/key&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;proxyHost&gt;&lt;/proxyHost&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;proxyPort&gt;&lt;/proxyPort&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/host&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;host enabled="false"&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;master2&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;url&gt;http://master2:9980&lt;/url&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;key&gt;QRSTUVWXYZABCDEF&lt;/key&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;proxyHost&gt;&lt;/proxyHost&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;proxyPort&gt;&lt;/proxyPort&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/host&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;/runDaemon&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;repository&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;server
+enabled="false"&gt;http://faban.sfbay.sun.com:9980&lt;/server&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;server
+enabled="false"&gt;http://faban.sunsource.net:9980&lt;/server&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;/repository&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;logServer&gt;&nbsp; &lt;!-- Don't touch this unless
+you really know what you're doing --&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;port&gt;9999&lt;/port&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;listenerThreads&gt;1&lt;/listenerThreads&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;listenQueueSize&gt;-1&lt;/listenQueueSize&gt;
+&lt;!-- system default --&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;serviceThreads&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;core&gt;2&lt;/core&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;max&gt;10&lt;/max&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;timeOut&gt;300&lt;/timeOut&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/serviceThreads&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;bufferSize&gt;2048&lt;/bufferSize&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;/logServer&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;logView&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;bufferSize&gt;&lt;/bufferSize&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;/logView&gt;<br style="font-family: monospace;">
+</span><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;rmiPort&gt;9998&lt;/rmiPort&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&lt;/FabanHarness&gt;</span></p>
+<p>The Faban harness configuration file consists of the following
+sections:</p>
+<ol style="margin-left: 40px;">
+  <li>Security
+configuration - security is turned off by default. Security features
+and configuration will be discussed in a later section.<br>
+  </li>
+  <li>Proxy
+configuration - proxy is also turned off by default. We will discuss
+the proxy architecture, its benefits, and how to configure it in a
+later section.<br>
+  </li>
+  <li>Result repository - this feature is not yet supported.<br>
+  </li>
+  <li>Log
+server configuration - usually, the default log server configuration
+works in pretty much all cases and has never shown itself to be a
+bottleneck. Unless you are running a very large rig close in the order
+of magnitude of 100 systems, the log server section needs no
+modification.</li>
+  <li>By default logView/bufferSize is not set any value here. But it
+will take the default as 20. If this set to&nbsp; -1, display will have
+all the logs on a single page without page up/down. You can also set
+any other value according to your need, say,50. Then the display will
+have 50 logs per page with page up/down bar.</li>
+  <li>By default <span style="font-family: monospace;">repository/</span><span
+ style="font-family: monospace;">server </span>is disabled. In order
+to use
+the upload functionality, set<span style="font-family: monospace;">
+enabled=true </span>and specify the repository
+url.
+    <p><span style="font-family: monospace;"> </span></p>
+  </li>
+</ol>
+<a acccesskey="c"
+ href="../../toc.html#Faban_Harness_Configuration_Guide_"
+ title="Beginning"><img alt="Beginning" src="../../img/up.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ accesskey="n" href="security.html" title="Next"><img alt="Next"
+ src="../../img/next.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a>
+</body>
+
+<!-- Mirrored from faban.org/1.3/docs/guide/config/overview.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:06 GMT -->
+</html>

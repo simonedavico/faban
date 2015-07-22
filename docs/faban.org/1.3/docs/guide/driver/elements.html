@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Elements of a Driver</title>
+
+<link href="../../css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="architecture.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="implementation.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1>Elements of a Driver</h1>
+<br>
+<p>While we do not encourage writing your benchmark from
+scratch, doing so is certainly simple enough. The easier method is just
+to use one of the samples Faban provided by Faban as a template. This
+guide should just be a reference to better understand the benchmark
+class as you'll find in the samples.</p>
+<p>Benchmarks are relatively simple. You only need to provide at
+least one
+driver class and a driver configuration file. The driver class
+represents a
+plain old Java object (POJO) containing annotations defining the load
+model of the driver. The Faban driver framework will use this load
+model to call your driver class. The followings show the steps of
+developing a
+benchmark.<br>
+</p>
+<h2>1. Driver Class</h2>
+<p>While most benchmarks define only one
+driver, more complex benchmarks may use multiple driver classes. The
+first driver class usually contains the benchmark definition - the
+@BenchmarkDefinition annotation. We also call this driver the "defining
+driver." &nbsp;Other drivers need not have the @BenchmarkDefinition
+annotation.<br>
+</p>
+<h2>2. Imports</h2>
+<p>The Faban driver framework organizes the common
+driver API inside a single package: com.sun.faban.driver. Since we'll
+require many of the annotations and support classes in this package, it
+is useful to do a wildcard import at the top of your Java class file,
+as follows:</p>
+<pre> import com.sun.faban.driver.*;<br><br></pre>
+<h2>3.&nbsp;Benchmark Definition</h2>
+<p>In the simplest case, annotate the defining driver class with
+an
+annotation as follows:</p>
+<pre> @BenchmarkDefinition (<br> name = "Sample Web Workload 1",<br> version = "0.2",<br> drivers = "WebDriver.class" // Optional<br> )<br></pre>
+<p>A benchmark is defined using the <span style="font-family: monospace;" class="T11">@BenchmarkDefinition</span>
+annotation. The configuration file refers to a class with this
+annotation. &nbsp;Only one class need to be annotated with the
+BenchmarkDefinition annotation.The drivers attribute lists all the
+other drivers you may have. It is optional to list the defining
+driver as it is automatically added to the set of drivers. For a simple
+benchmark with only one driver and the benchmark
+definition in the driver, the <span class="T11">drivers</span>
+attribute can be omitted. Please see the <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/BenchmarkDefinition.html"><span style="font-family: monospace;">@BenchmarkDefinition</span>
+annotation
+reference</a> for complete detail of this annotation.<br>
+</p>
+<h2>4. Driver Declaration</h2>
+<p>While many benchmarks may have only one driver, there are more
+complex
+benchmarks that have multiple drivers. Each driver class needs to have
+the @BenchmarkDriver annotation. From the implementation standpoint, a
+driver is a user-defined class of an arbitrary name. It is a plain old
+Java object (POJO) annotated as a BenchmarkDriver as follows:</p>
+<pre> @BenchmarkDriver (<br> name = "WebDriver",<br> threadPerScale = 1 // Optional, defaults to 1.<br> )<br></pre>
+<h2>5. Operation Declaration</h2>
+<p>Operations define the logic to generate
+load to the severs. All operations for a driver are defined as methods
+inside the
+respective driver class. The method defining each individual
+operation must be be declared as <span class="T13">public
+void</span>,
+must not take any arguments, and must be annotated as a <span class="T13">BenchmarkOperation</span>. The following
+is an example of
+a valid operation declaration:</p>
+<pre> @BenchmarkOperation (<br> name = "MyOperation1",<br> max90th = 2,<br> timing = Timing.AUTO<br> )<br> public void doMyOperation1() {<br> ....<br> }<br></pre>
+<h2>6. Mix</h2>
+<p>A mix tells the driver framework the policy or algorithm it
+should use
+to select operations. While the Faban driver framework may be extended
+to support additional mixes over time, currently it supports four mixes:</p>
+<ul>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/FlatMix.html">FlatMix</a>
+- This mix randomly chooses the next operation to execute based on
+given probability for the mix.<br>
+</li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/MatrixMix.html">MatrixMix</a>
+- This mix maintains the state of execution. It chooses the next
+operation based on the current operation and a given probability ratio.<br>
+</li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/FixedSequence.html">FixedSequence</a>
+- The fixed sequence does what it says. There is no randomness. The
+operations are call in sequence.<br>
+</li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/FlatSequenceMix.html">FlatSequenceMix</a>
+- This mix allows random selection of fixed sequences (as opposed to
+random selection of an operation in FlatMix).</li>
+</ul>
+<p>The mix annotations have a class scope. You'll need to
+annotate the
+driver class with the mix. Only one mix type may be specified for a
+certain driver or a <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DefinitionException.html">DefinitionException</a>
+will be thrown on driver startup causing the benchmark run to terminate
+immediately. The following example shows a matrix mix ratio and the
+translation of that into the @MatrixMix annotation:</p>
+<br>
+<table style="text-align: left; margin-left: auto; margin-right: auto;" border="1" cellpadding="4" cellspacing="0">
+<tbody>
+<tr>
+<th style="vertical-align: top; background-color: rgb(51, 255, 255);">From/To
+&#8658;<br>
+</th>
+<th style="vertical-align: top; background-color: rgb(51, 255, 255);">Operation1<br>
+</th>
+<th style="vertical-align: top; background-color: rgb(51, 255, 255);">Operation2<br>
+</th>
+<th style="vertical-align: top; background-color: rgb(51, 255, 255);">Operation3<br>
+</th>
+</tr>
+<tr>
+<th style="vertical-align: top; background-color: rgb(51, 255, 255);">Operation1<br>
+</th>
+<td style="vertical-align: top;">10<br>
+</td>
+<td style="vertical-align: top;">50<br>
+</td>
+<td style="vertical-align: top;">40<br>
+</td>
+</tr>
+<tr>
+<th style="vertical-align: top; background-color: rgb(51, 255, 255);">Operation2<br>
+</th>
+<td style="vertical-align: top;">30<br>
+</td>
+<td style="vertical-align: top;">10<br>
+</td>
+<td style="vertical-align: top;">60<br>
+</td>
+</tr>
+<tr>
+<th style="vertical-align: top; background-color: rgb(51, 255, 255);">Operation3<br>
+</th>
+<td style="vertical-align: top;">45<br>
+</td>
+<td style="vertical-align: top;">45<br>
+</td>
+<td style="vertical-align: top;">10<br>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<br>
+<pre> @MatrixMix(<br> operations = { &#8220;Operation1&#8221;, &#8220;Operation2&#8221;, &#8220;Operation3&#8221; }, <br> mix = { @Row({10, 50, 40}), <br> @Row({30, 10, 60}),<br> @Row({45, 45, 10}) },<br> deviation = 2<br> )<br></pre>
+<p>Note: For stateful mixes (all mixes except FlatMix), you may
+need to
+reset the state if an error occurred in the operation. Please see <a href="errorhandling.html">Error Handling</a> and the <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#resetMix%28%29">DriverContext.resetMix()</a>
+method for details.</p>
+<br>
+<h2>7. Cycle timings</h2>
+<p>Cycle timings tell the driver framework the policy or
+algorithm to be
+used for inter-operation times. Currently, three timing characteristics
+are supported:</p>
+<ul>
+<li><span style="font-weight: bold;">NegativeExponential</span>
+- Randomly selects the cycle or think
+time
+from a negative exponential distribution. This is the timing
+characteristic that most appropriately simulates the cycle of a large
+number of users such as web workloads.<br>
+</li>
+<li><span style="font-weight: bold;">Uniform</span>
+- Randomly selects the cycle or think time from a
+uniform
+distribution.</li>
+<li><span style="font-weight: bold;">FixedTime</span>
+- Presets the cycle or think time. This is useful
+for
+simulating user operations that are driven by external factors such as
+factory or production line workers.<br>
+</li>
+</ul>
+<p>Unlike the mix annotations, the cycle timings can have a class
+or a
+method scope. You can specify the cycles as an operation annotation or
+a class annotation. The class level annotations covers all operations
+in that driver class. The method level annotation specifies the cycle
+timings for only that operation. It also overrides the class level
+annotation if there is one, just for the given operation.</p>
+<p>
+Also it is important to note that if specified at the operation level,
+these annotations specify the policy for calculating the cycle or sleep
+time&nbsp;<span style="font-weight: bold;">after</span>
+the invocation of
+the operation. The followings example shows specifying the negative
+exponential disctibution for cycle time:</p>
+<pre> @NegativeExponential (<br> cycleType = CycleType.CYCLETIME,<br> cycleMin = 500,<br> cycleMean = 5000,<br> cycleDeviation = 2<br> )<br></pre>
+<h2>8. Background Operations</h2>
+<p>In certain circumstances, we need to simulate client
+applications
+interacting with the SUT and some of the interactions are not
+controlled by the user but are executed regularly in the background. A
+common example is a POP mail client which needs to download the new
+mail every preset number of minutes. This is the basis of the
+additional annotation type @Background. The following example
+shows the background annotation:</p>
+<pre> @Background (<br> operations = "Synchronize",<br> timings = @FixedTime (<br> cycleTime = 60000,<br> cycleDeviation = 2<br> )<br> )<br></pre>
+<p>Usually, there is only one background operation type, but the
+Faban
+driver framework allows for more than one operation type if necessary.
+The cycle, however, must be FixedTime. Please also note that while the
+background operation is scheduled separate from the foreground
+operations, it actually uses the same physical thread to call the
+background operation. So, background operations may cause a larger
+deviation of the cycle time from the targeted cycle time. Use the
+background characteristics with care, and only for an exact match to
+the usage scenario.</p>
+<br>
+<h2>9. Constructor</h2>
+<p>All Java classes have constructors. Some Java
+classes that chose to not implement any constructor implicitly have a
+default constructor. The constructor for a driver class is responsible
+for obtaining the driver context by calling DriverContext.getContext().
+It is also responsible for reading the any necessary configuration
+parameter required for the load and store them in instance variables.
+As instance variables are not shared across instances, they do not
+incur any concurrency or synchronization frequently accessing them.<br>
+</p>
+<h2>10. OnceBefore and OnceAfter Operations</h2>
+<p>There
+are two special annotations that you can add for specific one-time
+tasks. These are @OnceBefore and @OnceAfter. &nbsp;An @OnceBefore
+operation gets called by global thread 0 of the driver only once and
+before any other driver thread gets instantiated. This will guarantee
+that no operation is called while the&nbsp; @OnceBefore operation
+is
+running.</p>
+<p>The second annotation type is @OnceAfter. The @OnceAfter
+operation is called only once after the run by thread 0 after all other
+threads have terminated. Note that both run on thread 0. So any state
+saved by the @OnceBefore operation can be used by the @OnceAfter
+operation. This functionality is frequently used for auditing purposes,
+such as counting the number of records in the database before and after
+the run to ensure that the benchmark run really interacted with the
+database. These operations are not designed to run lengthy tasks such
+as data loading.</p>
+<h2>11. Operation Implementation</h2>
+<p>The
+operation is where you will implement the client logic for interacting
+with the servers. This usually includes preparing data for submitting
+to the server, invoking the server one or more times, and optionally
+validating the result from the server. As the driver instance is never
+concurrently accessed, the operation implementation need not be thread
+safe. Just implement the client interaction with the server and the
+driver framework should take care of most tasks.</p>
+<br>
+<a accesskey="p" href="architecture.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="implementation.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+</html>

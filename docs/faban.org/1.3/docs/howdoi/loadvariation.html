@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/howdoi/loadvariation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:08 GMT -->
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Configuring Runs with Varying Loads</title>
+
+<meta content="AKARA SUCHARITAKUL" name="author">
+<link href="http://faban.org/css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="environments.html" title="Previous"><img alt="Previous" src="../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../toc.html#How-To" title="Beginning"><img alt="Beginning" src="../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+<h1>Configuring Runs with Varying Loads</h1>
+<p class="Textbody"></p>
+<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<th>Module:</th>
+<td>Driver Framework</td>
+</tr>
+<tr>
+<th style="vertical-align: top;">Status:</th>
+<td style="vertical-align: top;">Experimental<br>
+Feature is permanent, but interfaces and usage will change</td>
+</tr>
+</tbody>
+</table>
+<h2>Description</h2>
+<p class="Textbody">It is&nbsp;desirable to vary
+the scale of the workload during the run. This is often used for quick
+scaling tests to find the limitations of the system under test. It is
+also used for testing elastic, self configuring components how well it
+adapts to load variation or component-level failure. The final result
+of such tests are usually less important than the intermittent behavior
+at and after the time of the scale change.</p>
+<p class="Textbody">Faban
+allows you to vary the scale of the workload by providing load
+variation files to a run at submission time. All the needed driver
+threads for the maximum load are being created at the beginning of the
+run. Unneeded threads will remain idle until they are needed, and will
+return to idle/sleeping state between or after the times they are
+needed. This feature coupled with the <a href="runtimereport.html">runtime reporting</a> allows us to
+monitor the response times and its stability as the load varies.</p>
+<h2>Configuration<br>
+</h2>
+<ol>
+<li>Prepare a load variation file. The file contains load level
+records, one per line. Each record is a comma-separated pair of
+integers in the form
+&lt;runtime&nbsp;in&nbsp;secs&gt;,&lt;thread&nbsp;count&gt;
+such as in the following example:<br>
+<br>
+<table style="text-align: left; background-color: rgb(204, 204, 204);" border="1" cellpadding="5" cellspacing="0">
+<tbody>
+<tr>
+<td><span style="font-family: monospace;">10,500
+&nbsp; &nbsp; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">20,700
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">10,600</span>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+In the example above, a load of 500 threads are applied for 10 seconds,
+then 700 threads start applying load for 20 seconds. Afterwards, 600
+threads apply the last set of load for 10 seconds.<br>
+</li>
+<li>In your run.xml, add the load variation elements
+fa:variableLoad and fa:variableLoadFile to the runControl element as
+follows:<br>
+<br>
+<table style="text-align: left; background-color: rgb(204, 204, 204);" border="1" cellpadding="5" cellspacing="0">
+<tbody>
+<tr>
+<td><span style="font-family: monospace;">&lt;fa:runControl&gt;
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;fa:rampUp&gt;60&lt;/fa:rampUp&gt;
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;fa:variableLoad&gt;<span style="font-weight: bold;">true</span>&lt;/fa:variableLoad&gt;
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;fa:variableLoadFile&gt;<span style="font-weight: bold;">myvariationfile</span>&lt;/fa:variableLoadFile&gt;&nbsp;
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;fa:steadyState&gt;40&lt;/fa:steadyState&gt;
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;fa:rampDown&gt;30&lt;/fa:rampDown&gt;
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&lt;/fa:runControl&gt;</span>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+Make sure the scale of the run results in threads being
+created matching the largest thread count in the load variation file.
+Also ensure that the total time of the load variation matches the
+steady state time of the run.<br>
+</li>
+<li>Now, start the run via the submission form or command line
+as usual, then observe the runtime statistics and the results.</li>
+</ol>
+<h2>Restrictions/Limitations</h2>
+<ol>
+<li>The load variation file works on a per agent basis. The
+thread
+count is the thread in each agent. So if there n agents, the effect of
+the load variation will be n times the number of threads that get added
+or removed.</li>
+<li>The load variation file does not get distributed to
+all the driver systems. They have to be manually placed in the given
+path on each driver system.</li>
+<li>The sum of time in the load variation file and the steady
+state must match.</li>
+<li>The
+load variation is still configured on a thread basis and not a scale
+basis. The maximum thread count in the load variation file must match
+the thread count&nbsp; on each agent as calculated by the scale.</li>
+</ol>
+<a accesskey="p" href="environments.html" title="Previous"><img alt="Previous" src="../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../toc.html#How-To" title="Beginning"><img alt="Beginning" src="../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+<script type="text/javascript" language="javascript">
+var sc_project=1267791;
+var sc_invisible=1;
+var sc_partition=11;
+var sc_security="34f5f6d1";
+</script>
+<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js">
+</script>
+<noscript><a href="http://www.statcounter.com/"
+target="_blank"><img
+src="http://c12.statcounter.com/counter.php?sc_project=1267791&amp;java=0&amp;security=34f5f6d1&amp;invisible=1"
+alt="counter hit xanga" border="0"></a></noscript>
+<!-- End of StatCounter Code --><!-- Start of StatCounter Code -->
+<script type="text/javascript" language="javascript">
+var sc_project=1126578;
+var sc_invisible=1;
+var sc_partition=10;
+var sc_security="488b7ec0";
+</script>
+<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js">
+</script>
+<noscript><a href="http://www.statcounter.com/"
+target="_blank"><img
+src="http://c11.statcounter.com/counter.php?sc_project=1126578&amp;java=0&amp;security=488b7ec0&amp;invisible=1"
+alt="free tracking" border="0"></a></noscript>
+<!-- End of StatCounter Code -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-237864-1";
+_udn="opensparc.net";
+urchinTracker();
+</script>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/howdoi/loadvariation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:08 GMT -->
+</html>

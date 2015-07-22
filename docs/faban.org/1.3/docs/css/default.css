@@ -1,0 +1,146 @@
+/* font tag overwrite */
+font{font-size:12px !important}
+
+/* fonts */
+body,th,td,p,div,span,a,input,select,textarea,ul,ol,dl,h1,h2,h3,h4,h5,h6,li,big,small,b,pre.sunfont,font{font-family:Arial,Helvetica,FreeSans,"Luxi-sans","Nimbus Sans L",sans-serif}
+code,kbd,tt,pre,pre *,code *,code a,kbd a,tt a,pre a,code span,kbd span,tt span,pre span,pre b,pre font{font-family:Monaco,Courier,"Courier New"}
+
+/* font sizes */
+.smaller,.smaller a,small,.small,small span,.small span,.small a,small a,div.sitelinks,div.sitelinks a,#breadcrumb a,#breadcrumb,.breadcrumb a,.breadcrumb,div.footlinks,div.footlinks a,.a5 a,.a5 span{font-size:11px}
+body,th,td,p,div,span,a,ul,ol,dl,li,select,input,textarea,code,kbd,tt,pre,code a,kbd a,tt a,pre a,code span,kbd span,tt span,pre span,h6,h6 a,h6 span{font-size:12px}
+td.sectiontitle2,td.sectiontitle2 a,td.sectiontitle2 div,h5,h5 a,h5 span,big,.big,big span,.big span,.big a,big a{font-size:13px}
+h4,h4 span,h4 a,td.sectiontitle1,td.sectiontitle1 a,td.sectiontitle1 div,.xbig,.xbig span,.xbig a{font-size:14px}
+h3,h3 span,h3 a,.xxbig,.xxbig span,.xxbig a,.xxlarge{font-size:15px}
+h1,h2,h1 span,h2 span,h1 a,h2 a{font-size:16px}
+div.pagetitle2{font-size:17px}
+div.smallpagetitle,div.pagetitle,div.pagetitle code,span.pagetitleblue,div.pagetitlenopad{font-size:21px}
+div.pagetitlebig{font-size:36px}
+
+/* generic */
+body,th,td,p,h5,h5 a,h6,h6 a,h5 span,h6 span,h1,h2,h3,h1 span,h2 span,h3 span,h1 a,h2 a,h3 a,h4,h4 span,h4 a{color:#000}
+code,kbd,tt,pre,code span,kbd span,tt span,pre span{color:#666}
+h1,h2,h3,h4,h5,h6{margin:3px 0px 0px 0px;padding:0px;text-decoration:none}
+a[name]:hover{text-decoration:none}
+a{text-decoration:none}
+a:visited,a:visited code{color:#917E9C}
+a:link,a.named:visited,div#breadcrumb a:visited,div.breadcrumb a:visited,div.sitelinks a:visited,a code,.e2 table.navblue a:visited,.e5 a:visited,.e8v0 a:visited,.e9v0 a:visited{color:#3E6B8A}
+a:hover,b.error,span.error{text-decoration:underline}
+dt{font-weight:bold;padding:5px 0px 0px 0px}
+ul li{list-style-image:url("http://faban.org/css/ul_bullet.gif")}
+form{display:inline}
+form,select,input,textarea{margin:0px;padding:0px}
+li{margin-left:15px;padding-left:0px}
+ul,ul li,ol,ol li{margin-left:15px;padding-left:0px}
+h1 + p,h2 + p,h3 + p,h4 + p,h5 + p{margin-top:0px}
+
+/* text styles */
+div.pagetitle2{font-weight:bold}
+div.pagetitle{padding:0px 10px;font-weight:bold;color:#E76F00}
+div.smallpagetitle{padding:0px 10px;font-weight:bold;color:#E76F00}
+div.resultstitle{padding:0px 10px;font-weight:bold;color:#888}
+div.pagetitlenopad,div.pagetitlebig{padding:0px;font-weight:bold;color:#E76F00}
+span.pagetitleblue{color:#35556B}
+div.navtitle{padding:0px 0px 5px 0px;font-weight:bold}
+p.compact{margin:0px}
+p.compact2{margin:0px 0px 7px 0px}
+span.rightarrowblue{color:#3E6B8A}
+span.rightarrowdkblue{color:#35556B}
+span.rightarrowred{color:#E76F00}
+span.rightarrowwhite{color:#FFF}
+span.rightarrowgrey{color:#333}
+span.rightarrowyellow{color:#FFC726}
+a.redlink,a.redlink:visited,.red,.sunblue .red,.sunyellow .red,b.error,span.error{color:#D12124}
+a.greylink,a.greylink:visited{color:#333}
+a.ltgreylink,a.ltgreylink:visited{color:#9A9A9A}
+div.resultstitle b,.note{color:#000}
+.new{color:#F00}
+.new,.note{text-transform:uppercase;font-weight:bold}
+.newscap{text-transform:uppercase;color:#000}
+.grey1copy{color:#999}
+.grey2copy{color:#696969}
+.grey3copy{color:#9A9A9A}
+.sunbluecopy{color:#584EBF}
+.ltgreycopy{color:#888}
+.medgreycopy{color:#666}
+.dkgreycopy{color:#4D4D4D}
+.vdkgreycopy{color:#333}
+.highlight{background-color:#FF9}
+
+/* layout */
+
+#wrapper {
+width: 960px;
+margin: 0 auto;
+background-color: #fff;
+/* curved border radius */
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+padding: 10px;
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
+header {
+margin-top: 10px;
+background: url(http://faban.org/images/gradient.png) 0% 0% repeat-x;
+color: #fc2;
+height: 80px;
+/* curved border radius */
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+display: block;
+}
+
+nav .menu {
+width: 940px;
+font-size: 16px;
+font-weight: bold;
+display: block;
+}
+
+nav .menu ul {
+list-style: none;
+margin: 0;
+text-align: center;
+}
+
+nav .menu ul li {
+display: inline;
+position: relative;
+}
+
+nav .menu ul li a {
+padding: 0 15px;
+line-height: 38px;
+text-decoration: none;
+}
+
+nav .menu ul li a:hover {
+color: #ff6f39;
+border-bottom: 3px solid #ff6f39;
+}
+
+/* header */
+
+header h1 {
+font-size: 36px;
+padding-top: 20px;
+margin-left: 10px;
+float: left;
+width: 500px;
+}
+
+header h1 a {
+font-weight: bold;
+text-decoration: none;
+}
+
+header h2 {
+float: right;
+clear: right;
+margin-right: 10px;
+color: #777;
+padding-top: 28px;
+font-size: 16px;
+}
+

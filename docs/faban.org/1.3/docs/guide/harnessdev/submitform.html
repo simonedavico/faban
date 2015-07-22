@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<!-- Mirrored from faban.org/1.3/docs/guide/harnessdev/submitform.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:02 GMT -->
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>The Submission Form</title>
+  <meta content="AKARA SUCHARITAKUL" name="author">
+  <link href="../../css/default.css"
+ rel="stylesheet" type="text/css">
+ rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="configfile.html" title="Previous"><img
+ alt="Previous" src="../../img/previous.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<a acccesskey="c" href="../../toc.html#Faban_Harness_Developers_Guide_"
+ title="Beginning"><img alt="Beginning" src="../../img/up.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ accesskey="n" href="deploybenchmark.html" title="Next"><img alt="Next"
+ src="../../img/next.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1><a name="Introduction"></a>The Submission
+Form<br>
+</h1>
+<p>The submission form is an XML editor used for entering
+benchmark configuration. We pre-generate this file from the
+configuration file at deployment if it is not present already. You can
+specify the name of the form in the benchmark.xml, say
+<span style="font-family: monospace;">&lt;config-form&gt;config.xhtml&lt;/config-form&gt;</span>.
+If there is no
+benchmark.xml provided, then the generated form will have the default
+name as config.xhtml.<br>
+</p>
+<p>A sample tabsheet from a pre-generated config.xhtml will look
+somewhat
+like this:<br>
+</p>
+<p style="text-align: center;"><img style="width: 606px; height: 157px;"
+ alt="Figure showing tabsheet" src="img/tabsheet.gif"></p>
+<p>To pre-generate the config.xhtml and/or to customize it, do the
+following:<br>
+</p>
+<ul>
+  <li>Copy the project structure from one of the sample benchmarks.</li>
+  <li>Generate the default form using "ant genxform". This will create
+a config.xhtml in hte deploy sub-directory.</li>
+  <li>Edit the config.xhtml as explained in the following sections. </li>
+</ul>
+<p></p>
+<h2>Xform overview<br>
+</h2>
+<p>If you are happy with the generated form, you can ignore the rest of
+this page.</p>
+<p>The submission form consists of&nbsp;5 major sections, 4
+of them need to be customized for your specific benchmark:</p>
+<ol style="margin-left: 40px;">
+  <li>Binding</li>
+  <li>Labels</li>
+  <li>Tabs</li>
+  <li>Input fields</li>
+  <li>Submit buttons - you don't need to customize these</li>
+</ol>
+<p>The rest of this page will discuss the individual sections of
+the configuration form that needs customization:</p>
+<h2>Binding</h2>
+<p>This section declares the bindings of the submission form to
+the structure of the configuration file. The binding section has
+exactly the same structure with direct XPath references to the elements
+and attributes in the configuration file. &nbsp;The XML segment
+below shows part of the configuration file from our web101 sample:</p>
+<p></p>
+<p style="font-family: monospace;">&lt;?xml
+version="1.0" encoding="UTF-8"?&gt;<br>
+&lt;webBenchmark&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;jvmConfig
+xmlns="http://faban.sunsource.net/ns/fabanharness"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;javaHome&gt;/usr/java&lt;/javaHome&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;jvmOptions&gt;-Xmx1g -Xms256m
+-XX:+DisableExplicitGC&lt;/jvmOptions&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;/jvmConfig&gt;<br>
+</p>
+<p style="font-family: monospace;">.....</p>
+<p><span style="font-family: monospace;"></span></p>
+<p>And the following is the corresponding binding in the
+submission form:</p>
+<p style="font-family: monospace;"></p>
+<p style="font-family: monospace;">.....</p>
+<p style="font-family: monospace;">&lt;html
+xmlns:xforms="http://www.w3.org/2002/xforms"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+xmlns:fa="http://faban.sunsource.net/ns/faban"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+xmlns:fh="http://faban.sunsource.net/ns/fabanharness"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+xmlns:fd="http://faban.sunsource.net/ns/fabandriver"&gt;</p>
+<p style="font-family: monospace;">.....</p>
+<p style="font-family: monospace;">&nbsp; &nbsp;
+&nbsp; &nbsp; &lt;xforms:model id="benchmark-model"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:bind id="bind-webBenchmark"
+xforms:nodeset="/webBenchmark"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:bind id="bind-jvmConfig"
+xforms:nodeset="fh:jvmConfig"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:bind id="bind-javaHome"
+xforms:nodeset="fh:javaHome"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:bind id="bind-jvmOptions"
+xforms:nodeset="fh:jvmOptions"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/xforms:bind&gt;</p>
+<p><span style="font-family: monospace;">.....</span></p>
+<p></p>
+<p>Note that the jvmConfig element and it's child elements
+belong to&nbsp;the http://faban.sunsource.net/ns/fabanharness
+namespace. At the beginning of the submission form we declared the
+namespace aliases of this namespace to fh following the Faban standard.
+So we can directly refer to the corresponding elements using the fh
+prefix. From this point on, the form may refer to the fields by the
+bind
+ids such as bind-javaHome.<br>
+</p>
+<p>The addition of a xforms:type attribute causes the form to
+automatically do validation at run time. If the user enters anything
+other than an interger &gt; 0, an error will be flagged on submission
+of the form. The default type of binding is a String, thus allowing any
+input.</p>
+<p><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:bind id="bind-steadyState" <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;xforms:nodeset="fa:steadyState"<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;xforms:type="positiveInteger"/&gt;</span><br>
+</p>
+<h2>Labels</h2>
+<p>Labels allow you to specify the labels used on your form. They are
+referenced from the input fields by their XPath. Although you can place
+labels directly into the input field attributes, it is preferable to
+keep them separate for readability as well as localization(if desired).
+The sample below shows how labels are declared. Their
+XPaths will be referenced from the tabs and the input fields, discussed
+later in this page.</p>
+<p><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:model id="benchmark-labels"&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:instance id="benchmark-label-names"&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;labels&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;benchmark&gt;Sample Web Benchmark
+1&lt;/benchmark&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;jvmConfig&gt;Java&lt;/jvmConfig&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;javaHome&gt;JAVA HOME&lt;/javaHome&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;jvmOptions&gt;JVM Options&lt;/jvmOptions&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;"> &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; .....</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;ok&gt;Ok&lt;/ok&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cancel&gt;Cancel&lt;/cancel&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/labels&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/xforms:instance&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/xforms:model&gt;</span></p>
+<p><span style="font-family: monospace;"></span></p>
+<h2>Tabs</h2>
+<p>A tab on the input form defines a set of fields that are grouped
+together in the configuration file. Each tab is defined by an XForms
+trigger element as shown in our example jvmConfig:</p>
+<p></p>
+<p><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:trigger id="trigger-jvmConfig"&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:label xforms:model="benchmark-labels" <br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;
+&nbsp;&nbsp;xforms:ref="/labels/jvmConfig"/&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:action id="action-jvmConfig"&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:revalidate xforms:model="benchmark-model"<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;id="revalidate-jvmConfig"/&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:toggle id="toggle-jvmConfig"
+xforms:case="case-jvmConfig"/&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/xforms:action&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/xforms:trigger&gt;</span></p>
+<p><span style="font-family: monospace;"></span><br>
+In this trigger, the xforms:label element references the
+benchmark-labels model at /labels/jvmConfig. Referencing the
+/labels/jvmConfig above, the tab label is "Java". The action element
+and its children states that the form should bind to benchmark-model
+declared earlier. This element usually does not need to be edited. The
+xforms:toggle and its xforms:case attribute states which input form to
+use for this tab. In this example, it references case-jvmConfig. Next,
+we'll go through the input fields in this tab.
+</p>
+<h2>Input Fields</h2>
+<p>Each tab is defined by the xforms case element and all case
+elements are children of a single xforms: switch element. Below, we
+illustrate the input form for the jvmConfig tab (labeled Java).</p>
+<p><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:switch id="switch"&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:case id="case-jvmConfig" xforms:selected="true"&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:group id="group-nogroup"&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:input id="input-javaHome"
+xforms:bind="bind-javaHome"&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:label xforms:model="benchmark-labels"<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; xforms:ref="/labels/javaHome"/&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/xforms:input&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:input id="input-jvmOptions"
+xforms:bind="bind-jvmOptions"&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;xforms:label xforms:model="benchmark-labels"<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp;
+xforms:ref="/labels/jvmOptions"/&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/xforms:input&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/xforms:group&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/xforms:case&gt;<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; ..... subsequent tabs go here .....<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&lt;/xforms:switch&gt;</span><br>
+</p>
+<p>Whenever the "Java" tab gets selected, the screen defined by
+this case-jvmConfig will show up. In this example, the form will show
+two text fields, one for the JAVA_HOME and another for JVM Options.
+These text fields are bound to bind-javaHome and bind-jvmOptions
+which reference the corresponding XPaths in the configuration
+file.</p>
+<p>This example shows only simple text fields. If you look into
+other tabsheets in the same submission form, you'll see you have a
+large choice of components to select from, ranging from text areas,
+text fields, and selection boxes. We also commonly group related fields
+using a separate xforms:group element with an id
+other than group-nogroup. The XForms engine organizes fields in each of
+the groups together and draws a border aroud them as
+appropriate. A group may also have a xforms:label elements referencing
+labels to display on the group border. This gives the user a better
+understanding of the grouping on screen.</p>
+<p>Now, understanding the concepts, please take your time to dive
+into the other tabsheets that provide groups and different kinds of
+fields. Soon you'll be able to come up with your customized submission
+form.</p>
+<br>
+<a accesskey="p" href="configfile.html" title="Previous"><img
+ alt="Previous" src="../../img/previous.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<a acccesskey="c" href="../../toc.html#Faban_Harness_Developers_Guide_"
+ title="Beginning"><img alt="Beginning" src="../../img/up.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ accesskey="n" href="deploybenchmark.html" title="Next"><img alt="Next"
+ src="../../img/next.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+<script type="text/javascript" language="javascript">
+var sc_project=1267791;
+var sc_invisible=1;
+var sc_partition=11;
+var sc_security="34f5f6d1";
+</script>
+<script type="text/javascript" language="javascript"
+ src="http://www.statcounter.com/counter/counter.js">
+</script><noscript><a href="http://www.statcounter.com/" target="_blank"><img
+ src="http://c12.statcounter.com/counter.php?sc_project=1267791&amp;java=0&amp;security=34f5f6d1&amp;invisible=1"
+ alt="counter hit xanga" border="0"></a></noscript><!-- End of StatCounter Code --><!-- Start of StatCounter Code -->
+<script type="text/javascript" language="javascript">
+var sc_project=1126578;
+var sc_invisible=1;
+var sc_partition=10;
+var sc_security="488b7ec0";
+</script>
+<script type="text/javascript" language="javascript"
+ src="http://www.statcounter.com/counter/counter.js">
+</script><noscript><a href="http://www.statcounter.com/" target="_blank"><img
+ src="http://c11.statcounter.com/counter.php?sc_project=1126578&amp;java=0&amp;security=488b7ec0&amp;invisible=1"
+ alt="free tracking" border="0"></a></noscript><!-- End of StatCounter Code -->
+<script src="http://www.google-analytics.com/urchin.js"
+ type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-237864-1";
+_udn="opensparc.net";
+urchinTracker();
+</script>
+</body>
+
+<!-- Mirrored from faban.org/1.3/docs/guide/harnessdev/submitform.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:02 GMT -->
+</html>

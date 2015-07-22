@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/harnessdev/configfile.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:01 GMT -->
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>The Configuration File</title>
+
+<meta content="AKARA SUCHARITAKUL" name="author">
+<link href="../../css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="definingservice.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<a acccesskey="c" href="../../toc.html#Faban_Harness_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="submitform.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1><a name="Introduction"></a>The
+Benchmark/Service
+Configuration File<br>
+</h1>
+<p>The configuration file is the central file that controls the
+benchmark run.&nbsp;This file contains the benchmark-specific
+configuration
+parameters and their default values. The default values will be
+displayed in a form when a user schedules a run for the first time. The
+user can change the values and subsequent runs will always show the
+most recently used values. See the run.xml for the sample web1
+benchmark to understand what this file contains. The parameters in this
+file can be retrieved in the driver code as described in the <a href="../driver/drivercontext.html">Driver
+Framework Developers Guide</a>.</p>
+<p>The
+configuration file is named "run.xml" by default. But as you'll find
+out later,
+this name is not mandatory. The configuration file can have any
+arbitrary name.&nbsp;An
+initial benchmark configuration file must be placed in the deploy
+directory of your benchmark project. The build script will
+automatically package this file into the META-INF of the deployable
+image and deploy it on request. The values in the initial benchmark
+configuration
+file are used as the default values when a user submits his/her first
+run.</p>
+<p>Sample configuration file:</p>
+<object data="http://faban.org/1.0/docs/guide/driver/config_xml.html" type="text/html" height="400" width="100%"></object>
+<h2>Namespaces</h2>
+<p>Faban makes use of namespaces to represent Faban-specific
+elements in the configuration file. Faban also suggests certain
+namespace aliases for the Faban namespaces in order to make them easily
+identifyable. While the aliases are just a guideline, the namespaces
+are a must for Faban to recognize its elements in the configuration
+file. The table below outlines the Faban suggested aliases and the
+corresponding namespaces:</p>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="0">
+<tbody>
+<tr>
+<th>Alias</th>
+<th>Namespace</th>
+<th>Purpose</th>
+</tr>
+<tr>
+<td style="background-color: rgb(204, 204, 255);">fa</td>
+<td style="background-color: rgb(204, 204, 255);">http://faban.sunsource.net/ns/faban</td>
+<td style="background-color: rgb(204, 204, 255);">Generic
+Faban elements</td>
+</tr>
+<tr>
+<td>fh</td>
+<td>http://faban.sunsource.net/ns/fabanharness</td>
+<td>Elements used by the Faban harness</td>
+</tr>
+<tr>
+<td style="background-color: rgb(204, 204, 255);">fd</td>
+<td style="background-color: rgb(204, 204, 255);">http://faban.sunsource.net/ns/fabandriver</td>
+<td style="background-color: rgb(204, 204, 255);">Elements
+used by the Faban driver framework</td>
+</tr>
+</tbody>
+</table>
+<p></p>
+<h2>Structure</h2>
+<p>Like any XML file, the structure of the configuration file
+starts with a root element. Faban is not specific about the name of the
+root element itself and we usually name it after the benchmark.</p>
+<p>Inside the root element are the first level child elements.
+Faban requires at least two&nbsp;elements here:</p>
+<ol>
+<li>fh:jvmConfig<br>
+The jvmConfig element is used by the Faban harness to understand which
+JVM to use and what parameters to start the JVM with by default.<br>
+</li>
+<li>fa:runConfig<br>
+The runConfig defines the benchmark driver and the systems used as the
+benchmark driver. There is a significant XML hierarchy underneath
+runConfig. We will discuss the details of the runConfig in a later
+section.</li>
+</ol>
+<h3>System Roles or Types</h3>
+<p>We use the term system role or system type interchangeably.
+All first level child elements except fh:jvmConfig define a system
+role or type in the rig. They define&nbsp;the logical topology of
+the benchmark configuration.&nbsp;Roles such as "webServer,"
+"dbServer," or just "server" are common. Note that the runConfig
+element already defines the "Driver" role implicitly. The order of
+these elements have&nbsp;significance on how the statistics are
+presented. The type or role listed first is always presented first, in
+order to have a uniform view of the system statistics, no matter which
+rig it is actually running on. The drivers are always listed last as
+the driver statistics have the least significance to the results of the
+benchmark run. Furthermore, a rig may have an inarbitrary number of
+drivers or clients causing them to clutter the statistics when
+presented anywhere but last. For example, in a test rig containing
+systems acting as drivers (workload drivers or clients), web servers,
+and database servers, ordering the webServer role before the dbServer
+role will cause the statistics to always show the web servers on the
+top, followed by the database servers.</p>
+<p>Faban does not mandate the structure of each role. However, if
+you want Faban to manage the hosts in a certain role, Faban needs to
+fine the fa:hostConfig element as an immediate child element thereof.
+We'll discuss the fa:hostConfig element next.</p>
+<h2>The fa:hostConfig Element</h2>
+<p>The fa:hostConfig element is a significant element worth a
+closer look. The structure of the fa:hostConfig element is as follows:</p>
+<div style="margin-left: 40px;"><span style="font-family: monospace;">&lt;fa:hostConfig&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;fa:host&gt;server1
+server2&lt;/fa:host&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;fa:hostPorts&gt;server1:80
+server2:80&lt;fa:hostPorts&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;fh:enabled&gt;true&lt;/fh:enabled&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;fh:cpus&gt;0&lt;/fh:cpus&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;fh:tools&gt;NONE&lt;/fh:tools&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;fh:userCommands&gt;&lt;/fh:userCommands&gt;</span><br>
+<span style="font-family: monospace;">&lt;/fa:hostConfig&gt;</span><br>
+<span style="font-family: monospace;"></span></div>
+<p>The <span style="font-family: monospace; font-weight: bold;">fa:host</span>
+element, or host list, lists the systems performing the role defined by
+the parent element of fa:hostConfig, space separated. For example, if
+the fa:hostConfig element is a child of a webServer element, the
+fa:host field would list the web servers in this rig.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">fa:hostPorts</span>
+element is used to list the systems the same way as the fa:host
+element. In addition, it allows for listing port numbers to identify
+server instances. The port numbers are separated from the corresponding
+host name by a colon. A host running multiple server instances may be
+listed many times, each with a different port number.&nbsp;</p>
+<p>Either the fa:host or fa:hostPorts element is required. If
+both elements are there, the fa:hostPorts supercedes the fa:host
+element. The fa:host&nbsp;element or host list is implicitly
+generated to contain unique host names and is always available for
+access through the ParamRepository API, even if it is not listed in the
+configuration file.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">fh:enabled</span>
+element specifies whether a system in the host list is enabled or
+disabled. The input can take the form of a single true/false or
+space-separated true/false list corresponding to the host list. We will
+commonly leave this value to a single 'true' unless there are special
+cases where a host needs to be disabled.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">fh:cpus</span>
+element is reserved for future use - to specify a subset of cpus to be
+enabled in the system. It currently has no functionality.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">fh:tools</span>
+element lists the tools to use for statistics collection for this
+type/role of host. Tools can be specified as toolset or individual
+tools. The tools can contain any option and must be
+separated by a semi-colon following the Unix command conventions - no
+matter what operating system you are using on the server. For example
+the element's value of "vmstat 10; iostat 10" will cause Faban to
+collect vmstat and iostat with an interval of 10 on this system
+type/role during the steady state of the run and present the output
+through the statistics page. There is no API to invoke the tools. The
+tools are automatically invoked by the Faban harness when specified in
+this configuration entry/element. If tools field is left blank, then
+the <a href="deployservice.html#Toolset_Configuration_">default
+toolset</a>
+will be executed. Toolset is a powerful new feature discussed under <a href="deployservice.html">Services/Tools Deployment</a>.
+If you do not
+want to run any
+tools, you must explicitly specify "NONE" in the tools field.<br>
+</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">fh:userCommands</span>
+allows the user to specify commands, separated by semi-colon to run on
+systems before starting the run. If there is any output from the
+userCommands, it will be listed in the system information page which is
+linked from the statistics page.<br>
+</p>
+<h2>The fh:service Element<img style="width: 31px; height: 12px;" alt="" src="../../img/new.gif"></h2>
+<p>The <span style="font-family: monospace; font-weight: bold;">fh:service</span>
+element links the service to a system role for each run. The name of
+the
+service must match the service id of a deployed service. It also
+allows the user to specify the service configurations, whether to
+restart the service with the run or not, and tools
+to start for the service. Any number of service elements are allowed in
+a host role. The service elements are usually specified right after the
+fa:hostConfig element for a host role. The structure of the fh:service
+element is as follows:</p>
+<div style="margin-left: 40px;"><span style="font-family: monospace;">&lt;fh:service
+xmlns:fh="http://faban.sunsource.net/ns/fabanharness"&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;fh:name&gt;ApacheHttpdService&lt;/fh:name&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;fh:enabled&gt;true&lt;/fh:enabled&gt;</span><br>
+<span style="font-family: monospace;"></span><span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;fh:tools&gt;NONE&lt;fh:tools&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;fh:restart&gt;true&lt;/fh:restart&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;fh:config&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;cmdPath&gt;/usr/apache2/2.2/bin&lt;/cmdPath&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;logsDir&gt;/var/apache2/2.2/logs&lt;/logsDir&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/fh:config&gt;</span><br>
+<span style="font-family: monospace;">&lt;/fh:service&gt;</span><br>
+</div>
+<p>The <span style="font-family: monospace; font-weight: bold;">fh:name</span>
+element specifies the service to load. It must be
+one of the deployed services. The service name must match the service
+id as
+declared in the services-tools.xml deployment descriptor for that
+service.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">fh:enabled</span>
+element specifies whether to load this service. This element is
+optional and defaults to true. In circumstances where a service is
+optional, depending on the configuration, it is desirable to have the
+service element in the configuration file and enable or disable the
+service by setting the value of this element to true or false instead
+of changing the structure of the configuration file altogether.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">fh:tools</span>
+element specifies the observerability tools to
+start for that service. Like the fh:tools element under fh:hostConfig,
+it will start individual tools or toolsets as specified. If fh:tools is
+left blank, the "default" toolset will be started for the service. To
+run no tools, specify "NONE" in fh:tools. But unlike the fh:hostConfig
+tools element, the tools specified for a service are associated with
+the service configuration. For example, the mysqlstats tool specified
+for a MySQL service will use the service configuration to find the
+right MySQL instance to connect and gather statistics. &nbsp;If the
+mysqlstats tool were specified under fh:hostConfig, it would not know
+which MySQL instance to connect and will therefore fail.</p>
+<p>The <span style="font-weight: bold; font-family: monospace;">fh:restart</span>
+element specifies whether the service should be
+restarted for the run. If a service is started/restarted for the run,
+it will consequently be stopped after the run finishes.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">fh:config</span>
+element, and especially its child elements
+specify the configuration parameters for the service. The child
+element's name specify the parameter name and the value is the
+associated value. These will be passed to the services and associated
+tools as properties available from the ServiceContext and ToolContext,
+respectively.</p>
+<h2>The fa:runConfig Element</h2>
+<p>A significant set of elements in the fa:runConfig element is
+used for the Faban driver framework. Depending on whether the benchmark
+is an integration or a native Faban driver, the elements required by
+Faban may vary. The <span style="font-family: monospace;">http://faban.sunsource.net/ns/fabandriver</span>
+namespace
+defines the elements used exclusively by the Faban driver framework.
+Such elements, also called the 'fd' elements for the namespace alias
+they commonly use, are discussed in the Faban driver framework
+documentation. We will only discuss the fa:runConfig structure that is
+meaningful to the Faban harness, below.<br>
+</p>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;fa:runConfig
+definition="sample.driver.WebDriver"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+xmlns:fa="http://faban.sunsource.net/ns/faban"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+xmlns:fh="http://faban.sunsource.net/ns/fabanharness"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+xmlns="http://faban.sunsource.net/ns/fabandriver"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&lt;fh:description&gt;Sample web benchmark
+run&lt;/fh:description&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &lt;!--
+The hostConfig section is used by the harness to control hosts
+--&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&lt;fa:hostConfig&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;fa:host&gt;brazilian&lt;/fa:host&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;fh:enabled&gt;true&lt;/fh:enabled&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;fh:cpus&gt;0&lt;/fh:cpus&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;fh:tools&gt;NONE&lt;/fh:tools&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;fh:userCommands&gt;&lt;/fh:userCommands&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&lt;/fa:hostConfig&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &lt;!--
+The scale of the benchmark run, the driver definition<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; defines
+the number of threads for each driver scale<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; and each
+driver type. --&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&lt;fa:scale&gt;1&lt;/fa:scale&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &lt;!--
+The rampup, steadystate, and rampdown of the driver --&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&lt;fa:runControl unit="time"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;fa:rampUp&gt;60&lt;/fa:rampUp&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;fa:steadyState&gt;300&lt;/fa:steadyState&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;fa:rampDown&gt;30&lt;/fa:rampDown&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&lt;/fa:runControl&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;/fa:runConfig&gt;
+<p>The <span style="font-family: monospace; font-weight: bold;">fh:description</span>
+element provides a description the Faban harness will display alongside
+the results in the result list.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">fa:hostConfig</span>
+element, described above, list the systems to be used as the driver or
+client system, and the tools to run on these systems.</p>
+<p>the <span style="font-family: monospace; font-weight: bold;">fa:scale</span>
+element drives the scale of the test. This scale is a relative
+indicator of the load applied to the system under test or SUT. The
+exact interpretation of the scale depends on the actual workload. If
+the driver is implemented using the Faban driver framework, the scale
+will be defined in the @BenchmarkDriver annotation of each benchmark
+driver.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">fa:runControl</span>
+block defines the time in seconds, that is used for each phase of the
+benchmark run. The <span style="font-family: monospace; font-weight: bold;">fa:rampUp</span>
+element defines the ramp up time. The <span style="font-family: monospace; font-weight: bold;">fa:steadyState</span>
+is the measurement period of the run. And the <span style="font-weight: bold; font-family: monospace;">fa:rampDown</span>
+defines the ramp down time. These fields are used by the Faban driver
+framework to control the run as well as for the Faban harness to start
+and stop stats collection tools.</p>
+<p>The <span style="font-weight: bold; font-family: monospace;">fh:timeSync</span>
+element, a boolean (true/false) element, &nbsp;controls whether the
+Faban harness would attempt to do a physical clock sync on all systems
+in the rig. The main benefit of enabling the sync is to ensure the log
+messages are displayed in chronological order. &nbsp;The Faban
+driver
+framework implicitly does a virtual clock sync by remembering time
+offsets from the master - a much more accurate method . The physical
+clock sync has no effect on this feature. The downside of enabling the
+physical clock sync is the requirement of root or administrator
+privileges on the target system. If the Faban user is not permitted to
+set the time, the harness may wait for a timeout and log the issue. </p>
+<h2>The fd:agents Element</h2>
+<p>The DefaultFabanBenchmark2 uses the <span style="font-family: monospace; font-weight: bold;">fd:agents</span>
+child element of each driverConfig element to specify how the driver
+agents get started. This only applies to drivers implemented using the
+Faban driver framework. The fd:agents field can have two types of
+entries:</p>
+<ol>
+<ol>
+<li>A single integer. This specifies the total number of
+agents.
+Faban
+will figure out the best way to spread the driver agents among
+driver/client systems listed in the host list. This works especially
+well if all the driver systems in the list have the same capacity.<br>
+</li>
+<li>A space separated list of system:integer pair. This
+specifies
+the
+number of agents on a per system basis. For example, the value of
+"cliet1:2 client2:2 clinet3:1" will cause the creation of 2 agentson
+client1, 2 agents on client2, and just 1 agent on client3.
+Giving this input means you know client 3 is about half the capacity of
+client1 or client2 as each agent will perform approximately the same
+load. </li>
+</ol>
+</ol>
+<a accesskey="p" href="definingservice.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<a acccesskey="c" href="../../toc.html#Faban_Harness_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="submitform.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+<script type="text/javascript" language="javascript">
+var sc_project=1267791;
+var sc_invisible=1;
+var sc_partition=11;
+var sc_security="34f5f6d1";
+</script>
+<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js">
+</script>
+<noscript><a href="http://www.statcounter.com/"
+target="_blank"><img
+src="http://c12.statcounter.com/counter.php?sc_project=1267791&amp;java=0&amp;security=34f5f6d1&amp;invisible=1"
+alt="counter hit xanga" border="0"></a></noscript>
+<!-- End of StatCounter Code --><!-- Start of StatCounter Code -->
+<script type="text/javascript" language="javascript">
+var sc_project=1126578;
+var sc_invisible=1;
+var sc_partition=10;
+var sc_security="488b7ec0";
+</script>
+<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js">
+</script>
+<noscript><a href="http://www.statcounter.com/"
+target="_blank"><img
+src="http://c11.statcounter.com/counter.php?sc_project=1126578&amp;java=0&amp;security=488b7ec0&amp;invisible=1"
+alt="free tracking" border="0"></a></noscript>
+<!-- End of StatCounter Code -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-237864-1";
+_udn="opensparc.net";
+urchinTracker();
+</script>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/harnessdev/configfile.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:02 GMT -->
+</html>

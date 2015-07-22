@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<!-- Mirrored from faban.org/1.3/docs/FAQ.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:03:00 GMT -->
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <title>FAQ</title>
+  <meta content="AKARA SUCHARITAKUL" name="author">
+  <link href="css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h2>FAQ</h2>
+<ul>
+  <li><span style="font-style: italic;">Does Faban
+handle cookies?</span><br>
+Yes, the HttpTransport automatically
+handles cookies according to RFC2965, RFC2109, the original HTTP
+cookies preliminary specification from Netscape®, and some deviations
+thereof.<br>
+    <br>
+  </li>
+  <li><span style="font-style: italic;">How can we
+make a Faban driver talk to multiple servers?</span><br>
+You can make a Faban driver talk to multiple servers by:<br>
+    <div style="margin-left: 25px;">1. Using a
+fa:hostConfig/fa:hostPorts element in the
+configuration file to tell Faban about the multiple hosts being used.<br>
+2. In the driver object's constructor, parse the
+hostPorts
+field.<br>
+3. Select the
+host/port entry to use based on either of
+these policies:
+    <ul>
+      <li>Interleaving - each client connects to a different
+server, subsequently.</li>
+      <li>Block select - the total number of clients are divided
+into blocks and each block uses it's server. In this latter case, if
+you have 2 servers and configure 2 agents, each agent will connect to a
+different server as a result.</li>
+    </ul>
+    </div>
+The following code illustrates the server selection:<br>
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    <span style="color: rgb(102, 102, 102); font-style: italic;">//
+1. Obtain the host:port list from the config file</span></span><br
+ style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+String
+hostPorts
+=
+ctx.getXPathValue(</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+".../fa:hostConfig/fa:hostPorts");</span><br>
+    <br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    <span style="color: rgb(102, 102, 102); font-style: italic;">//
+2. Parse the host:port list</span></span><br
+ style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+List&lt;NameValuePair&lt;Integer&gt;&gt;
+hostPortList
+=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    </span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Utilities.parseHostPorts(hostPorts);</span><br>
+    <br style="font-family: monospace;">
+    <span style="font-family: monospace; color: rgb(102, 102, 102);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    <span style="font-style: italic;">// 3. Select the
+host:port entry this driver should use.</span></span><br
+ style="font-family: monospace; color: rgb(102, 102, 102); font-style: italic;">
+    <span
+ style="font-family: monospace; color: rgb(102, 102, 102); font-style: italic;">&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+// &nbsp; &nbsp;The code below
+uses block selection. For interleaving</span><br
+ style="font-family: monospace; color: rgb(102, 102, 102); font-style: italic;">
+    <span
+ style="font-family: monospace; color: rgb(102, 102, 102); font-style: italic;">&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+// &nbsp; &nbsp;just do this
+instead:<br>
+&nbsp; &nbsp; &nbsp; &nbsp; // &nbsp; &nbsp;int
+serverEntry = ctx.getThreadId() % hostPortList.size()</span><span
+ style="color: rgb(102, 102, 102); font-style: italic;">;</span><br
+ style="font-family: monospace; color: rgb(102, 102, 102);">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+int
+serverEntry
+=
+Utilities.selectBucket(ctx.getThreadId(),</span><br
+ style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ctx.getClientsInDriver(),
+hostPortList.size());</span><br>
+    <br style="font-family: monospace;">
+    <span
+ style="font-family: monospace; color: rgb(102, 102, 102); font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//
+4.
+Just
+use the server entry to index into the hostPort list</span><br
+ style="font-family: monospace; color: rgb(102, 102, 102); font-style: italic;">
+    <span
+ style="font-family: monospace; color: rgb(102, 102, 102); font-style: italic;">&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+// &nbsp; &nbsp;to get the
+host and port to use.</span><br
+ style="font-family: monospace; color: rgb(102, 102, 102); font-style: italic;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NameValuePair&lt;Integer&gt;
+hostPort
+=
+hostPortList.get(serverEntry);</span><br>
+    <br>
+  </li>
+  <li><span style="font-style: italic;">What ports
+does Faban use?</span><br>
+Faban uses ports in the 9980 - 9999 range. Currently these are the list
+of ports and their functionality:<br>
+    <div style="margin-left: 25px;">9980&nbsp;- Faban
+HTTP server <br>
+9981 - Agent bootstrap <br>
+9984 - Faban HTTP server shutdown <br>
+9985 - Faban HTTP server coyote connector <br>
+9988 - Runtime stats (currently not enabled) <br>
+9998 - RMI registry <br>
+9999 - Faban logging </div>
+Please avoid using ports in the 9980 - 9999 range, if possible. Faban
+may use some of the unused ports in this range in the future.<br>
+    <br>
+  </li>
+  <li><span style="font-style: italic;">The
+Faban master (harness) cannot connect to the remote system although the
+system is up and reachable. Faban logs the message&nbsp; <span
+ style="font-family: monospace;">"Retry connecting to &lt;system&gt;,
+count&nbsp; &lt;count&gt;." </span>and finally <span
+ style="font-family: monospace;">"Could not connect to &lt;system&gt;."</span>
+How do I know what went wrong?</span><br>
+If
+your remote system is otherwise accessible by the Faban master system
+using ping, &nbsp;and rsh or ssh works without password verification OR
+you start the agent as a daemon, then the agent bringup will get logged
+in the logs/agent.&lt;hostname&gt;.log file on the remote system before
+logging is initialized to the point it will log to the Faban master.
+The logs/agent.&lt;hostname&gt;.log file is the starting point for
+finding issues during Faban bringup. Please check this file to identify
+the issue.</li>
+</ul>
+<ul>
+  <li><span style="font-style: italic;">How can I get my custom tools's
+output log to show up in a run's Statistics tab?</span> <br>
+Faban allows you to
+configure and run any arbitray command that can be invoked from the
+shell. For the results of the command to show up in the Faban UI,
+simply ensure that the log is named <span
+ style="font-weight: bold; font-style: italic;">&lt;tool&gt;.log.&lt;host&gt;</span>
+where <span style="font-style: italic;">&lt;tool&gt;</span> refers to
+the
+tool name, and <span style="font-style: italic;">&lt;host&gt;</span>
+refers to one of
+the hostnames in the test configuration.<br>
+  </li>
+</ul>
+</body>
+
+<!-- Mirrored from faban.org/1.3/docs/FAQ.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:03:00 GMT -->
+</html>

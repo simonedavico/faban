@@ -1,0 +1,409 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<!-- Mirrored from faban.org/1.3/docs/guide/harnessdev/deploybenchmark.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:02 GMT -->
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Benchmark Deployment</title>
+  <meta content="AKARA SUCHARITAKUL" name="author">
+  <link href="../../css/default.css"
+ rel="stylesheet" type="text/css">
+ rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="submitform.html" title="Previous"><img
+ alt="Previous" src="../../img/previous.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<a acccesskey="c" href="../../toc.html#Faban_Harness_Developers_Guide_"
+ title="Beginning"><img alt="Beginning" src="../../img/up.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ href="deployservice.html"><img alt="Next" src="../../img/next.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<h1><a name="Introduction"></a>Benchmark Deployment</h1>
+<br>
+<p>Lets first go through our checklist. At this point we should
+have the following in our project structure:</p>
+<ol style="margin-left: 40px;">
+  <li>The benchmark class</li>
+  <li>The configuration file</li>
+  <li>The submission form</li>
+</ol>
+<p>You're almost there. There is just one file missing before packaging
+it up - the benchmark deployment descriptor.</p>
+<h2>The Deployment Descriptor</h2>
+<p>
+The benchmark deployment descriptor is a file named <span
+ style="font-style: italic;">benchmark.xml</span> in the benchmark
+deploy sub-directory. It is a very simple XML file that tells Faban
+about all the
+benchmark resources. This file is optional for certain cases wth the
+following criteria:</p>
+<ol style="margin-left: 40px;">
+  <li>The benchmark is implemented using the Faban driver
+framework</li>
+  <li>DefaultFabanBenchmark is sufficient as the benchmark class</li>
+  <li>All other settings follow the default, i.e. using run.xml
+as the config file name and config.xhtml as the submission form name</li>
+</ol>
+<p>Your first few benchmarks will likely fit into this criteria,
+making it simple to use default values. However, once you start
+implementing your own benchmark class and use any non-default settings,
+the deployment descriptor comes in handy. Let us take a look at
+the full deployment descriptor, with its default values:</p>
+<p style="font-family: monospace;">&lt;?xml
+version="1.0" encoding="UTF-8"?&gt;<br>
+&lt;benchmark&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;name&gt;&lt;/name&gt;<br>
+&nbsp;&nbsp;&nbsp;
+&lt;version&gt;&lt;/version&gt;<br>
+&nbsp;&nbsp;&nbsp;
+&lt;config-form&gt;config.xhtml&lt;/config-form&gt;<br>
+&nbsp; &nbsp;
+&lt;config-stylesheet&gt;&lt;/config-stylesheet&gt;<br>
+&nbsp;&nbsp;&nbsp;
+&lt;config-file-name&gt;run.xml&lt;/config-file-name&gt;<br>
+&nbsp;&nbsp;&nbsp;
+&lt;benchmark-class&gt;com.sun.faban.harness.DefaultFabanBenchmark2&lt;/benchmark-class&gt;<br>
+&nbsp; &nbsp;
+&lt;result-file-path&gt;summary.xml&lt;/result-file-path&gt;<br>
+&nbsp; &nbsp; &lt;metric&gt;&lt;/metric&gt;<br>
+&nbsp; &nbsp;
+&lt;scaleName&gt;&lt;/scaleName&gt;<br>
+&nbsp; &nbsp;
+&lt;scaleUnit&gt;&lt;/scaleUnit&gt;<br>
+&nbsp;&nbsp;&nbsp;
+&lt;banner-page&gt;bannerPage.html&lt;/banner-page&gt;&nbsp;
+&nbsp;&nbsp;&nbsp; <br>
+&lt;/benchmark&gt;<br>
+</p>
+<p>The <span style="font-weight: bold;">name</span>
+element lists the long name describing the benchmark. This element is
+mandatory. If the benchmark is implemented using the Faban driver
+framework, the name of the benchmark as defined in the <span
+ style="font-family: monospace;">@BenchmarkDefinition</span>
+annotation becomes the default name. If the name element is specified,
+it will override the <span style="font-family: monospace;">@BenchmarkDefinition</span>
+annotation.&nbsp;</p>
+<p>The <span style="font-weight: bold;">version</span>
+element describes the benchmark version. This is a string field so
+versions with dots and alphanumerics - such as 1.01a - are allowed.
+This element is mandatory. If the benchmark is implemented using the
+Faban driver framework, the version of the benchmark as defined in the <span
+ style="font-family: monospace;">@BenchmarkDefinition</span>
+annotation is used as the default version. If this element is
+specified, it will override the <span style="font-family: monospace;">@BenchmarkDefinition</span>
+annotation.</p>
+<p>The <span style="font-weight: bold;">config-form</span>
+element contains the file name for the submission form. This element is
+optional and defaults to <span style="font-family: monospace;">config.xhtml</span>.</p>
+<p>The <span style="font-weight: bold;">config-stylesheet</span>
+element references the stylesheet used for displaying the submission
+form. If this element has any value, the corresponding stylesheet must
+be in the benchmark's META-INF directory. This field is used only in
+case the default display of the configuration form is inadequate. It is
+very rarely used.</p>
+<p>The <span style="font-weight: bold;">config-file-name</span>
+element contains the file name for the configuration file. This element
+is optional and defaults to <span style="font-family: monospace;">run.xml</span>.</p>
+<p>The <span style="font-weight: bold;">benchmark-class</span>
+element contains the fully qualified class name of the benchmark class
+to use for this benchmark. This element is mandatory. If and only if
+the benchmark is implemented using the Faban driver framework, this
+field defaults to <span style="font-family: monospace;">com.sun.faban.harness.DefaultFabanBenchmark</span>.
+Otherwise there is no default value for this field.</p>
+<p>The <span style="font-weight: bold;">result-file-path</span>
+element contains the name of the benchmark result file other than <span
+ style="font-family: monospace;">summary.xml</span>.
+This is used for benchmark integrations that produce their own result
+file and do not wish to use the summary.xml file format. A minimal <span
+ style="font-family: monospace;">summary.xml</span>
+must still be generated to provide the minimim result metadata that
+Faban needs to understand. This element must not be used for benchmarks
+implemented using the Faban driver framework.</p>
+<p>The <span style="font-weight: bold;">metric</span>
+element describes the metric of the benchmark results as it should be
+reported and listed in the result list. This element is mandatory . If
+the benchmark is implemented using the Faban driver framework, the
+version of the benchmark as defined in the <span
+ style="font-family: monospace;">@BenchmarkDefinition</span>
+annotation is used. This metric element, if exists, overrides the
+metric from the Faban driver framework.</p>
+<p>The <span style="font-weight: bold;">scaleName</span>
+element describes the name of the scale to use, such as "concurrent
+users". The <span style="font-weight: bold;">scaleUnit</span>
+element provides a unit for the scale. The only difference between
+these two elements is that the scaleName is formatted as a prefix and
+the scaleUnit is formatted as a suffix. At least one of these two
+elements must be provided. If the benchmark is implemented using the
+Faban driver framework, the scaleName or scaleUnit is described in the <span
+ style="font-family: monospace;">@BenchmarkDefinition</span>
+annotation. These elements, if they exist, override the <span
+ style="font-family: monospace;">@BenchmarkDefinition</span>
+annotation in the driver framework.<br>
+</p>
+<p>The <span style="font-weight: bold;">banner-page </span>element
+containes the name of the banner page. For now we just allow custom
+banner(html file) with height not greater than 80 pixels. The banner
+page needs to be placed under BenchmarkDir/public_html/. This element
+is optional and defaults to custom banner.
+</p>
+<h2>Building and Packaging</h2>
+<p>Now we have all the pieces we need for packaging. The next step is
+to build and package the benchmark into a deployable unit called the
+deployable jar file. The ant build script, build.xml in the top-level
+benchmark directory can be used for this. The <span
+ style="font-family: monospace;">build.properties</span>
+file controls how the build script builds, packages, and deploys the
+benchmark. Here is the file from the web101 sample. <br>
+</p>
+<p style="font-family: monospace; margin-left: 40px;">bench.shortname=web101<br>
+faban.home=../../..<br>
+faban.url=http://localhost:9980/<br>
+deploy.user=deployer<br>
+deploy.password=adminadmin<br>
+deploy.clearconfig=false<br>
+compiler.target.version=1.5</p>
+<p>The <span style="font-weight: bold;">bench.shortname</span>
+field names the generated libraries and deployable file name. It is
+also used throughout Faban and referred to as the short name. Please
+note that the&nbsp;bench.shortname value CANNOT have any dot characters
+in the name.The <span style="font-weight: bold;">faban.home</span>
+field
+references the path where the Faban kit is installed on your system.
+This path can be either relative or absolute and is used for the build
+script to find all the necessary Faban compile-time and deploy-time
+libraries. The <span style="font-weight: bold;">compiler.target.version</span>
+controls how the classes are compiled. Faban supports both 1.5 and 1.6.
+A benchmark build with 1.6 can use the JavaSE 6 features. However, it
+cannot be used on J2SE 1.5. Other fields are used for deployment and
+will be discussed in the next section.</p>
+<p>Once we have all these fields configured properly, we can
+build our deployable jar file by just calling ant from the base
+directory of our project. This will build the default target:
+deploy.jar.</p>
+<p style="font-family: monospace; margin-left: 40px;">$ ant</p>
+<p>Or</p>
+<p style="font-family: monospace; margin-left: 40px;">$
+ant deploy.jar</p>
+<p>To call ant from an IDE, just have the IDE build the
+deploy.jar target directly. Ant will create a deployable jar file and
+place it into the project's build directory.</p>
+<p>The deploy.jar target builds and packages the deployable jar
+file according to the Faban benchmark deployable jar file structure
+described in the followings:</p>
+<p style="margin-left: 40px; color: rgb(51, 153, 153);"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle">
+&lt;bench.shortname&gt;.jar<a href="overview.html#config"><br>
+</a>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-open.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> META-INF<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> benchmark.xml<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> config.xhtml<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/l-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> run.xml
+<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> bin<br>
+<img style="border: 0px solid ; width: 20px; height: 20px;" alt=""
+ src="../../img/t-open.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> lib<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle">
+&lt;other_libs&gt;.jar<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/l-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle">
+&lt;bench.shortname&gt;.jar<a href="overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> public_html<br>
+<img style="border: 0px solid ; width: 20px; height: 20px;" alt=""
+ src="../../img/l-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> resources
+</p>
+<p>The structure of the deployable jar file is a subset of the
+project structure described in the development <a href="overview.html">overview</a>
+with the
+content of the deploy directory being placed in the jar's META-INF
+directory. The scripts and binaries are archived directly into the
+jar's bin directory. The lib directory is also archived directly with
+the addition of the jar of the benchmark classes. This jar is also
+named after the benchmark's short name but is located in the lib
+directory. The public_html and resources directories are archived
+directly from their corresponding directories in the project struture.<br>
+</p>
+<h2>Deployment</h2>
+<p>At this point, the benchmark is ready to deploy. Edit the <span
+ style="font-family: monospace;">build.properties</span>
+file to address the entries used for deployment. Here is the file once
+again:</p>
+<p style="margin-left: 40px; font-family: monospace;">bench.shortname=web101<br>
+faban.home=../../..<br>
+faban.url=http://localhost:9980/<br>
+deploy.user=deployer<br>
+deploy.password=adminadmin<br>
+deploy.clearconfig=false<br>
+compiler.target.version=1.5</p>
+<p>The&nbsp;<span style="font-weight: bold;">faban.url</span>
+field refers to the URL of the Faban harness/master we want to deploy
+to. The <span style="font-weight: bold;">deploy.user</span>
+and <span style="font-weight: bold;">deploy.password</span>
+fields are required if and only if security is enabled in the Faban
+master. By default they are not needed. If security is enabled, the
+deploy user and password is NOT the same as the user password provided
+by a security provider in order not to expose a person's password in a
+file. The deploy user and password can be configured in the <span
+ style="font-family: monospace;">config/harness.xml</span>
+file and defaults to <span style="font-family: monospace;">deployer</span>
+and <span style="font-family: monospace;">adminadmin</span>,
+subsequently. please change this if security is a concern. And finally,
+the <span style="font-weight: bold;">deploy.clearconfig</span>
+field tells the Faban master to clear and rename old configuration
+files in the profiles on the master. When the new submission form is no
+longer compatible with the old configuration file saved in the
+profiles, the flag will need to set to true. After redeployment, the
+submitted run will use the default configuration file bundled in the
+benchmark instead of the saved ones from previous runs in the profile.</p>
+<p>Once these fields are set correctly, just run</p>
+<p style="font-family: monospace; margin-left: 40px;">$
+ant deploy</p>
+<p>The ant deploy target will internally contact the Faban master
+specified by faban.url, upload the deployable jar file, and execute the
+deployment process on the master. Note that the deploy target will
+automatically call the deploy.jar target to build the deployable jar
+before deploying, if not already done so. There is no need to build the
+deploy.jar target prior to the deploy target.</p>
+<p>Now, use your browser to point to your Faban master system at
+port 9980, select the "Schedule Run" hyperlink and your submission form
+should show up. If you have an active rig with multiple benchmarks
+deployed, your session may have been set to a different benchmark. In
+this case, select the "Switch Profile" hyperlink and the newly deployed
+benchmark should be listed in the list of benchmarks.</p>
+<h2>Alternate Deploym<span style="font-family: monospace;"></span>ent
+Methods</h2>
+<p>The section above describes the deployment method that is most
+intuitive for benchmark developers. However, there are two other
+deployment methods that may be used:</p>
+<ol>
+  <ol>
+    <li>Using the deploy form. Point your browser to
+http://&lt;faban_master&gt;:9980/deploy and select the
+deployable jar file. Enter the deploy user name and password if
+security is enabled on the master. Check the "Clear previous benchmark
+configuration" checkbox, if applicable. Then press the deploy button.
+The deployable jar file will get uploaded and deployed on the Faban
+harness. This method is also shown in the <a
+ href="../harness/deploy.html">Deploying Benchmarks</a>
+section of the <a href="../../toc.html#Faban_Harness_Users_Guide_">Faban
+Harness Users Guide</a>.<br>
+      <br>
+    </li>
+    <li>Copy the deployable jar file directly into the <span
+ style="font-family: monospace;">benchmarks</span>
+directory in the Faban master installation. DO NOT unjar the file.
+Faban&nbsp;will automatically pick up this jar file the next time
+you use your browser to access Faban. Note that this method does not
+have anything equivalent to the deploy.clearconfig field to
+automatically clear and rename old, incompatible configuration files.
+If needed, you have to go into the <span
+ style="font-family: monospace;">config/profiles</span>
+directory in the Faban master installation and manually remove or
+rename the applicable saved configuration files.</li>
+  </ol>
+</ol>
+<h2>Troubleshooting Deployment</h2>
+<p>Once the benchmark is deployed, it should show up in the
+"Switch Profile" screen (if you have multiple benchmarks deployed) and
+the corresponding submission form should show up when scheduling a run.
+If not, there are two places to look for information:</p>
+<ol>
+  <ol>
+    <li>If the benchmark cannot be seen by Faban, something went
+wrong during or after deployment. The problems are logged in the
+Faban&nbsp;log file at <span style="font-family: monospace;">logs/faban.log.xml</span>.
+Check the contents of this file for exceptions and error messages, and
+correct your deploy image accordingly.<br>
+      <br>
+    </li>
+    <li>If the benchmark can be seen but the submission form
+refuses to show up or behaves incorrectly when you select the different
+tabs, there might be issues with form display or variable bindings.
+These issues will be shown in the Chiba log file at <span
+ style="font-family: monospace;">master/logs/chiba.log</span>.
+Check the contents of this file for incorrectly bound elements and
+display issues and verify the submission form. Also note that changing
+the configuration file structure without deploying with
+deploy.clearconfig set may also have caused the issue. Verify the
+deploy.clearconfig flag (or it's equivalent checkbox in the deploy
+form) and redeploy will remedy this issue.</li>
+  </ol>
+</ol>
+<br>
+<a accesskey="p" href="submitform.html" title="Previous"><img
+ alt="Previous" src="../../img/previous.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<a acccesskey="c" href="../../toc.html#Faban_Harness_Developers_Guide_"
+ title="Beginning"><img alt="Beginning" src="../../img/up.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ href="deployservice.html"><img alt="Next" src="../../img/next.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+<script type="text/javascript" language="javascript">
+var sc_project=1267791;
+var sc_invisible=1;
+var sc_partition=11;
+var sc_security="34f5f6d1";
+</script>
+<script type="text/javascript" language="javascript"
+ src="http://www.statcounter.com/counter/counter.js">
+</script><noscript><a href="http://www.statcounter.com/" target="_blank"><img
+ src="http://c12.statcounter.com/counter.php?sc_project=1267791&amp;java=0&amp;security=34f5f6d1&amp;invisible=1"
+ alt="counter hit xanga" border="0"></a></noscript><!-- End of StatCounter Code --><!-- Start of StatCounter Code -->
+<script type="text/javascript" language="javascript">
+var sc_project=1126578;
+var sc_invisible=1;
+var sc_partition=10;
+var sc_security="488b7ec0";
+</script>
+<script type="text/javascript" language="javascript"
+ src="http://www.statcounter.com/counter/counter.js">
+</script><noscript><a href="http://www.statcounter.com/" target="_blank"><img
+ src="http://c11.statcounter.com/counter.php?sc_project=1126578&amp;java=0&amp;security=488b7ec0&amp;invisible=1"
+ alt="free tracking" border="0"></a></noscript><!-- End of StatCounter Code -->
+<script src="http://www.google-analytics.com/urchin.js"
+ type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-237864-1";
+_udn="opensparc.net";
+urchinTracker();
+</script>
+</body>
+
+<!-- Mirrored from faban.org/1.3/docs/guide/harnessdev/deploybenchmark.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:02 GMT -->
+</html>

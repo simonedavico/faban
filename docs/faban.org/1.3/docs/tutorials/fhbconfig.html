@@ -1,0 +1,686 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html style="direction: ltr;">
+<!-- Mirrored from faban.org/1.3/docs/tutorials/fhbconfig.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:08 GMT -->
+<head>
+<meta content="text/html;charset=windows-1252" http-equiv="Content-Type"><title>Creating and running a HTTP workload using fhb and a
+workload configuration file</title>
+
+<link href="http://faban.org/css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a acccesskey="c" href="../toc.html#Tutorials_" title="Beginning"><img alt="Beginning" src="../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<h1>Creating and running a HTTP workload using fhb and a workload
+configuration File</h1>
+<p>If
+you need a simple workload that generates HTTP Get/Post requests to
+multiple
+URLs, then it's possible to do that very easily in Faban using the <a href="../man/fhb.html">fhb</a> command line. All you
+need to do is to configure the workload using fhb configuration file.
+The fhb configuration file is essentially a stripped down Faban
+configuration file. An example is provided at&nbsp;<span style="font-family: monospace;">samples/fhb/run.xml</span>.
+</p>
+<p><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">To
+control the mix of URLs accessed in the benchmark run, it's possible
+to assign weights to the URLs. This is similar to an operation mix in
+a general purpose driver. It's also possible to generate random
+values for parameters in the request strings by using pre-defined
+tokens. </font></font>
+</p>
+<h2 style="margin-bottom: 0.2in;">1. Starting the fhb
+driver definition</h2>
+<p><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">We start the fhb
+driver definition with a runConfig element. The namespace rules for
+this configuration file is the same as any generic Faban configuration
+file and is documented in the&nbsp;<a href="../guide/harnessdev/configfile.html">Faban Harness
+Developers Guide</a>. The Faban driver part of the configuration
+file is documented in the <a href="../guide/driver/sampleconfig.html">Faban Driver
+Developers Guide</a>. Since almost all of the elements used in
+the fhb configuration file will use the driver namespace, we declare
+the driver namespace </font></font><span style="font-family: monospace;">http://faban.sunsource.net/ns/fabandriver</span>
+<font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">as the default
+namespace in the root element of the configuration file, which happens
+to be runConfig. Then you will want to provide your basic run
+parameters, scale, ramp up, steady state, and rampdown. These
+parameters override whatever you may have specified in the fhb command
+line. In the example below, we set a scale of 10 for 10 simulated users.</font></font></p>
+<p style="margin-left: 40px;"><span style="font-family: monospace;">&lt;fa:runConfig
+xmlns:fa="http://faban.sunsource.net/ns/faban" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+xmlns="http://faban.sunsource.net/ns/fabandriver"&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;fa:scale&gt;10&lt;/fa:scale&gt; <br>
+&nbsp;&nbsp;&nbsp; &lt;fa:runControl
+unit="time"&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;fa:rampUp&gt;60&lt;/fa:rampUp&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;fa:steadyState&gt;120&lt;/fa:steadyState&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;fa:rampDown&gt;60&lt;/fa:rampDown&gt; <br>
+&nbsp;&nbsp;&nbsp; &lt;/fa:runControl&gt;</span></p>
+<p style="margin-left: 40px;"><span style="font-family: monospace;">.....</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&lt;/fa:runConfig&gt;</span><br>
+</p>
+<h2 style="margin-bottom: 0.2in;">2. Define the benchmark </h2>
+<p style="margin-bottom: 0in;"><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2"><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">A
+Benchmark is defined using the </font></font></font></font><font style="font-size: 9pt;" size="2"><font style="font-size: 9pt;" size="2"><font style="font-family: monospace;">&lt;benchmarkDefinition&gt;</font></font></font><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2"><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif"> element. The benchmarkDefinition
+element and its child elements are defined by the driver namespace, but
+since we're using this as a default namespace (above) already, we can
+omit any namespace aliases for these&nbsp;elements.</font></font></font></font></p>
+<p style="margin-bottom: 0in;"><font style="font-size: 9pt;" size="2"><font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;benchmarkDefinition&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;my_http_driver&lt;/name&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;version&gt;1.0a&lt;/version&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;metric&gt;ops/sec&lt;/metric&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;scaleName&gt;scale&lt;/scaleName&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;scaleUnit&gt;suppliers&lt;/scaleUnit&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;/benchmarkDefinition&gt;</span></font></font><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2"><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif"> </font></font></font></font>
+</p>
+<p style="margin-bottom: 0in;"><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">The
+</font></font><font style="font-size: 9pt;" size="2"><font style="font-family: monospace;">&lt;benchmarkDefinition&gt;</font></font><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2"> element is optional and can be omitted if all
+default values are accepted. </font></font>
+</p>
+<h2 style="margin-bottom: 0.2in;">3. Define the driver</h2>
+<p style="margin-bottom: 0in;"><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">In
+the HTTP driver, the definition of the driver is part of the the
+&lt;<font face="Courier New, monospace">driverConfig&gt;</font>
+element
+of the fhb config file. The name of the driver is specified in the
+<font face="Courier New, monospace">&lt;driverConfig&gt;</font>
+element
+as follows:</font></font></p>
+<p style="margin-bottom: 0in; margin-left: 40px;"><font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;
+&lt;driverConfig name="http_driver1"&gt; </span></font><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif"><br>
+</font></font></p>
+<p style="margin-bottom: 0in;"><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">At
+this point of time, only one HTTP driver can be defined in a
+benchmark.</font></font></p>
+<h2 style="margin-bottom: 0.2in;">4. Declare the operations</h2>
+<p style="margin-bottom: 0in;"><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">Operations
+define the logic to generate load to the severs. All operations for a
+driver are defined under the driverConfig element with
+an&nbsp;operation child element.</font></font></p>
+<p style="margin-bottom: 0in; margin-left: 40px;"><font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;operation&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;getCustomerInfo&lt;/name&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;url&gt;http://lifeboat.sfbay:8000/&lt;/url&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;get&gt;&lt;![CDATA[?zd=rahul&amp;id=@@faban.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;
+getRandomString(1,10)@@&amp;xd=abcdef&amp;yd=@@faban.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;
+getRandomInt(1,200)@@]]&gt;&lt;/get&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--&lt;post&gt;&lt;![CDATA[id=@@faban.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; getRandomString(1,
+10)@@&amp;xd=abcdef&amp;yd=@@faban.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;
+getRandomInt(1,200)@@]]&gt;&lt;/post&gt;--&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--&lt;get/&gt;--&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;max90th&gt;2&lt;/max90th&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--timing is AUTO--&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--override benchmark level requestLagTime--&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;requestLagTime&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;fixedTime&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleType&gt;cycletime&lt;/cycleType&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleTime&gt;1000&lt;/cycleTime&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleDeviation&gt;5&lt;/cycleDeviation&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/fixedTime&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- other types can be specified in a similar manner--&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/requestLagTime&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/operation&gt;</span></font></p>
+<p style="margin-bottom: 0in;"><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">Each
+operation requires a name, an HTTP URL, an HTTP request string and
+the 90<sup>th</sup> percentile limit for the response time.
+The HTTP
+request can be specified either as a GET or a POST. If a <font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">GET</font></font>
+is used, then the element must be &lt;<font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">GET</font></font>&gt;
+and the CDATA section must start with “?”. If a POST is
+used then the element must be &lt;POS<font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">T</font></font>&gt;
+and the CDATA section should not start with a “?”. You
+must specify either a <font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">GET</font></font>
+or a POST element. If your request string is empty, you can leave the
+value for the GET/POST element empty. <br>
+<br>
+The request string
+specified in the &lt;get&gt; or &lt;post&gt; elements
+needs to
+be in an HTTP
+get/post format, with each name value pair separated by an “&amp;”.
+Faban can generate random values (both numbers and strings) for any
+parameter in the request string. There are two kinds of random value
+generation supported by faban currently. <br>
+<br>
+1. Random number
+between X, Y where X &lt; Y. <br>
+2. Random string of length between
+X, Y where X &lt; Y. </font></font>
+</p>
+<p style="margin-bottom: 0in;"><br>
+</p>
+<p style="margin-bottom: 0in;"><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">The
+value part of the name-value combination must have either of the
+following tokens</font></font></p>
+<p style="margin-bottom: 0in;"><br>
+</p>
+<p style="margin-bottom: 0in;"><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">@@faban.getRandomInt(X,Y)@@
+-- for a random number in the range of X, Y</font></font></p>
+<p style="margin-bottom: 0in;"><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">@@faban.getRandomString(X,Y)@@
+-- for a random string of length in the range of X, Y. </font></font>
+</p>
+<p style="margin-bottom: 0in;"><br>
+</p>
+<p style="margin-bottom: 0in;"><br>
+</p>
+<h2 style="margin-bottom: 0.2in;">5. Choose a mix</h2>
+<p><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">A
+mix tells the driver framework the policy or algorithm it should use
+to select operations. While the Faban driver framework may be
+extended to support additional mixes over time, currently it supports
+four mixes:</font></font></p>
+<ul>
+<li>
+<p style="margin-bottom: 0in;"><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/FlatMix.html"><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">FlatMix</font></font></a><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif"> - This mix randomly chooses the
+next operation to execute based on given probability for the mix.</font></font></p>
+</li>
+<li>
+<p style="margin-bottom: 0in;"><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/MatrixMix.html"><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">MatrixMix</font></font></a><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif"> - This mix maintains the state of
+execution. It chooses the next operation based on the current operation
+and a given probability ratio.</font></font></p>
+</li>
+<li>
+<p style="margin-bottom: 0in;"><a href="http://faban.sunsource.net/nonav/docs/api/com/sun/faban/driver/FixedSequence.html"><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">FixedSequence</font></font></a><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif"> - The fixed sequence does what it
+says. There is no randomness. The operations are call in sequence.</font></font></p>
+</li>
+<li>
+<p><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/FlatSequenceMix.html"><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">FlatSequenceMix</font></font></a><font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif"> - This mix allows random selection
+of fixed sequences (as opposed to random selection of an operation in
+FlatMix). </font></font> </p>
+</li>
+</ul>
+<p><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">This
+mix is specified in the faban config file:&nbsp;</font></font></p>
+<div style="margin-left: 40px;"><font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;operationMix&gt; </span></font><br style="font-family: monospace;">
+<font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;getCustomerInfo&lt;/name&gt;&lt;r&gt;1&lt;/r&gt;
+</span></font><br style="font-family: monospace;">
+<font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/operationMix&gt; </span></font><br style="font-family: monospace;">
+<font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;operationMix&gt; </span></font><br style="font-family: monospace;">
+<font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;getSupplierInfo&lt;/name&gt;&lt;r&gt;1&lt;/r&gt;
+</span></font><br style="font-family: monospace;">
+<font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/operationMix&gt; </span></font><br>
+</div>
+<p><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">The
+above defines a FlatMix. Other examples for mix are in the sample
+faban config file in Appendix D. </font></font>
+</p>
+<h2 style="margin-bottom: 0.2in;">6. Choose the cycle
+timings</h2>
+<p style="margin-bottom: 0in;"><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">Cycle
+timings tell the driver framework the policy or algorithm to be used
+for inter-operation times. Currently, three timing characteristics
+are supported:</font></font></p>
+<ol>
+<ol>
+<li>NegativeExponential - Randomly selects the cycle or
+think time from a negative exponential distribution. This is the timing
+characteristic that most appropriately simulates the cycle of a large
+number of users such as web workloads.<br>
+</li>
+<li>Uniform - Randomly selects the cycle or think time
+from a uniform distribution.<br>
+</li>
+<li>FixedTime - Presets
+the cycle or think time. This is useful for simulating user operations
+that are driven by external factors such as factory or production line
+workers.</li>
+</ol>
+</ol>
+<p><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">The
+cycle timings can be defined at the driver level under the
+</font></font><font style="font-size: 9pt;" size="2"><font style="font-family: monospace;">&lt;driverConfig&gt;</font></font><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2"> element
+or at the operation level under the </font></font><font style="font-size: 9pt;" size="2"><font style="font-family: monospace;">&lt;operation&gt;</font></font><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2"> element. The driver level definition covers all
+operations in that
+driver. The operation level definition specifies the cycle timings
+for only that operation. It also overrides the driver level
+definition if there is one, just for the given operation.<br>
+<br>
+The
+followings example shows specifying the uniform distribution for
+cycle time at the driver level:</font></font></p>
+<div style="margin-left: 40px;"><font style="font-size: 9pt; font-family: monospace;" size="2">&nbsp;&nbsp;</font><font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></font><font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">
+&lt;requestLagTime&gt; </span></font><br style="font-family: monospace;">
+<font style="font-size: 9pt;" size="2"><span style="font-family: monospace;"></span></font><font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;uniform&gt; </span></font><br style="font-family: monospace;">
+<font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleType&gt;thinktime&lt;/cycleType&gt; </span></font><br style="font-family: monospace;">
+<font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleMin&gt;1000&lt;/cycleMin&gt; </span></font><br style="font-family: monospace;">
+<font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleMax&gt;1000&lt;/cycleMax&gt; </span></font><br style="font-family: monospace;">
+<font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleDeviation&gt;5&lt;/cycleDeviation&gt; </span></font><br style="font-family: monospace;">
+<font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/uniform&gt; </span></font><br style="font-family: monospace;">
+<font style="font-size: 9pt;" size="2"><span style="font-family: monospace;"></span></font><font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/requestLagTime&gt;</span></font><font style="font-size: 9pt;" size="2"> </font></div>
+<p style="margin-bottom: 0in;"><br>
+<font style="font-size: 9pt;" size="2"><font face="Arial, sans-serif">The
+following example shows specifying the fixed time distribution for
+cycle time at the operation level:</font></font></p>
+<div style="margin-left: 40px;"><font style="font-size: 9pt;" size="2"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;requestLagTime&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;fixedTime&gt;
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleType&gt;cycletime&lt;/cycleType&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleTime&gt;1000&lt;/cycleTime&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleDeviation&gt;5&lt;/cycleDeviation&gt; </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/fixedTime&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/requestLagTime&gt;</span></font></div>
+<p style="margin-bottom: 0in;"><br>
+</p>
+<h2 style="margin-bottom: 0.2in;">Configuration File Recap</h2>
+<p>When putting the configuration file together, we should see
+the whole config file as shown in the fhb sample <span style="font-family: monospace;">faban/samples/fhb/run.xml</span>.
+The whole configuration file will be like the following:</p>
+<div style="margin-left: 40px; font-family: monospace;">&lt;?xml
+version="1.0" encoding="UTF-8"?&gt;
+<br>
+&lt;fa:runConfig xmlns:fa="http://faban.sunsource.net/ns/faban"
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+xmlns="http://faban.sunsource.net/ns/fabandriver"&gt;
+<br>
+&nbsp;&nbsp;&nbsp;
+&lt;fa:scale&gt;10&lt;/fa:scale&gt;
+<br>
+&nbsp;&nbsp;&nbsp; &lt;fa:runControl
+unit="time"&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;fa:rampUp&gt;60&lt;/fa:rampUp&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;fa:steadyState&gt;120&lt;/fa:steadyState&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;fa:rampDown&gt;60&lt;/fa:rampDown&gt;
+<br>
+&nbsp;&nbsp;&nbsp; &lt;/fa:runControl&gt;
+<br>
+&nbsp;&nbsp;&nbsp; &lt;benchmarkDefinition&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;my_http_driver&lt;/name&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;version&gt;1.0a&lt;/version&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;metric&gt;ops/sec&lt;/metric&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;scaleName&gt;scale&lt;/scaleName&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;scaleUnit&gt;suppliers&lt;/scaleUnit&gt;
+<br>
+&nbsp;&nbsp;&nbsp; &lt;/benchmarkDefinition&gt;
+<br>
+&nbsp;&nbsp;&nbsp;
+&lt;outputDir&gt;/home/rb125607/work/http_driver/driver/output&lt;/outputDir&gt;
+<br>
+&nbsp;&nbsp;&nbsp;
+&lt;audit&gt;false&lt;/audit&gt;
+<br>
+&nbsp;&nbsp;&nbsp; &lt;threadStart&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;delay&gt;1000&lt;/delay&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;simultaneous&gt;false&lt;/simultaneous&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;parallel&gt;false&lt;/parallel&gt;
+<br>
+&nbsp;&nbsp;&nbsp; &lt;/threadStart&gt;
+<br>
+&nbsp;&nbsp;&nbsp; &lt;runtimeStats
+enabled="false"&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;interval&gt;5&lt;/interval&gt;
+<br>
+&nbsp;&nbsp;&nbsp; &lt;/runtimeStats&gt;
+<br>
+&nbsp;&nbsp;&nbsp; &lt;driverConfig
+name="http_driver1"&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;threads&gt;5&lt;/threads&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;agents&gt;1&lt;/agents&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;runtimeStats target="9988"/&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;metric&gt;ops/sec&lt;/metric&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;requestLagTime&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--&lt;fixedTime&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleType&gt;cycletime&lt;/cycleType&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleTime&gt;1000&lt;/cycleTime&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleDeviation&gt;5&lt;/cycleDeviation&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/fixedTime&gt;--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;uniform&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleType&gt;thinktime&lt;/cycleType&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleMin&gt;1000&lt;/cycleMin&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleMax&gt;1000&lt;/cycleMax&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleDeviation&gt;5&lt;/cycleDeviation&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/uniform&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- other types can be specified in a similar manner--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/requestLagTime&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;operation&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;getCustomerInfo&lt;/name&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;url&gt;http://lifeboat.sfbay:8000/&lt;/url&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;get&gt;&lt;![CDATA[?zd=rahul&amp;id=@@faban.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; getRandomString(1,
+10)@@&amp;xd=abcdef&amp;yd=@@faban.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;
+getRandomInt(1,200)@@]]&gt;&lt;/get&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--&lt;post&gt;&lt;![CDATA[id=@@faban.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; getRandomString(1,
+10)@@&amp;xd=abcdef&amp;yd=@@faban.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;
+&nbsp;&nbsp;getRandomInt(1,200)@@]]&gt;&lt;/post&gt;--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--&lt;get/&gt;--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;max90th&gt;2&lt;/max90th&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--timing is AUTO--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--override benchmark level requestLagTime--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;requestLagTime&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;fixedTime&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleType&gt;cycletime&lt;/cycleType&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleTime&gt;1000&lt;/cycleTime&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleDeviation&gt;5&lt;/cycleDeviation&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/fixedTime&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- other types can be specified in a similar manner--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/requestLagTime&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/operation&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;operation&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;getSupplierInfo&lt;/name&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;url&gt;http://lifeboat.sfbay:8000&lt;/url&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--&lt;get&gt;&lt;![CDATA[?zd=rahul&amp;id=@@faban.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; getRandomString(1,
+10)@@&amp;xd=abcdef&amp;yd=@@faban.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;
+getRandomInt(1,200)@@]]&gt;&lt;/get&gt;--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;post&gt;&lt;![CDATA[id=@@faban.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; getRandomString(1,
+10)@@&amp;xd=abcdef&amp;yd=@@faban.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;
+getRandomInt(1,200)@@]]&gt;&lt;/post&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--&lt;get/&gt;--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;max90th&gt;2&lt;/max90th&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--timing is AUTO--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--override benchmark level requestLagTime--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--&lt;requestLagTime&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;uniform&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleType&gt;thinktime&lt;/cycleType&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleMin&gt;10&lt;/cycleMin&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleMax&gt;10&lt;/cycleMax&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cycleDeviation&gt;5&lt;/cycleDeviation&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/uniform&gt;--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- other types can be specified in a similar manner--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!--&lt;/requestLagTime&gt;--&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/operation&gt;
+<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;operationMix&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;getCustomerInfo&lt;/name&gt;&lt;r&gt;1&lt;/r&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/operationMix&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;operationMix&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;getSupplierInfo&lt;/name&gt;&lt;r&gt;1&lt;/r&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/operationMix&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;properties&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;put&lt;/name&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;ORACLE&lt;/value&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;serverURL&lt;/name&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;http://lifeboat.sfbay:8000/pb/PBServletDriver?action=&lt;/value&gt;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/properties&gt;
+<br>
+&nbsp;&nbsp;&nbsp; &lt;/driverConfig&gt;
+<br>
+&lt;/fa:runConfig&gt;
+</div>
+<h2><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">Run the test</font></font></h2>
+<p><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">Modify that
+according to your needs. You do not need
+to follow any other steps in this document for defining a driver if
+your needs are satisfied with a simple HTTP based driver. Then just
+simply run the workload by calling:</font></font></p>
+<p style="margin-left: 40px;"><font style="font-size: 9pt; font-family: monospace;" size="2">$fhb
+-f run.xml</font><font face="Arial, sans-serif"><font style="font-size: 9pt;" size="2">
+<br>
+</font></font></p>
+<p>Observe the output from the run and follow the locations in
+the output. You'll be able to see the run&nbsp;output written to
+the terminal as well as in the target directories that store the output.</p>
+<a acccesskey="c" href="../toc.html#Tutorials_" title="Beginning"><img alt="Beginning" src="../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<script type="text/javascript" language="javascript">
+var sc_project=1267791;
+var sc_invisible=1;
+var sc_partition=11;
+var sc_security="34f5f6d1";
+</script>
+<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js">
+</script>
+<noscript><a href="http://www.statcounter.com/"
+target="_blank"><img
+src="http://c12.statcounter.com/counter.php?sc_project=1267791&amp;java=0&amp;security=34f5f6d1&amp;invisible=1"
+alt="counter hit xanga" border="0"></a></noscript>
+<!-- End of StatCounter Code --><!-- Start of StatCounter Code -->
+<script type="text/javascript" language="javascript">
+var sc_project=1126578;
+var sc_invisible=1;
+var sc_partition=10;
+var sc_security="488b7ec0";
+</script>
+<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js">
+</script>
+<noscript><a href="http://www.statcounter.com/"
+target="_blank"><img
+src="http://c11.statcounter.com/counter.php?sc_project=1126578&amp;java=0&amp;security=488b7ec0&amp;invisible=1"
+alt="free tracking" border="0"></a></noscript>
+<!-- End of StatCounter Code -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-237864-1";
+_udn="opensparc.net";
+urchinTracker();
+</script>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/tutorials/fhbconfig.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:08 GMT -->
+</html>

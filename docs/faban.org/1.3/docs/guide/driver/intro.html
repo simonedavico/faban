@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/intro.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:02 GMT -->
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  
+  <title>Faban Driver Framework - Introduction</title><meta content="AKARA SUCHARITAKUL" name="author">
+  <link href="../../css/default.css" rel="stylesheet" type="text/css">
+<body>
+<a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="architecture.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1><a name="Introduction"></a>Introduction</h1>
+<p class="Textbody">The Faban driver framework is a framework is a Java<span class="T1">&#8482;</span>
+platform-based framework that allows developers to easily define new
+benchmarks using the Java Programming Language. It makes use of the
+Java 2 Standard Edition (J2SE) 5.0 features, primarily annotations as
+documented in</p>
+<p class="Textbody">&nbsp; &nbsp; &nbsp; &nbsp;
+<a href="http://java.sun.com/j2se/1.5.0/docs/relnotes/features.html#annotations">http://java.sun.com/j2se/1.5.0/docs/relnotes/features.html#annotations</a></p>
+<p class="Textbody">to
+ease benchmark development. The benchmark developer will only need to
+focus on the benchmark driver logic. The timing and selection of the
+operations, including recording of the metrics is handled by the driver
+framework.&nbsp;</p>
+<h2><a name="Design_Goals_and_Features"></a>Design
+Goals and Features</h2>
+<p class="Textbody">The
+goal of the Faban driver framework is to allow for extremely easy and
+efficient creation of new benchmark drivers for N-Tier benchmarks
+driven from network-connected driver systems. &nbsp;New and added
+operations
+should be no more complex than a script, which, in its very basic form
+can be captured. Specifications for the driver is given in descriptive
+form. The driver framework supports the following features:</p>
+<ol>
+  <li style="margin-left: 0.5cm;" class="P2">Rich stochastic
+model/policy for driving the benchmark</li>
+  <li style="margin-left: 0.5cm;" class="P2">Clear
+separation between driver and timing controls, data generation,
+protocol handling, measurements, and post-processing of the
+measurements</li>
+  <li style="margin-left: 0.5cm;">Clear separation between
+spec and configuration</li>
+  <li style="margin-left: 0.5cm;">Inter-operation data
+sharing (same thread, same driver)</li>
+  <li style="margin-left: 0.5cm;">Descriptive driver
+specification</li>
+  <li style="margin-left: 0.5cm;">Controlling
+rampup, steady state, and ramp down times or number of iterations</li>
+  <li style="margin-left: 0.5cm;">Implicit, automated
+response time measurements</li>
+  <li style="margin-left: 0.5cm;">Calibrated sleep or think
+times</li>
+  <li style="margin-left: 0.5cm;">Synchronized ramp up,
+steady state, and ramp down times between driver systems</li>
+  <li style="margin-left: 0.5cm;">Arrival rates or think
+times</li>
+  <li style="margin-left: 0.5cm;">Random value
+generation</li>
+  <li style="margin-left: 0.5cm;">Rich, extensible set
+of transaction mixes</li>
+  <li style="margin-left: 0.5cm;">Extensible network protocol
+support</li>
+  <li style="margin-left: 0.5cm;">HTML response
+verification/parsing</li>
+  <li style="margin-left: 0.5cm;">Standardized, extensible
+statistic collection</li>
+  <li style="margin-left: 0.5cm;">Standardized, extensible
+driver report</li>
+  <li style="margin-left: 0.5cm;">Extensive error or failure
+management</li>
+  <li style="margin-left: 0.5cm;">Managed premature benchmark
+termination in case of error</li>
+</ol>
+<br>
+<h2>Definition of Terms</h2>
+<p class="Textbody">The <span style="font-weight: bold;" class="T3">System
+Under Test (SUT)</span><span class="T4">
+comprises all components being tested and varies from benchmark to
+benchmark. The driver framework and the driver is usually not part of
+the SUT. Some non client-server benchmarks can however not </span><span class="T5">differentiate</span><span class="T4"> between the SUT and
+the driver making the driver implicitly part of the SUT.</span></p>
+<p class="Textbody">An <span style="font-weight: bold;" class="T3">Operation</span><span style="font-weight: bold;"> </span>is a single unit of work executed
+by the user or the driver and timed, and managed by the driver.</p>
+<p class="Textbody">An <span style="font-weight: bold;" class="T3">Operation
+Mix</span> defines how operations are executed by a simulated user or
+driver thread.<br>
+</p>
+<p class="Textbody">An <span style="font-weight: bold;">Operation Cycle</span>
+defines the timing characteristics from one operation to the next.<br>
+</p>
+<p class="Textbody">A <span style="font-weight: bold;" class="T3">Metric</span>
+is the resulting data of the operations collected over the steady state
+time of the benchmark operation.</p>
+<p class="Textbody"><span style="font-weight: bold;" class="T3">Cycle
+Time</span><span class="T4"> de</span>fines the elapsed time between
+the <span class="T6">begin</span> of the previous operation to the
+begin of the current operation.</p>
+<p class="P4"><span style="font-weight: bold;">Think Time</span><span class="T4"> defines the elapsed time between the </span><span class="T7">end</span><span class="T4"> of the previous operation to
+the begin of the current operation.</span></p>
+<p class="Textbody"><span class="T4">The </span><span style="font-weight: bold;" class="T3">Critical Section</span><span class="T4"> defines the portion of an operation in which the response
+time is measured. </span></p>
+<p class="Textbody"><span style="font-weight: bold;" class="T3">Data
+Preparation Section</span> defines the portion of an operation before
+the critical section where the data gets prepared.</p>
+<p class="Textbody"><span style="font-weight: bold;" class="T3">Validation
+Section</span> defines the portion of an operation after the critical
+section where the results get validated.<br>
+</p>
+<a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="architecture.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/intro.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:02 GMT -->
+</html>

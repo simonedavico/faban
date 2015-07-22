@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Web Workload 101" version="0.2">
+        <runId>web101.5D</runId>
+        <startTime>Thu Jun 26 13:10:44 PDT 2008</startTime>
+        <endTime>Thu Jun 26 13:17:14 PDT 2008</endTime>
+        <metric unit="ops/sec">20.267</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="WebDriver">
+        <metric unit="ops/sec">20.267</metric>
+        <startTime>Thu Jun 26 13:10:44 PDT 2008</startTime>
+        <endTime>Thu Jun 26 13:17:14 PDT 2008</endTime>
+        <totalOps unit="operations">6080</totalOps>
+        <users>100</users>
+        <rtXtps>96.8533</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0200">
+            <operation name="MyOperation1">
+                <successes>2198</successes>
+                <failures>0</failures>
+                <mix>0.3615</mix>
+                <requiredMix>0.3587</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="MyOperation2">
+                <successes>2308</successes>
+                <failures>0</failures>
+                <mix>0.3796</mix>
+                <requiredMix>0.3812</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="MyOperation3">
+                <successes>1574</successes>
+                <failures>0</failures>
+                <mix>0.2589</mix>
+                <requiredMix>0.2601</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="MyOperation1" r90th="2.000">
+                <avg>0.008</avg>
+                <max>1.176</max>
+                <sd>0.002</sd>
+                <p90th>0.010</p90th>
+                <passed>true</passed>
+                <p99th>0.030</p99th>
+            </operation>
+            <operation name="MyOperation2" r90th="2.000">
+                <avg>0.020</avg>
+                <max>1.153</max>
+                <sd>0.012</sd>
+                <p90th>0.030</p90th>
+                <passed>true</passed>
+                <p99th>0.040</p99th>
+            </operation>
+            <operation name="MyOperation3" r90th="2.000">
+                <avg>0.004</avg>
+                <max>0.441</max>
+                <sd>0.001</sd>
+                <p90th>0.010</p90th>
+                <passed>true</passed>
+                <p99th>0.020</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="MyOperation1" type="cycleTime">
+                <targetedAvg>4.842</targetedAvg>
+                <actualAvg>4.860</actualAvg>
+                <min>0.002</min>
+                <max>25.635</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="MyOperation2" type="cycleTime">
+                <targetedAvg>4.860</targetedAvg>
+                <actualAvg>4.877</actualAvg>
+                <min>0.011</min>
+                <max>25.843</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="MyOperation3" type="cycleTime">
+                <targetedAvg>4.815</targetedAvg>
+                <actualAvg>4.831</actualAvg>
+                <min>0.001</min>
+                <max>25.000</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+        <customStats name="Miscellaneous Statistics">
+            <stat>
+                <description>Average Content Size for MyOperation1</description>
+                <result>1566.00</result>
+            </stat>
+            <stat>
+                <description>Average Content Size for MyOperation2</description>
+                <result>94824.00</result>
+            </stat>
+            <stat>
+                <description>Average Content Size for MyOperation3</description>
+                <result>1521.00</result>
+            </stat>
+        </customStats>
+    </driverSummary>
+</benchResults>

@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/communication.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Communicating with the SUT</title>
+
+<meta content="AKARA SUCHARITAKUL" name="author">
+<link href="../../css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="readconfig.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="errorhandling.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1>Communicating with the SUT<br>
+</h1>
+<p class="Textbody">In most cases, a benchmark written
+using the Faban
+driver framework will want to simulate user load to one or more
+servers. Various mechanisms and protocols exist for such
+communications. But since a single Faban agent typically simulates
+multiple users, great care has to be given to the communications layers
+to ensure that each simulated user actually uses their own separate
+resources such as socket connections.<br>
+</p>
+<p class="Textbody">Many of the client-side communications
+libraries do
+an excellent job at pooling resources. This greatly benefits the
+performance and address space size of the client program. However, such
+optimizations usually render the libraries unsuitable for user
+simulation work, just because of the sharing that happens will not
+accurately simulate the number of users specified.<br>
+</p>
+<p class="Textbody">The Faban driver framework provides <span style="font-weight: bold;">transports</span>
+for http/https which provide simplified APIs for web access. There are
+two implementations of transports based on two client libraries:</p>
+<ol>
+<li>Sun's java.net.HttpURLConnection, HttpsURLConnection, and
+related classes.<br>
+This mechanism is lightweight and simple. &nbsp;However, it lacks
+support for several more complex features such as redirects between
+https and http, file uploads, etc. The Sun webservices implementations
+make use of this library so it is crucial to load this transport when
+using Sun web services in order to make use of the more accurate
+timings.<br>
+To instantiate the Sun transport for communicating directly with the
+server, simply call:<br>
+<pre> HttpTransport.newInstance();</pre>
+To just use the auto timers and prevent connection sharing, you can
+also just load the transport implementation as follows:<br>
+<pre> static {&nbsp;<br> Class.forName("com.sun.faban.driver.transport.sunhttp.SunHttpTransport");<br> }</pre>
+</li>
+<li>Apache Commons HttpClient 3.1.<br>
+HttpClient 3.1 (also referred to as HC3.1) is heavier, but also
+provides a larger feature set such as uploads. Some web services
+libraries and higher level web page APIs such as HTMLUnit make use of
+HC3.1. So be sure to load this transport if such APIs are used.<br>
+To instantate the Apache HC3 transport, make the following calls:<br>
+<pre> HttpTransport.setProvider("com.sun.faban.driver.transport.hc3.ApacheHC3Transport");<br> HttpTransport.newInstance();</pre>
+To just use the auto timers and prevent connection sharing, you can
+also just load the transport implementation as follows:<br>
+<pre> static {<br> Class.forName("com.sun.faban.driver.transport.hc3.ApacheHC3Transport");<br> }</pre>
+</li>
+</ol>
+<p class="Textbody">The Faban transports have been
+implemented in a way to
+eliminate or minimize resource sharing between simulated
+users.&nbsp; A
+very important feature is also the support for <a href="recording.html#Timing_of_Operation_Calls">automatic
+timing</a>.
+Beyond that, the provided transports also include a host of convenience
+methods to make communication with the server very easy to implement.<br>
+</p>
+<p class="Textbody">The Faban driver framework still
+allows for
+communication protocols not
+supported by Faban transports but provided by other client libraries.
+But the developer or user will need to either ensure that resource
+pooling between threads does not happen or accept the inaccuracy of the
+simulation. If the target library allows for setting the socket
+factory, automatic timing may still work by setting the socket factory
+to <a target="_blank" href="http://faban.org/1.0/docs/api/com/sun/faban/driver/transport/util/TimedSocketFactory.html">TimedSocketFactory</a>.
+The method to call is commonly named "setSocketFactory." Otherwise, the
+only option would be to use <a href="recording.html#Timing_of_Operation_Calls">manual timing</a>.
+Please see <a href="recording.html">Recording Time</a>
+for more information about timing.<br>
+</p>
+<a accesskey="p" href="readconfig.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="errorhandling.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/communication.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+</html>

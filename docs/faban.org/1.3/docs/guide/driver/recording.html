@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/recording.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:05 GMT -->
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Recording Time</title>
+
+<meta content="AKARA SUCHARITAKUL" name="author">
+<link href="../../css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="metrics.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="running.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1>Recording Time</h1>
+<p class="Textbody">It is
+necessary for a benchmark to collect timestamps at the beginning and
+end of the operations. Moreover, for server oriented benchmarks the
+timestamps collected must accurately reflect the actual
+time the request is sent and received. Timestamps taken before the
+preparation
+of the request and after processing of the response will include the
+time the client spends on the data preparation and validation, so the
+results will
+be dependent on client performance. The Faban driver
+framework provides extensive but also automated support for recording
+times. There are two mechanisms for time recording as follows:&nbsp;</p>
+<ol style="margin-left: 0.5cm; list-style-type: decimal;">
+<li style="margin-left: 0cm;" class="P26">
+<p style="margin-left: 0cm;" class="P26">Server
+(automatic) time
+recording<br>
+The
+timestamps are recorded at the transport layer, transparent from the
+supplied benchmark driver. A timestamp is taken just before the first
+request of the operation is sent to the server and after the response
+to the last request is received. The timestamps are automatically
+transferred to the metrics object and will not include the time spent
+on the client side for data preparation and processing the results.</p>
+</li>
+<li style="margin-left: 0cm;" class="P26">
+<p style="margin-left: 0cm;" class="P26">Client
+(manual) time
+recording<br>
+The timestamps are manually <span class="T2">recorded</span>
+by the
+supplied driver by calling <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#recordTime%28%29"><span class="T11">DriverContext.recordTime()</span></a>
+both before and after the critical section of the operation. The driver
+framework automatically determines whether it is the start or end of
+the critical section. This is especially useful if the benchmark
+operation actually measures client performance and/or makes no network
+calls.</p>
+</li>
+</ol>
+The timing mechanism is chosen by specifying the <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/BenchmarkOperation.html#timing%28%29">timing</a>
+element of the <a target="_blank" href="http://faban.org/1.0/docs/api/com/sun/faban/driver/BenchmarkOperation.html">@BenchmarkOperations</a>
+annotation. The default is <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/Timing.html#AUTO">Timing.AUTO</a>.
+However, automatic timing will only work if a provided Faban transport
+is used or the communications libraries use a <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/transport/util/TimedSocketFactory.html">TimedSocketFactory</a>
+to create the sockets. Please see "<a href="communication.html">Communicating
+with Servers</a>" for more detail on this subject.<br>
+<h2><a name="Timing_of_Operation_Calls"></a>Timing
+of Operation Calls</h2>
+<p class="Textbody">Operations typically have three
+sections, as follows:</p>
+<ol>
+<li>Data
+preparation - this is where the data for the request is generated. This
+part of the operation should not be measured as part of the response
+time.<br>
+</li>
+<li>Request/Response - this is the part we are interested in
+for measuring response times or what we call the <span style="font-style: italic;">critical section</span>.<br>
+</li>
+<li>Response validation - here we check whether we have a valid
+response from the server. This section must also not be timed.</li>
+</ol>
+<p class="Textbody">All
+operations have a critical section for which time is measured. For
+operations measuring network responses it is from the time the request
+is sent to the time the response is received. The non-critical section
+is the time used for preparing the data and valiudating the response.
+In
+non-network operations this time needs to be defined by the provider of
+the benchmark driver.&nbsp;</p>
+<p class="Textbody">The picture gets a little
+more complex as we account for the think time or cycle time. Naturally,
+we will want the think time or cycle to end at the start of the
+critical section of the operation, not at the start of the non-critical
+part of the operation or data preparation. So, for client-server
+benchmarks, ending the think time or cycle time will cause a request to
+be sent right away without the delay of preparing the data.&nbsp;</p>
+<p class="P27">It
+makes sense to start the non-critical part of the operation sometime
+before the end of the think time or cycle time. In order to provide
+maximum allowance for data processing and data preparation, the
+framework selects an operation and calls it as soon as the previous
+operation ends. This happens without delay. With automatic time
+recording, the data is sent to the transport layer but held there until
+the end of the think or cycle time when the transport actually makes
+the request. With manual time recording, the Context.recordTime() will
+block until the end of the think or cycle time so the critical section
+of the operation accurately starts at the desired point in time. All
+processing of non-critical parts of the operation is done inside the
+think/cycle timespan. The following figures shows the different timing
+characteristics for the two timing modes:<br>
+</p>
+<p class="P27">&nbsp;</p>
+<p class="P27">&nbsp;</p>
+<p style="text-align: center;" class="Textbody"><img alt="" src="img/autotime.gif" style="width: 545px; height: 309px;">&nbsp;</p>
+<p style="text-align: center;" class="P34">&nbsp;Figure
+illustrating
+the calling sequence and timing for automated time recording<br>
+</p>
+<p style="text-align: center;" class="P34"><br>
+<br>
+</p>
+<p style="text-align: center;" class="P34">&nbsp;<img alt="" src="img/manualtime.gif" style="width: 564px; height: 347px;"></p>
+<p style="text-align: center;" class="P34">Figure
+illustrating the
+calling sequence and timing for manual time recording&nbsp;</p>
+<h2>Pause Times</h2>
+<p class="Textbody">In many cases, an operation consists
+of multiple
+calls to the SUT and some processing between these calls. In other
+words, there may be more than one critical section. Generally, we do
+not want to include the client processing time into the response time.
+So it makes sense to pause the time while the client is doing it's
+processing.<br>
+</p>
+<p class="Textbody">For automatic timing, the time between
+response and
+the subsequent request inside the same operation is automatically
+deducted from the response time. Pausing happens automatically here
+unless it is not supported by the transport. Some application level
+protocols do not have a clear distinction between request and response
+or request/response can happen concurrently. Such communication does
+not invoke pause.<br>
+</p>
+<p class="Textbody">For manual timing, the driver will
+need to call <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#pauseTime%28%29">DriverContext.pauseTime()</a>
+manually after each critical section. The clock will resume at the
+subsequent call to <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#recordTime%28%29">DriverContext.recordTime()</a>.<br>
+</p>
+<a accesskey="p" href="metrics.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="running.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/recording.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:06 GMT -->
+</html>

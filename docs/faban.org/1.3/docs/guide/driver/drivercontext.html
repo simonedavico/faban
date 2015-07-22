@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/drivercontext.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>The Driver Context</title>
+
+<link href="../../css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="implementation.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="readconfig.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1>The Driver Context<br>
+</h1>
+<br>
+<p>The DriverContext defines the driver's view of the framework
+it is running in.&nbsp; It allows the driver to know about the
+benchmark and thread it is running in, obtain configuration information
+and supporting infrastructure such as the random value generator and
+the logger, demarcate the critical section of an operation, and much
+more. It is the first place to obtain any information about
+the benchmark or the run and a factory for many other benchmark
+facilities. Click <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html">here</a>
+to go to the DriverContext javadoc references.</p>
+<br>
+<h2>Scope of the Driver Context</h2>
+<p>The driver obtains it's driver context by
+calling <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getContext%28%29">DriverContext.getContext()</a>.
+This is typically done in the driver's constructor. Each thread or
+simulated user has it's own instance of the DriverContext so access to
+the DriverContext will never be synchronized or a source of contention.
+A driver context should also never be shared among threads, i.e.
+assigned to any static variable.<br>
+</p>
+<h2>The Driver Context functionality&nbsp;</h2>
+<p><br>
+</p>
+<h3>Obtaining Information about the Run</h3>
+<p>Many
+of the methods in the DriverContext are used for obtaining information
+about the current run. These can be used for generating the user id,
+collect stats, etc. Below are the common methods being used, but by far
+not an exclusive list. To obtain the whole list of DriverContext
+methods, please refer to the <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html">DriverContext</a>
+javadoc pages.</p>
+<ul>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getAgentId%28%29">getAgentId</a></li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getThreadId%28%29">getThreadId</a><br>
+</li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getCurrentOperation%28%29">getCurrentOperation</a></li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getDriverName%28%29">getDriverName</a></li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getScale%28%29">getScale</a></li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getTime%28%29">getTime</a></li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#isTxSteadyState%28%29">isTxSteadyState</a></li>
+</ul>
+<h3>Obtaining Common Infrastructure</h3>
+Commonly, a driver will get access to certain infrastructure
+through the following DriverContext methods:<br>
+<ul>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getLogger%28%29">getLogger</a></li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getRandom%28%29">getRandom</a></li>
+</ul>
+<h3>Other Driver Context Functionality</h3>
+The driver context also helps you <a href="readconfig.html">obtain
+configuration information</a>, <a href="recording.html">record
+times</a>
+for manual timings, and allow you to <a href="metrics.html">collect
+miscellaneous statistics</a> beyond what is provided by the Faban
+driver framework. Please click the respective topics for discussions on
+each of them.<br>
+<br>
+<a accesskey="p" href="implementation.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="readconfig.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/drivercontext.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<!-- Mirrored from faban.org/1.3/docs/install.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:02:57 GMT -->
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <title>Installation and Getting Started</title>
+  <meta content="AKARA SUCHARITAKUL" name="author">
+  <link href="css/default.css" rel="stylesheet" type="text/css">
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a acccesskey="c" href="toc.html" title="Beginning"><img
+ src="http://faban.org/1.0/docs/img/up.gif" alt="Beginning"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1>Installation and Getting Started</h1>
+<h2>Overview</h2>
+<p><img alt="Diagram showing a typical Faban configuration"
+ style="width: 405px; height: 507px; float: right;"
+ src="img/fabanoverview.png">The
+audience
+of Faban is divided
+into many roles, dependent on
+what your role is and what you want to make Faban do for you. Once you
+have Faban installed, knowing your role and objectives will prevent you
+from wading through the documentation and get you productive right
+away. So know your roles:</p>
+<ul>
+  <li><span style="font-weight: bold;">Benchmark
+tester</span> - You deal with a benchmark that was already
+developed for Faban or integrated with the Faban harness. You'll want
+to know how to submit runs, read the results and statistics collected
+throughout the run.<br>
+&nbsp;<br>
+  </li>
+  <li><span style="font-weight: bold;">fhb <span
+ style="font-style: italic;">(Faban HTTP Bench)</span>
+user</span> - You do not have a predefined benchmark but want to
+create simple to moderately complex http tests. The fhb tool provides a
+simple command line interface to generate load and measure throughput
+and response times against arbitrary web sites. Moderately complex
+workloads can be defined in a workload configuration file and passed to
+fhb at invocation.<br>
+    <br>
+  </li>
+  <li><span style="font-weight: bold;">Benchmark
+developer</span> - You may have started as a fhb user and found
+that fhb can no longer satisfy your needs. You need to create your full
+blown workload to satisfy your requirements. The Faban driver framework
+allows you to do just that. In addition, the Faban harness allows you
+to customize the benchmarking process to handle tasks such as
+starting/restarting the server, data preparation, post-processing, etc.<br>
+    <br>
+  </li>
+  <li><span style="font-weight: bold;">Benchmark
+integrator</span> - You already have a benchmark, but the Faban
+harness adds a lot of value controlling the process of running the
+benchmark, collecting stats, as well as reporting and storing results.
+You want to provide your own hook to get this benchmark to run inside
+the Faban harness.<br>
+  </li>
+</ul>
+<p>This picture illustrates a typical configuration of a
+Faban test environment.</p>
+<p>A Faban rig composes of one Faban master and optionally a
+number of agent systems that drives the load to the SUT. The Faban
+master typically runs a web server listening to port 9980 and provides
+the&nbsp;user interface for Faban. It also controls the process of
+the benchmark runs. The driver agent systems drive the load. The master
+may or may not act as an load driving agent by itself, dependent on the
+configuration. The system under test - or SUT - runs the server
+software that is being tested. The system under test may also run a
+Faban command agent which is a small, quiet process acting as a proxy
+for starting/stopping server processes as well as collecting relevant
+statistics on these server systems.</p>
+<p>As a special case, fhb (Faban HTTP Bench) does not support
+multiple driver agents. It also does not make use of the Faban master
+process for the web user interface. In contrast, fhb drives the load
+from a sinigle system and uses the command line interface for
+invocation. It also cannot control server processes on the SUT or
+collect any statistics for that matter. Faban is constrained to only
+one system acting as both the master and the driver agent.</p>
+<p>As you now probably have a vague idea on how you want to use
+Faban and how a Faban rig looks like, lets dive straight into getting
+Faban installed.</p>
+<h2>Prerequisites</h2>
+<ul>
+  <li>Either Unix&reg; or Windows&reg; operating system. Linux&reg;,
+Oracle&reg; Solaris, and
+Windows 2003 and later have been tested.</li>
+  <li>For Windows, installation paths for both Faban and the JDK
+must not have spaces in the path. <span style="font-weight: bold;">DO
+NOT</span> install in C:\Program Files.<br>
+  </li>
+  <li>Select the user for running Faban - It is recommended that
+the user running Faban
+be the same user name and user id on all compatible systems, where
+applicable (Unix and Windows are not user name or id compatible).<br>
+    <br>
+  </li>
+  <li>JDK1.5 or later - The JDK should be installed on the same
+path
+on all systems.<br>
+  </li>
+  <li>Download the Faban kit - you'll need the full
+faban-kit-&lt;build&gt;.tar.gz for the master. The rest of the
+systems, possibly including the SUT,&nbsp; may have either the
+faban kit or a minimal faban agent installed.</li>
+</ul>
+<h2>Installation</h2>
+<ol>
+  <li>Login using the selected user on all the systems.<br>
+    <br>
+  </li>
+  <li>Choose one of the machines not part of the SUT to be the
+master.
+Note that the master may or may not actually drive the
+load.<br>
+    <br>
+  </li>
+  <li>Untar <span style="font-family: monospace;">faban-kit-&lt;build&gt;.tar.gz</span>
+in the chosen
+directory on the master system. This will create a sub-directory named <span
+ style="font-family: monospace;">faban</span>.
+We will refer to this
+directory as <span style="font-family: monospace;">FABAN_HOME</span>.
+For instance, if you choose to untar the tar
+file in <span style="font-family: monospace;">/opt</span>
+directory (assuming the user name is faban), then&nbsp;<span
+ style="font-family: monospace;">/opt/faban</span> is
+going to be the <span style="font-family: monospace;">FABAN_HOME</span>.<br>
+    <br>
+Use the following command to untar the files:<br>
+    <span style="font-family: monospace;">$ gunzip -c
+&lt;filename&gt;
+| tar xvf -</span><br>
+    <br>
+Linux and some other Unix systems use gnu tar which automatically
+recognizes gzip-compressed files. If your system uses gnu tar, you can
+alternatively use the following command:<br>
+    <span style="font-family: monospace;">$ tar xvf
+&lt;filename&gt;<br>
+    </span><br>
+If you install Faban just to use fhb, you can
+go directly to the fhb resources listed in <a href="#Next_Steps">Next
+Steps</a>.<br>
+    <span style="font-family: monospace;"><br>
+    </span></li>
+  <li>Install the Faban agent on all non-master systems in the
+rig that
+need
+the agent. The master already has the agent as part of the Faban
+installation. This step is not needed if the only system needing the
+agent is the master system itself. Note: This may include systems that
+are in the SUT, too. You
+may use the same command as in (3) above. Alternatively, you can also
+install the&nbsp;xtremely small Faban agent package instead. To do
+so, you'll need to generate the Faban agent package first using the
+following command:<br>
+    <br>
+    <span style="font-family: monospace;">$&nbsp;FABAN_HOME/bin/makeagent</span><br>
+    <br>
+This will create a file called <span style="font-family: monospace;">faban-agent.tar.gz</span>
+in your system's tmp directory. You'll need to copy this <span
+ style="font-family: monospace;">faban-agent.tar.gz</span>
+to all the systems and install it into the respective <span
+ style="font-family: monospace;">FABAN_HOME</span>,
+i.e. possibly same&nbsp;<span style="font-family: monospace;">FABAN_HOME</span>
+for the whole rig. <br>
+    <br>
+If rsh/ssh is already setup (please see <a href="#Network_Setup">Network
+Setup</a>
+below), or you are just upgrading Faban, you can also use the provided
+pushagents script. This will implicitly call makeagent and try to
+install the agents on the target &nbsp;systems. You can call the
+pushagents script as follows:<br>
+    <br>
+    <span style="font-family: monospace;">$&nbsp;FABAN_HOME/bin/pushagents
+&lt;-s&gt;
+agent1 agent2 ...<br>
+    <br>
+    </span>The -s option is used for specifying the use of scp
+and ssh instead of the equivalend rcp and rsh.<br>
+    <br>
+If it is not possible to install Faban in the same path for all
+path-compatible systems,&nbsp;symbolic links for FABAN_HOME work on
+all systems but
+the master.<br>
+  </li>
+  <li>For Unix variants only, and only if you choose to install
+Faban as a non-root user, you need to run <span
+ style="font-family: monospace;">rootinstall.sh</span>
+for all tools to work properly. Login as the root user or change user
+to root via the su or sudo command and run this script as following:<br>
+    <br>
+    <span style="font-family: monospace;">#
+FABAN_HOME/bin/rootinstall.sh</span><br>
+    <br>
+If you have sudo installed, you may also run the command as follows:<br>
+    <br>
+    <span style="font-family: monospace;">$ sudo
+FABAN_HOME/bin/rootinstall.sh</span></li>
+</ol>
+<h2><a name="Network_Setup"></a>Network Setup</h2>
+<p>Faban has two major ways to communicate with the agents: 1) By
+starting the agent daemons and 2) by having Faban start the agents
+using a remote shell facility such as rsh or ssh. Note that
+combinations between agent daemons and remote shells are allowed.
+However, we cannot mix between differen remote shell facilities. For
+example, mixing rsh and ssh in the same rig cannot be done.</p>
+<p>The first step for setting up the network is, of course,
+ensuring that you have physical network connection to all systems in
+the rig. The ping utility is a good tool to ensure such connectivity.
+Make sure you can ping all network interfaces you may want to use, from
+all systems using those interfaces in the rig.</p>
+<p>Next step is to choose between agent daemons or rsh/ssh. As
+mentioned earlier, combining agent daemons and rsh or ssh (or other
+remote shells) are supported. But no more than one remote shell is
+supported. Setting up each mechanism is discussed below<br>
+</p>
+<h3>Starting the Agent as a daemon</h3>
+<p>Starting the Agent as a daemon is very straightforward. You'll
+want to run <span style="font-family: monospace;">FABAN/bin/agent</span>
+by hand or from an auto-invocation mechanism such as init.d on Unix or
+autoexec on Windows. Note that the agent daemon is to be started for
+all the systems wishing to use this mode of communications <span
+ style="font-weight: bold;">except</span> the master
+itself. <span style="font-weight: bold;">DO NOT</span>
+start the agent daemon on the master.<br>
+</p>
+<h3>Setting up rsh&nbsp;</h3>
+<p>If you want to use rsh for bootstrapping the remote agents,
+follow the following procedure:</p>
+<ol>
+  <li>Edit the .rhosts file of the selected user so that Faban
+can
+rsh
+to all the systems that are part of the setup without being prompted
+for
+a password. You just need to add '+' character in the /.rhosts file.
+Note that this step applies to all the systems but the master,
+including all systems in the SUT that will be managed by Faban.<br>
+    <br>
+  </li>
+  <li value="2">Check that the master and other clients
+can &#8220;rsh
+&lt;hostname&gt;
+ls&#8221; each other without being prompted usually saves some time.
+This command will ensure that the harness can startup, shutdown, and
+reconfigure services on all systems.</li>
+</ol>
+<h3>Setting up ssh</h3>
+<p>Setting up ssh is conceptually the same as setting up rsh. But
+due to the trust management of a secure shell, the process is actually
+much more complicated. First you will need to ensure that the systems
+can ssh to each others and run remote commands without requiring a
+password. This is system dependent and may be dependent on the ssh
+implementation. This is not discussed in this document. You may find <a
+ target="_blank" href="http://blogs.sun.com/timc/#ssh_cheat_sheet">Tim
+Cook's
+SSH Cheat Sheet blog entry</a> a useful help for setting up ssh.
+After ssh is setup, the following process will test ssh and configure
+Faban to use ssh instead of rsh.</p>
+<ol>
+  <li>Check that the master and other clients
+can &#8220;ssh
+&lt;hostname&gt;
+ls&#8221; each other without being prompted usually saves some time.
+This command will ensure that the harness can startup, shutdown, and
+reconfigure services on all systems.<br>
+    <br>
+  </li>
+  <li>Edit the platform-specific command map <span
+ style="font-weight: bold;">on the master</span>. The
+command map can be found at <span style="font-family: monospace;">FABAN_HOME/config/<span
+ style="font-style: italic;">&lt;os&gt;</span>/cmdmap.xml</span>.
+For example, on Solaris the file will be at <span
+ style="font-family: monospace;">FABAN_HOME/config/SunOS/cmdmap.xml</span>.
+Edit
+the file and look for a command entry for rsh, such as
+follows:<br>
+    <pre>&nbsp;&nbsp;&nbsp; &lt;command&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;name&gt;rsh&lt;/name&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;exec&gt;<span
+ style="font-weight: bold;">/usr/bin/rsh -n</span>&lt;/exec&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/command&gt;</pre>
+Change the <span style="font-family: monospace;">&lt;exec&gt;</span><br>
+element to use ssh instead, as follows:<br>
+    <pre>&nbsp;&nbsp;&nbsp; &lt;command&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;name&gt;rsh&lt;/name&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;exec&gt;<span
+ style="font-weight: bold;">/usr/bin/ssh -n</span>&lt;/exec&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/command&gt;&nbsp;<br></pre>
+  </li>
+</ol>
+<h2><span style="font-weight: bold;"></span>Starting
+the Faban Harness</h2>
+<p>All done and ready to go! Now you just simply start the Faban
+harness using the following steps:</p>
+<ol>
+  <li>You may need to set the <span style="font-family: monospace;">JAVA_HOME</span>
+environment variable to a
+JDK1.5 installation.<br>
+    <br>
+  </li>
+  <li>Bring up the Faban harness on the master driver machine.<br>
+    <br>
+On Unix: <span style="font-family: monospace;">$
+FABAN_HOME/master/bin/startup.sh<br>
+    </span><br>
+On Windows: &gt; <span style="font-family: monospace;">FABAN_HOME\master\bin\startup-using-launcher.bat</span><br
+ style="font-family: monospace;">
+    <br>
+  </li>
+  <li>Access the harness interface from a browser window. Point
+your
+browser to <span style="font-family: monospace;">http://<span
+ style="font-style: italic;">&lt;hostname&gt;</span>:9980/</span>
+or <span style="font-family: monospace;">http://localhost:9980/</span>
+if you run the browser on your local host.</li>
+</ol>
+<h2><a name="Next_Steps"></a>Next Steps</h2>
+<p>Congratulations! You have Faban up and running. So what do you
+do next. Remember your roles? Go to the respective documentation to get
+you started for your specific roles:</p>
+<dl>
+  <dt>Benchmark tester</dt>
+  <dd>&nbsp; &nbsp; <a href="toc.html#Faban_Harness_Users_Guide_">Faban
+Harness
+Users Guide</a></dd>
+</dl>
+<dl>
+  <dt>fhb user</dt>
+  <dd>&nbsp;&nbsp;&nbsp;<a href="man/fhb.html">fhb
+manual page</a></dd>
+  <dd>&nbsp;&nbsp;&nbsp;<a href="tutorials/fhbconfig.html">Tutorial:
+Creating and running a HTTP workload using fhb and a workload
+configuration file</a><br>
+  </dd>
+</dl>
+<dl>
+  <dt>Benchmark developer</dt>
+  <dd>&nbsp; &nbsp;&nbsp;<a
+ href="toc.html#Faban_Driver_Framework_Developers_Guide_">Faban
+Driver Framework Developers Guide</a></dd>
+</dl>
+<dl>
+  <dt>Benchmark integrator<br>
+  </dt>
+  <dd>
+&nbsp; &nbsp; <a href="toc.html#Faban_Harness_Developers_Guide_">Faban
+Harness Developers Guide</a></dd>
+</dl>
+<p>Faban does not require any extra configuration. However, you
+may run into cases where you need certain administrative features such
+as security and auditing on a Faban master or special kinds of
+configurations allowing access to Faban through a Firewall. These many
+Faban features and a more detailed documentation on your Faban
+installation in general is provided in the <a
+ href="toc.html#Faban_Harness_Configuration_Guide_">Faban
+Harness Configuration
+Guide</a>.</p>
+<p>If
+you cannot find the information you need or are trying to solve a
+specific problem that is not documented or not well documented, please
+post your questions on our mailing list at <a
+ href="mailto:users@faban.sunsource.net">users@faban.sunsource.net</a>.
+Good luck &amp; have fun.</p>
+<dl>
+  <dt><br>
+  </dt>
+</dl>
+<a acccesskey="c" href="toc.html" title="Beginning"><img
+ src="img/up.gif" alt="Beginning"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+<script type="text/javascript" language="javascript">
+var sc_project=1267791;
+var sc_invisible=1;
+var sc_partition=11;
+var sc_security="34f5f6d1";
+</script>
+<script type="text/javascript" language="javascript"
+ src="http://www.statcounter.com/counter/counter.js">
+</script><noscript><a href="http://www.statcounter.com/" target="_blank"><img
+ src="http://c12.statcounter.com/counter.php?sc_project=1267791&amp;java=0&amp;security=34f5f6d1&amp;invisible=1"
+ alt="counter hit xanga" border="0"></a></noscript>
+<!-- End of StatCounter Code --><!-- Start of StatCounter Code -->
+<script type="text/javascript" language="javascript">
+var sc_project=1126578;
+var sc_invisible=1;
+var sc_partition=10;
+var sc_security="488b7ec0";
+</script>
+<script type="text/javascript" language="javascript"
+ src="http://www.statcounter.com/counter/counter.js">
+</script><noscript><a href="http://www.statcounter.com/" target="_blank"><img
+ src="http://c11.statcounter.com/counter.php?sc_project=1126578&amp;java=0&amp;security=488b7ec0&amp;invisible=1"
+ alt="free tracking" border="0"></a></noscript>
+<!-- End of StatCounter Code -->
+<script src="http://www.google-analytics.com/urchin.js"
+ type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-237864-1";
+_udn="opensparc.net";
+urchinTracker();
+</script>
+</body>
+
+<!-- Mirrored from faban.org/1.3/docs/install.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:03:00 GMT -->
+</html>

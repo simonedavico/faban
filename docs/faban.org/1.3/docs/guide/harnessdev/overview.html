@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/harnessdev/overview.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:03:56 GMT -->
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  
+  <title>Faban Harness Development Overview</title><meta content="AKARA SUCHARITAKUL" name="author">
+  <link href="../../css/default.css" rel="stylesheet" type="text/css">
+
+<body>
+<a acccesskey="c" href="../../toc.html#Faban_Harness_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="definingbenchmark.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1><a name="Introduction"></a>Faban Harness
+Development Overview<br>
+</h1>
+<p>The Faban harness is a tool to help automate running
+benchmarks. It
+does this by a well-defined process. The <a target="_blank" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_">Faban
+Driver Framework Developers Guide</a> explains how to develop a
+benchmark to run in Faban. That framework provides a way to define the
+workload logic, but we still need something to glue the benchmark to
+the harness . This glue is described in this guide. Benchmarks
+developed using the Faban driver framework (hereinafter referred to
+simply as <span style="font-style: italic;">Faban
+benchmark</span>)
+can take advantage of
+the built-in process logic for the Faban Driver Framework. Since this
+is
+generally standard, you may not need to implement anything additional.
+And even if you find that the default process doesn't work for you, you
+can easily extend it. For
+benchmarks developed outside the faban framework, you will have
+to implement additional process glue to link the benchmark to the
+harness. In the best case you may be able to copy the logic from one of
+the sample benchmarks or an existing benchmark and adapt it.</p>
+<p>Faban framework also provides for pluggable services and
+tools. A service is a module in Faban that allows interactions with
+specific server software. Common services
+used for many tests are OracleService, Apache2HttpdService,
+MemcachedService, MySQLService, GlassFishAppServerService, etc. Many of
+such server software provide observerability interfaces and tools that
+can tell users what was happening in the server during the benchmark
+run. For example, awr is a
+tool to look into the Oracle database, MySQL provides a query
+interface to read certain MySQL counters, etc. The pluggable tools
+interface allows for writing accessors or wrappers for these tools in a
+standard way, allowing the Faban harness to invoke them and collect
+information at proper times during the experiments.&nbsp; Some of
+the services and tools examples are packaged with the Faban kit which
+are located in samples/services directory. Services and tools are
+enabled by certain entries in the <a href="configfile.html#The_fh:service_Element">run configuration file</a>.
+There is no direct API call into the services and tools from the
+benchmark class.<br>
+</p>
+<h2>Benchmark Components<br>
+</h2>
+<p>The following components are required to run a benchmark in
+the
+Faban
+harness:<br>
+</p>
+<ol>
+  <li>The <span style="font-weight: bold;">benchmark
+deployment
+descriptor</span></li>
+  <li>The <span style="font-weight: bold;">default
+configuration file</span></li>
+  <li>The <span style="font-weight: bold;">XForm</span>
+for editing
+the benchmark configuration</li>
+  <li>The <span style="font-weight: bold;">harness
+hook</span> (or benchmark class) that
+defines the process for each benchmark run.</li>
+</ol>
+<p>
+The first three files reside in the <span style="font-style: italic;">deploy</span>
+sub-directory of the benchmark directory (as for e.g.
+samples/benchmarks/web1/deploy). The harness hook is Java code. The
+benchmark
+deployment descriptor references all files as well as the harness
+hook's fully qualified&nbsp; class name.<br>
+</p>
+<h2>Benchmark Run Process</h2>
+<p>The entire benchmark run process and how the components
+described
+above fit in is
+described in the figure below. The harness uses the current (or default
+if this is the first run) run configuration file and the submission
+form to
+generate the web form for the run. Using the user-entered
+values, it then generates a new run configuration file for this run.
+The run is then placed on the run-queue to be executed by the run
+daemon. When ready to run, the Benchmark class processes the run and if
+defined, uses the harness hook.</p>
+<br>
+<p style="margin-left: 40px; text-align: center;"><img alt="Figure of component and processes" src="img/flow.gif" style="width: 357px; height: 708px;"></p>
+<h2>Pluggable Service/Tools Components<br>
+</h2>
+<p>Services and tools are Faban components representing certain
+server software and the observerability interfaces for such software.
+If services are configured in the run configuration file and restart
+for the services are enabled, they will get started/restarted by the
+Faban
+harness before the run starts. The same services will&nbsp;get
+stopped by Faban after the run
+ends.&nbsp; Similarly, tools get configured before the run starts.
+However, they actually collect
+information during the steady state. Tools usually need to access
+service configuration information in order to connect &nbsp;to the
+right server and collect statistics from
+or for the given service instance. Multiple services and tools may be
+bundled in a single package. To implement services and/or tools,
+the following components are needed..<br>
+</p>
+<ol>
+  <li>The <span style="font-weight: bold;">services-tools.xml
+deployment descriptor</span></li>
+  <li>The <span style="font-weight: bold;">toolsets.xml
+file</span></li>
+  <li>The <span style="font-weight: bold;">service
+implementations or wrappers</span></li>
+  <li>The <span style="font-weight: bold;">tool
+implementations or wrappers<br>
+    </span></li>
+</ol>
+<p>
+The xml files reside in the <span style="font-style: italic;">deploy</span>
+sub-directory of the services project (as for e.g.
+samples/services/MySQLService/deploy). Alternatively, you may also
+provide services and tools as
+part of a benchmark, sharing the directories and class structure with
+your benchmark. This will be discussed further in <a href="deployservice.html">Services/Tools
+Deployment</a>. </p>
+<h2>Implementing a Benchmark, Service, or Tool Module</h2>
+<p>Implementing a benchmark, service or tool module involves
+coming up with all the
+components
+described, respectively, and packaging them correctly before deploying
+them into
+the Faban harness. Luckily, the sample provided with the
+Faban package provides a good starting point for a benchmark/service
+project
+structure. It has a very generic ant build file that works for most
+basic benchmarks, services, and tools, and can be extended for even
+more complex ones. Also
+it provides a good starting point for all the components mentioned
+above. We will use the provided samples in most of the following
+discussions.
+It is a good idea now to copy the samples/benchmarks/web101(for
+benchmarks) and samples/services/MySQLService(for services) directory
+and create a
+project using your IDE of choice with this sample.<br>
+</p>
+<h2>Benchmark, Services, and Tools Operation Sequence</h2><p>In order
+to understand how the benchmarks, services, and tools fit together, the
+following describe the call sequence for annotated methods in the
+benchmark, services, and tools. You can then decide based on the
+sequence what infrastructures are available and what can be done from
+what annotated operaion.</p><ol><li>Benchmark <a href="definingbenchmark.html#The_Benchmark_Annotations_">@Validate</a> - this allows validating and editing the configuration before any infrastructure bringup.</li><li>Remote infrastructure bringup</li><li>Benchmark <a href="definingbenchmark.html#The_Benchmark_Annotations_">@Configure</a></li><li>Services <a href="definingservice.html#The_Service_Annotations_">@Configure</a></li><li>Services <a href="definingservice.html#The_Service_Annotations_">@Stop</a> - only if restart is set to 'true' in the configuration</li><li>Services <a href="definingservice.html#The_Service_Annotations_">@ClearLogs</a></li><li>Services <a href="definingservice.html#The_Service_Annotations_">@Start</a> - only if restart is set to 'true' in the configuration</li><li>Services <a href="definingservice.html#The_Service_Annotations_">@GetConfig</a> - obtains the service configuration</li><li>Tools <a href="definingservice.html#The_Tools_Annotations_">@Configure</a></li><li>Benchmark <a href="definingbenchmark.html#The_Benchmark_Annotations_">@PreRun</a></li><li>Benchmark <a href="definingbenchmark.html#The_Benchmark_Annotations_">@StartRun</a></li><li>At steady state begin - Tools <a href="definingservice.html#The_Tools_Annotations_">@Start</a></li><li>At end of steady state (if &gt; 0) - Tools <a href="definingservice.html#The_Tools_Annotations_">@Stop</a></li><li>Benchmark <a href="definingbenchmark.html#The_Benchmark_Annotations_">@EndRun</a></li><li>If steady state undefined (&lt;= 0) - Tools <a href="definingservice.html#The_Tools_Annotations_">@Stop</a></li><li>Tools <a href="definingservice.html#The_Tools_Annotations_">@PostProcess</a></li><li>Tools transfer output files to master</li><li>Benchmark <a href="definingbenchmark.html#The_Benchmark_Annotations_">@PostRun</a></li><li>Services <a href="definingservice.html#The_Service_Annotations_">@Stop</a></li><li>Services <a href="definingservice.html#The_Service_Annotations_">@GetLogs</a></li></ol><p>Please see <a href="definingbenchmark.html">The Benchmark Class</a> and <a href="definingservice.html">The Service and Tool Classes</a> for more information on these annotations.</p><h2>Structure of a Faban Benchmark and Service Bundle Project</h2>
+<p>Before we start getting our hands dirty, we'll understand a
+generic Faban project structure. Part of it is well reflected in the
+web101 sample. However, the structure below also shows optional paths
+not in the sample:</p>
+<p style="margin-left: 40px;"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle">
+<span style="color: rgb(51, 153, 153);">MyBenchmarkProject</span><br>
+<a href="#bin"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-closed.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle"> bin</a><br>
+<a href="#build"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-open.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle"> build<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-closed.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle"> classes<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/l-closed.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle"> lib</a>
+<br>
+<a href="#config"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-open.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle"> config<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-open.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle"> security<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/l-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> driver.policy<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle">
+logging.properties<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/l-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> run.xml<br>
+</a>
+<a href="#deploy"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-open.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle"> deploy<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> benchmark.xml<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> config.xhtml<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> run.xml<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle">
+services-tools.xml<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/l-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> toolset.xml</a>
+<br>
+<a href="#lib"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-closed.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle"> lib<br>
+</a><a href="#public_html"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-closed.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle"> public_html</a><br>
+<a href="#resources"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-closed.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle"> resources</a><br>
+<a href="#sbin"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-open.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle"> sbin<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> agent.sh<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> master.sh<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> multi.sh<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> registry.sh<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/l-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> setenv.sh</a>
+<br>
+<a href="#src"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-closed.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif" align="middle"> src</a><br>
+<a href="#build.properties"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle">
+build.properties</a><br>
+<a href="#build.xml"><img style="width: 20px; height: 20px;" alt="" src="../../img/t-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> build.xml</a><br>
+<a href="#README"><img style="width: 20px; height: 20px;" alt="" src="../../img/l-file.gif" align="middle"><img style="width: 20px; height: 20px;" alt="" src="../../img/file.gif" align="middle"> README</a></p>
+<p>Let's start with the most significant directories
+first.&nbsp;</p>
+<ul>
+  <li>The <a name="src"></a><span style="font-family: monospace; font-weight: bold;">src</span>
+directory is the root of your Java source tree. This is where you want
+to place the benchmark class, under an appropriate package under the
+source tree. If you develop using the Faban driver framework, your
+driver classes and any support class would also be hosted under this
+source tree.<br>
+  </li>
+  <li>The <a name="build"></a><span style="font-family: monospace; font-weight: bold;">build</span>
+directory and the subdirectories underneath are automatically created
+by the build script - <span style="font-family: monospace;">build.xml</span>.
+The compiled Java classes are organized according to the source tree in
+the build/classes directory under the build directory. The packaged jar
+libraries are placed under the build/lib directory. Although the
+deployable image is named a jar file, it includes a set of jar
+libraries and other binaries. It is not a java library by itself. It is
+more analogous to a war file (web archive).<br>
+  </li>
+  <li>The <a name="deploy"></a><span style="font-family: monospace; font-weight: bold;">deploy</span>
+directory contains the deploy metadata. It will get packaged into the
+META-INF directory of the deployable image. The contents
+of&nbsp;this directory is discussed later under <a href="deploybenchmark.html">Benchmark Deployment</a> and <a href="deployservice.html">Service Deployment</a>.<br>
+  </li>
+  <li>The <a name="bin"></a><span style="font-family: monospace; font-weight: bold;">bin</span>
+directory is the place for all benchmark-specific binaries and scripts
+that are called by the benchmark. You may want to create subdirectories
+named after the OS, and next level subdirectories named after the
+processor's architecture to support binaries for multiple OSs and
+instruction set architectures (ISAs). Names currently in use are SunOS,
+Linux, Windows, and Mac. The name of the ISAs are OS and JVM dependent.
+Faban will search for the most specific binary or script (the deepest
+directory in the hierarchy) to the least specific when trying to
+execute a binary or script. Also, the benchmark-specific binaries
+supercede the Faban binaries and the OS path, in order, if there are
+commands with the same name.<br>
+  </li>
+  <li>The <a name="lib"></a><span style="font-family: monospace; font-weight: bold;">lib</span>
+directory is the place for all 3rd-party libraries, both Java jars and
+native, shared libraries. All jar files are automatically included in
+the classpath when Faban executes a Java command. The native libraries
+can be placed into OS and ISA-specific subdirectories to avoid naming
+conflicts. The structure is just like the bin directory.<br>
+  </li>
+  <li>The <a name="resources"></a><span style="font-family: monospace; font-weight: bold;">resources</span>
+directory is used for other files that both the benchmark class and
+Faban drivers may need in order to conduct a successful benchmark run.
+Faban provides APIs for the driver framework to obtain a reference from
+this directory directly.<br>
+  </li>
+  <li>The <a name="public_html"></a><span style="font-family: monospace; font-weight: bold;">public_html</span>
+directory&nbsp;allows the benchmark to include any relevant
+documentation. This along with any custom banners will be served by the
+harness. <br>
+  </li>
+  <li>The <a name="config"></a><span style="font-family: monospace; font-weight: bold;">config</span>
+and <a name="sbin"></a><span style="font-family: monospace; font-weight: bold;">sbin</span>
+directories are only used for and by the Faban driver framework. The
+config directory contains configuration files needed for testing a
+benchmark driver locally. The bin directory contains scripts to assist
+in starting the Faban driver framework. Both directories are not used
+for a deployed benchmark.<br>
+  </li>
+  <li>The <a name="build.xml"></a><span style="font-family: monospace; font-weight: bold;">build.xml</span>
+file is the ant build file used for building and deploying a Faban
+project. Most if not all Java IDEs include ant and allow you to execute
+the relevant ant targets directly from the IDE. But if needed, you can
+also obtain ant directly from <a href="http://ant.apache.org/">http://ant.apache.org/</a>.
+This file can be copied from any of the sample benchmarks and is a
+standard build script that does not need any modification.</li>
+  <li>The <a name="build.properties"></a><span style="font-family: monospace; font-weight: bold;">build.properties</span>
+file contains important build and deploy time properties. This is the
+file you want to edit to fit the build process to your build
+environment. We will discuss the build and deployment process later
+under Deployment.<br>
+  </li>
+  <li>It is always advised to provide a <a name="README"></a><span style="font-family: monospace; font-weight: bold;">README</span>
+file to your project to provide basic information about the benchmark
+and refer to the documents under public_html.</li>
+</ul>
+<br>
+<a acccesskey="c" href="../../toc.html#Faban_Harness_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="definingbenchmark.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<script type="text/javascript" language="javascript">var sc_project=1267791;
+var sc_invisible=1;
+var sc_partition=11;
+var sc_security="34f5f6d1";
+</script>
+<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js">
+</script><noscript><a href="http://www.statcounter.com/"
+target="_blank"><img
+src="http://c12.statcounter.com/counter.php?sc_project=1267791&amp;java=0&amp;security=34f5f6d1&amp;invisible=1"
+alt="counter hit xanga" border="0"></a></noscript><!-- End of StatCounter Code --><!-- Start of StatCounter Code -->
+<script type="text/javascript" language="javascript">
+var sc_project=1126578;
+var sc_invisible=1;
+var sc_partition=10;
+var sc_security="488b7ec0";
+</script>
+<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js">
+</script><noscript><a href="http://www.statcounter.com/"
+target="_blank"><img
+src="http://c11.statcounter.com/counter.php?sc_project=1126578&amp;java=0&amp;security=488b7ec0&amp;invisible=1"
+alt="free tracking" border="0"></a></noscript><!-- End of StatCounter Code -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-237864-1";
+_udn="opensparc.net";
+urchinTracker();
+</script>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/harnessdev/overview.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:01 GMT -->
+</html>

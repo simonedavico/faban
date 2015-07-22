@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/architecture.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:02 GMT -->
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  
+  <title>Driver Framework Architecture</title><link href="../../css/default.css" rel="stylesheet" type="text/css">
+<body>
+<a accesskey="p" href="intro.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="elements.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1>The Driver Framework Architecture</h1>
+<p class="Textbody"><br>
+The
+Faban driver framework utilizes a distributed architecture allowing
+distributing the driver workload to multiple machines. It uses the J2SE
+RMI facilities for all remote communication. Being able to distribute
+driver load across systems is important as in sophisticated workloads
+the driver can become the bottleneck. <br>
+</p>
+<h2>Driver Framework Components<br>
+</h2>
+<ul style="margin-left: 0.5cm;">
+  <li style="margin-left: 0cm;" class="P5">
+    <p style="margin-left: 0cm;" class="P5">The <span class="T3"><span style="font-weight: bold;">Registry</span> </span><span class="T4">registers
+all the Agents so that the Master can find them and distribute the
+tasks to them. The registry must run on the master machine. There is
+only one instance of the registry in a benchmark configuration.</span></p>
+  </li>
+  <li style="margin-left: 0cm;" class="P6">
+    <p style="margin-left: 0cm;" class="P6">The <span style="font-weight: bold;" class="T3">Master</span><span style="font-weight: bold;"> </span>starts, stops and collects the
+metrics for each of the
+benchmark runs.
+It also provides services to collect runtime metrics, do a benchmark
+health check, and to cancel the benchmark run prematurely. <span class="T3">There
+is only one instance of the master in a benchmark configuration and the
+master must run on the same machine as the registry.</span></p>
+  </li>
+  <li style="margin-left: 0cm;" class="P7">
+    <p style="margin-left: 0cm;" class="P7">The <span style="font-weight: bold;" class="T3">Agent</span><span style="font-weight: bold;"> </span>is the process that actually
+drives the load. It will create
+threads as
+instructed by the master and drive the load for the length of time or
+number of iterations as instructed by the master. Each of the agent
+threads simulate a single client or user to the system under test
+(SUT). These threads will instantiate the developer-supplied driver,
+collect metrics, and aggregate and propagate them back to the master
+for final processing and reporting.</p>
+  </li>
+  <li style="margin-left: 0cm;" class="P7">
+    <p style="margin-left: 0cm;" class="P7">The <span style="font-weight: bold;" class="T8">Agent Thread</span>
+is created by the agent to simulate a single user executing an instance
+of the driver. The agent thread executes the workload and handles all
+timing functions and operation selections on the driver, and collects
+all the standard metrics.</p>
+  </li>
+  <li style="margin-left: 0cm;" class="P7">
+    <p style="margin-left: 0cm;" class="P7">The <span style="font-weight: bold;" class="T3">Driver</span><span style="font-weight: bold;"> </span>is a developer-supplied class that
+describes the workload
+and contains
+all the logic defining how to talk to the system under test. It
+provides a grouping of all conversation scenarios, each of them
+provided in form of an operation. The selection of the scenarios is
+descriptively specified in the driver but actually controlled by the
+agent.</p>
+  </li>
+  <li style="margin-left: 0cm;" class="P7">
+    <p style="margin-left: 0cm;" class="P7">The <span style="font-weight: bold;" class="T8">Benchmark</span><span style="font-weight: bold;"> </span>is a grouping of one or more drivers. The benchmark result or metric is an
+aggregation of the driver <span class="T2">metrics</span> and are
+reported as one final metric.</p>
+  </li>
+  <li style="margin-left: 0cm;" class="P7">
+    <p style="margin-left: 0cm;" class="P7">The standard <span style="font-weight: bold;" class="T8">Metric</span><span class="T3"><span style="font-weight: bold;">s</span> </span>object
+collects all the common statistics of a benchmark run. Faban provides an
+extension mechanism which allows a developer to specify custom metrics
+that may not be covered by the standard ones.</p>
+  </li>
+</ul>
+<p class="P8">The following diagram shows the significant components of
+the driver:&nbsp;</p>
+<p style="text-align: center;" class="P8"><img alt="Diagram showing the Faban Driver Architecture" src="img/driver_arch.gif" style="width: 431px; height: 379px;"><br>
+</p>
+<h2>Process Architecture<br>
+</h2>
+<h3>Single-Process Driver</h3><p>
+The single-process driver shines for it's simplicity. It can be run
+using a single Java process which controls the benchmark execution from
+beginning to end. The registry is not needed for the single process
+driver. Both the master and agent run inside a single process visible
+to the operating system. This simplicity also makes it extremely easy
+to run the single-process driver in a debugging environment such as an
+IDE and makes it useful for testing components of more complex drivers
+in such an environment.</p>
+<p class="P8">The single-process driver is started by starting the
+master. If the master does not find the registry, it will assume a
+single-process driver is intended. The master will start a single agent
+in-process and drive the benchmark directly from this driver
+process.&nbsp;</p>
+<p class="P8">The
+single-process driver is limited to one running driver and one agent in
+the benchmark, hence single-process. If the benchmark has multiple
+drivers, only one driver can be enabled in the configuration file. If
+the driver configurations are not specified, the defining driver is the
+default driver. The defining driver is the driver that contains the
+BenchmarkDefinition annotation and is referred with the &#8220;definition&#8221;
+attribute on the configuration file. <br><br>
+</p>
+<h3>Multi-Process Driver</h3><p>
+The multi-process driver uses the full potential of the Faban driver
+framework. It allows components of the benchmark to scale across
+multiple processes and, typically, across multiple systems.&nbsp; The
+multi-process driver requires separate starting of all the Faban driver
+framework processes. </p>
+<p>
+To start the multi-process driver, you'll need the start the registry,
+all the agents, and the master, consequently.&nbsp; The registry and
+the master needs to be started on the same system. This is called the
+master system. The master system may run any number of agents or may
+not run any of the agents at all. In other words, the master system may
+or may not drive the load by itself. The Faban harness, when used,
+generally helps reduce the complexity of the registry, agents, and
+master startup. and control sequences.</p>
+<br>
+<a accesskey="p" href="intro.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="elements.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/architecture.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+</html>

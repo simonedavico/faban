@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<!-- Mirrored from faban.org/1.3/docs/guide/config/security.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:06 GMT -->
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>Security</title>
+  <meta name="author" content="AKARA SUCHARITAKUL">
+  <link type="text/css" rel="stylesheet" href="../../css/default.css">
+</head>
+<body>
+<a accesskey="p" href="overview.html" title="Previous"><img
+ alt="Previous" src="../../img/previous.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<a acccesskey="c"
+ href="../../toc.html#Faban_Harness_Configuration_Guide_"
+ title="Beginning"><img alt="Beginning" src="../../img/up.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ href="repository.html"><img alt="Next" src="../../img/next.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1><a name="Introduction"></a>Security<br>
+</h1>
+Normal test rigs usually do not have demand for security. But as
+Faban provides a web interface that allows users to submit runs and
+share results, security features may be desired. Faban offers following
+security features:<br>
+<ol>
+  <li>Authentication - requires users to login before he/she can
+perform certain actions in the Faban harness.</li>
+  <li>Tracking
+- tracks which users perform certain actions critical action. For run
+submissions, the user will be listed as the submitter of the run. The
+identity of the submitter will always stay with the run until it is
+removed.</li>
+  <li>Authorization - allows users to control who is allowed
+to submit runs for a certain benchmark or a certain rig, or even who is
+allowed to view certain results. This is only encouraged for rigs that
+really contain confidential information as it tends to hinder
+productivity.</li>
+</ol>
+<h2>Enabling Security</h2>
+<p>Faban does not include a security and/or authentication
+provider. It relies on external security providers that you may use in
+your organization. It utilizes the Java Authentication and
+Authorization Service (JAAS) for authentication. To enable security,
+you will need both an authentication service (such as an LDAP service)
+and a JAAS login module for that service. Several providers are
+available in JavaSE 6 by itself and are listed <a
+ href="http://java.sun.com/javase/6/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/package-summary.html">here</a>.
+Alternatively, you can create your own JAAS login module. Creating your
+own JAAS login module is beyond the scope of this document. You can
+read more about it in the JavaSE 6 documentation at <a
+ href="http://java.sun.com/javase/6/docs/technotes/guides/security/jaas/JAASLMDevGuide.html">LoginModule
+Developers Guide</a>. These custom login modules may be added to
+the Faban harness' classpath by placing its packaged jar file into the <span
+ style="font-family: monospace;">faban/master/common/lib</span>
+directory.</p>
+<p>Once you found or created the login module of your choice and
+placed it into the right directory, you want to configure Faban to use
+the login module. This is done by editing the relevant sections in the <span
+ style="font-family: monospace;">faban/config/harness.xml</span>
+file. Lets look at the part in question:</p>
+<p><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;security enabled="<span style="font-weight: bold;">false</span>"&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;loginPrompt&gt;User ID&lt;/loginPrompt&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;loginHint&gt;Enter your user id&lt;/loginHint&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;passwordPrompt&gt;Password&lt;/passwordPrompt&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;passwordHint&gt;Enter your
+password&lt;/passwordHint&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"></span><span
+ style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;loginModule&gt;<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&lt;class&gt;<span style="font-weight: bold;">com.sun.security.auth.module.LdapLoginModule</span>&lt;/class&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;userProvider&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;ldap://ds1/ou=people,dc=sun,dc=com&lt;/value&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;userFilter&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;(&amp;amp;(uid={USERNAME})(objectClass=inetOrgPerson))&lt;/value&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;debug&lt;/name&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;true&lt;/value&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;authzIdentity&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;monitorRole&lt;/value&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;useSSL&lt;/name&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;value&gt;true&lt;/value&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/property&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/loginModule--&gt;</span></p>
+<p><span style="font-family: monospace;">&nbsp;
+&nbsp; &nbsp; &nbsp; ....</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"></span><span
+ style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;/security&gt;</span></p>
+<p>The first step in enabling security is obviously to change the
+security element, setting the enabled attribute to <span
+ style="font-family: monospace;">"true"</span>. Next we
+want to set the login module class. The example above uses
+theLdapLoginModule provided by JDK6 - <span
+ style="font-family: monospace;">com.sun.security.auth.module.LdapLoginModule</span>.
+After that, we need to configure the login module properties, such as
+the service to connect and others that make the login module function
+properly. These are passed to the login module using the property
+element and the name and value children thereof. The most important
+property for an the LDAP login module is the userProvider which
+identifies the service to authenticate against. There are different
+properties for each login module and they are
+usually&nbsp;documented in each <a
+ href="http://java.sun.com/javase/6/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/package-summary.html">login
+module's documentation</a>.</p>
+<p>Going back, you will be able to see a few elements that help
+users understand the login screen. These are <span
+ style="font-family: monospace;">loginPrompt</span>, <span
+ style="font-family: monospace;">loginHint</span>, <span
+ style="font-family: monospace;">passwordPromp</span>,
+and <span style="font-family: monospace;">passwordHint</span>.
+These are messages to help the user understand what to do in the login
+screen. For example, the prompt "LDAP User ID" may make better sense
+than just "User ID" for certain cases. The hint messages are tooltip
+messages providing more detailed description for what to do when the
+mouse hovers over the login and password fields, respectively. They are
+all configurable through these elements in the <span
+ style="font-family: monospace;">harness.xml</span>
+file.
+</p>
+<h2>The Administrative Users</h2>
+<p>If security is enabled, all
+users by default will be able to do normal tasks such as submit runs,
+as well as administrative tasks such as killing off runs, removing runs
+in the run queue, and even starting and stopping the run daemon or run
+scheduler. In certain circumstances, you want to limit the
+administrative roles to certain users. All other users can still submit
+runs and view runs. However, users can only delete runs from the run
+queue or kill runs submitted by that individual. Other administrative
+tasks are not allowed. The administrative users will be able to perform
+all administrative tasks as well as managing the run queue and killing
+off other user's runs. Their actions will be logged in the run log.</p>
+<p>To
+enable administrative users, just add their identity (identity of their
+principals) in the name elements under the managePrincipals element,
+such as:</p>
+&nbsp; &nbsp;
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+ style="font-family: monospace;">....</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;managePrincipals&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;foo&lt;/name&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;
+&lt;name&gt;bar&lt;/name&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/managePrincipals&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+....</span>
+<p>In this example, users identified by "foo" and "bar" will have
+administrative rights over this rig.<span
+ style="font-family: monospace;"></span></p>
+<h2>Other Special Users</h2>
+<p>There are two separate kinds of special
+users in Faban. These are users that do not derive their identity from
+the login module. These users access Faban through tools and their user
+names and passwords are usually kept in bare text in some file. Using
+an ordinary user from the login module for these tasks will jeopardize
+their security. Also these users do not have the right of the ordinary
+logged in user interact with the Faban harness. They can only be used
+for their specific tasks.</p>
+<ol>
+  <ol>
+    <li>Deployer - This user name is
+only used for deploying benchmarks to a Faban harness. This is the user
+name and password you want to specify in you project's <span
+ style="font-family: monospace;">build.properties</span>
+file and enter into the deploy form if security is enabled.<br>
+    </li>
+    <li>CLI
+Submitter - This user name is only used for interacting with Faban
+using the Faban CLI. Since the customers of the Faban CLI are usually
+scripts, this username and password are normally coded into scripts in
+plain text and could otherwise cause a security breach.</li>
+  </ol>
+</ol>
+<p>The sections of <span style="font-family: monospace;">harness.xml</span>
+to configure these kind of users is shown below.</p>
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">....
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;deployUser&gt;deployer&lt;/deployUser&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;deployPassword&gt;adminadmin&lt;/deployPassword&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;cliSubmitter&gt;CLI&lt;/cliSubmitter&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;submitPassword&gt;canSubmit&lt;/submitPassword&gt;</span><span
+ style="font-family: monospace;"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ....</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;"></span>
+<h2>Permissions and Access Control Lists (ACLs)</h2>
+<p>Faban
+does not use JAAS for authorization. Instead, it has it's own access
+control list (ACL) mechanism. There are several ACLs you can enable in
+Faban, depending on the permissions you want to restrict. In our world
+of open-source, we discourage you from setting ACLs. It prevents flow
+of information. However, there are organizations that act with more
+secrecy and we want to accommodate them in our little community, too.
+The following table lists the permissions you can set using ACLs and
+the scope such permissions cover:</p>
+<p></p>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2"
+ cellspacing="0">
+  <tbody>
+    <tr>
+      <th>Permission</th>
+      <th>Scope</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td style="background-color: rgb(204, 204, 255);">manage</td>
+      <td style="background-color: rgb(204, 204, 255);">benchmark</td>
+      <td style="background-color: rgb(204, 204, 255);">Permission
+to manage, remove, and kill benchmark runs pertaining to a certain type
+of benchmark.</td>
+    </tr>
+    <tr>
+      <td>submit</td>
+      <td>benchmark</td>
+      <td>Permission to submit a benchmark run of a specific type
+of benchmark on this rig.</td>
+    </tr>
+    <tr>
+      <td style="background-color: rgb(204, 204, 255);">view</td>
+      <td style="background-color: rgb(204, 204, 255);">run</td>
+      <td style="background-color: rgb(204, 204, 255);">Permission
+to view the run results</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">write<br>
+      </td>
+      <td style="vertical-align: top;">run<br>
+      </td>
+      <td style="vertical-align: top;">Permission to change the run
+description and tags<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>To setup an ACL for a certain benchmark, create a directory
+following the benchmark's short name under the config directory, such as</p>
+<p style="margin-left: 40px; font-family: monospace;">$ cd faban/config<br>
+$ mkdir web101</p>
+<p>Then, create the corresponding ACL file for the permission and
+benchmark in the directory you just created:</p>
+<p style="margin-left: 40px; font-family: monospace;">$ cd web101<br>
+$ vi submit.acl</p>
+<p>Then
+list the user id as provided by the JAAS login module (some JAAS login
+module also identify the user by email address, which can also be used
+here), once per line, such as:</p>
+<p style="margin-left: 40px; font-family: monospace;">foo<br>
+bar</p>
+<p>And that's it. Save the file. Now only foo and bar are allowed to
+submit runs for the web101 benchmark.</p>
+<p>The acl file names correspond to the permissions described above.
+I.e. the manage acl file must be named <span
+ style="font-family: monospace;">manage.acl</span> and the view acl
+file <span style="font-family: monospace;">view.acl</span>. They all
+follow the same simple format. An empty ACL is equivalent to allowing
+all users to perform the action.</p>
+<p>The
+view permission has a slightly different meaning than the manage and
+submit permissions. While one manages a benchmark and submits a
+benchmark, he/she does not view benchmarks. He/she would view benchmark
+results instead. Specifying the view ACL in the config directory (and
+benchmark subdirectory) will make all runs submitted for the benchmark
+while the ACL is in effect to also carry the same ACL. In other words,
+the ACL is inherited to the run results for each of the submitted runs.
+Faban will make a copy of view.acl and place it into the result's
+META-INF directory. This is located at <span
+ style="font-family: monospace;">faban/output/&lt;runId&gt;/META-INF</span>.
+You can also manually place the view.acl into the run's META-INF
+directory or edit its entries. If the view ACL for a benchmark run
+exists and is not empty, only the submitter of the benchmark and the
+persons whose identities are listed in the view ACL will be able to
+view the benchmark run results in question. To de-classify a run
+result, just remove the corresponding ACL file and all users -
+including the ones not logged on - will be able to view the results.</p>
+<a accesskey="p" href="overview.html" title="Previous"><img
+ alt="Previous" src="../../img/previous.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ acccesskey="c" href="../../toc.html#Faban_Harness_Configuration_Guide_"
+ title="Beginning"><img alt="Beginning" src="../../img/up.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ href="repository.html"><img alt="Next" src="../../img/next.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+</body>
+
+<!-- Mirrored from faban.org/1.3/docs/guide/config/security.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:06 GMT -->
+</html>

@@ -1,0 +1,300 @@
+body {
+    background-color: white;
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+}
+
+h1 {
+    font-size: 20px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    color: #E76F00;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    font-weight: bold;
+    background-color: #5382A1;
+    color: #FFFFFF;
+    padding: .3em 1em .3em 1em;
+    margin: .5em 0em;
+    line-height: 1em;
+}
+
+p, dt, dd {
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    padding: .3em 1em .3em 1em;
+    line-height: 16px;
+    margin: .1em 0em;
+    /* T R B L */
+}
+
+ul {
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif; 
+    line-height: 16px;
+}
+
+#Masthead {
+    height: 60px;
+    background: none;
+    border: none;
+    border-bottom: 4px solid #5382A1;
+}
+#MastheadLogo {
+    background-color: white;
+    background-position: 0px 20px;
+    background-repeat: no-repeat;
+    float: left;
+    height: 60px;
+    width: 300px;
+    border: none;
+    text-decoration: none;
+}
+
+/* left navbar */
+
+table.leftnav {
+    border-collapse: collapse;
+    border: none;
+    width: 170px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+td.leftnav_item, td.leftnav_item_indent {
+    background-color:#FFFFFF;
+    color: #3E647E;
+}
+td.leftnav_header {
+    background-color:#EDEDED;
+    color: #3E647E;
+    font-weight: bold;
+}
+td.leftnav_header, td.leftnav_item, td.leftnav_item_indent {
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    width: 170px;
+    padding: .2em 1em .2em 1em;
+    /* T R B L */
+}
+
+td.leftnav_item_indent {
+    text-indent: 1em;
+}
+
+/* right navbar  */
+
+table.rightnav {
+    border-collapse: collapse;
+    border: none;
+    width: 185px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: #f5f5f5;
+}
+
+td.rightnav_header {
+    background-color: #5382A1;
+    font-weight: bold;
+    color: #FFF;
+}
+
+td.rightnav_item {
+    background-color: #F5F5F5;
+    color: #000;
+}
+
+td.rightnav_header, td.rightnav_item {
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    padding: .2em 1em .2em 1em;
+    /* T R B L */
+}
+
+/* breadcrumb */
+
+.breadcrumb { 
+    font-size: 11px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+}
+
+.list_item, .list_lp {
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif; 
+    line-height: 16px;
+}
+
+ul.list_lp {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li.list_lp {
+    padding-left: .6em;
+    margin: 1em 0;
+}
+
+.table_row_grey {
+   font-size: 12px;
+   font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+   background-color:#F5F5F5;
+}
+
+.table_row_white {
+   font-size: 12px;
+   font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+   background-color:#FFFFFF;
+}
+
+/* navbar search box */
+
+.navgroupnew {
+    margin-top: 2px;
+    margin-bottom: 6px;
+}
+
+dl.navgroupnew {
+    border-collapse: collapse;
+    border: none;
+}
+
+dt.navgroupnew {
+    background-color:#EDEDED;
+    color: #3E647E;
+    font-weight: bold;
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin: 0px;
+    padding: .2em 1em .2em 1em;
+}
+
+dd.navgroupnew {
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    border-bottom: 1px solid #ccc;
+    margin: 0px;
+    padding: .2em 1em .2em 1em;
+    /* T R B L */
+}
+
+/* main content section */
+
+
+table.maincontent {
+    border-collapse: collapse;
+    border: none;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.content {
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    padding: .25em .5em;
+    line-height: 16px;
+    /* T R B L */
+}
+
+.content_bottom {
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    padding: .25em .5em 0em .5em;
+    line-height: 16px;
+    vertical-align: text-bottom;
+    /* T R B L */
+}
+
+.content_title {
+    font-size: 20px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    color: #E76F00;
+    font-weight: bold;
+}
+
+.content_header{
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    font-weight: bold;
+    background-color: #5382A1;
+    color: #FFFFFF;
+    padding: .2em 1em .2em 1em;
+    margin: 10px 2px;
+}
+
+.content_header_left {
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    font-weight: bold;
+    background-color: #5382A1;
+    text-align: left;
+    color: #FFFFFF;
+    margin: 10px 2px;
+    padding: .2em 0em .2em 1em;
+    /* T R B L */
+}
+.content_header_right{
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    font-weight: bold;
+    background-color: #5382A1;
+    text-align: right;
+    color: #FFFFFF;
+    margin: 10px 2px;
+    padding: .2em 1em .2em 0em;
+}
+
+.ost1_header {
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    font-weight: bold;
+    background-color: #5382A1;
+    color: #FFFFFF;
+    padding: .2em 1em .2em 1em;
+    margin: 0px .2em 1em .2em;
+}
+
+/* footer */
+
+table.footer {
+    background: none;
+    border-top: 2px solid #ccc;
+    width: 100%;
+}
+
+td.footer {
+    font-size: 12px;
+    font-family: Arial, Geneva, Verdana, Helvetica, sans-serif;
+    padding: 10px 15px 5px 15px;
+}
+
+/* images */
+
+img {
+    border-style: none;
+}
+
+/* hyperlinks */
+
+a{text-decoration:none}
+a:link {color: #5382A1}     /* unvisited link */
+a:visited {color: #3A5B70}  /* visited link */
+a:hover {text-decoration:underline}   /* mouse over link */
+
+a.section:link {color: #FFFFFF}     /* unvisited link */
+a.section:visited {color: #FFFFFF}  /* visited link */
+a.section:hover {color: #FFFFFF; text-decoration:underline}   /* mouse over link */
+a.section:active {color: #FFFFFF}   /* selected link */
+

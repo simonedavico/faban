@@ -1,0 +1,462 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<!-- Mirrored from faban.org/1.3/docs/guide/harnessdev/deployservice.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:02 GMT -->
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Service/Tools Deployment</title>
+  <meta content="AKARA SUCHARITAKUL" name="author">
+  <link href="../../css/default.css" rel="stylesheet" type="text/css">
+  <link href="http://opensparc.sunsource.net/css/opensparc.css"
+ rel="stylesheet" type="text/css">
+</head>
+<body>
+<a href="deploybenchmark.html"><img alt="Previous"
+ src="../../img/previous.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<a acccesskey="c" href="../../toc.html#Faban_Harness_Developers_Guide_"
+ title="Beginning"><img alt="Beginning" src="../../img/up.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1><a name="Introduction"></a>Services/Tools
+Deployment</h1>
+<br>
+<p>Lets first go through our checklist. At this point we should
+have the followings in our project structure:</p>
+<ol style="margin-left: 40px;">
+  <li>The service classes, if any</li>
+  <li>The tools classes, if any</li>
+  <li>The deployment descriptor <span style="font-family: monospace;">services-tools.xml</span></li>
+  <li>The toolsets configurations <span style="font-family: monospace;">toolsets.xml</span><br>
+  </li>
+</ol>
+<p>A set of services and tools can be deployed as part
+of a benchmark as well as deployed standalone in its own package to be
+used by multiple benchmarks. </p>
+<span style="font-weight: bold;">&nbsp;</span><span
+ style="font-weight: bold;">&nbsp; <br>
+</span>
+<h2>The Service/Tools Deployment Descriptor<br>
+</h2>
+<p>The services/tools deployment descriptor is named <span
+ style="font-family: monospace;">services-tools.xml</span>.
+For a Faban benchmark or services/tools project, it is located in the <span
+ style="font-family: monospace;">deploy</span>
+directory. Once packaged, this file will be in the <span
+ style="font-family: monospace;">META-INF</span>
+directory of the deployable jar file. It
+is a simple xml file
+that declares a set of services and tools. It also binds tools to
+services the tool would observe. Below
+is an example of a services-tools.xml deployment descriptor:<br>
+</p>
+<div style="margin-left: 40px;"><span style="font-family: monospace;">&lt;?xml
+version="1.0"
+encoding="UTF-8"?&gt;</span><br>
+<span style="font-family: monospace;">&lt;services-tools&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;service id="MySQLService"&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;class&gt;com.sun.services.MySQLService&lt;/class&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;/service&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;tool id="mysqlstats" service="MySQLService&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;class&gt;com.sun.tools.MySQLStats&lt;/class&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;/tool&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;service id="MemcachedService"&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;class&gt;com.sun.services.MemcachedService&lt;/class&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;/service&gt;</span><br>
+<span style="font-family: monospace;">&lt;/services-tools&gt;</span><br>
+</div>
+<p>A services/tools deployment can contain multiple services
+and multiple tools. Consequently, the services-tools root element can
+have multiple service child elements and multiple tools child elements.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">service</span>
+element declares a service. It must contain an <span
+ style="font-family: monospace; font-weight: bold;">id</span>
+attribute specifying the service id. The service id must be unique
+across all service deployments. The service id is the one and only way
+a benchmark run would specify the needed services in the<a
+ href="configfile.html"> run configuration file</a>.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">tool</span>
+element declares a tool. It must contain an <span
+ style="font-family: monospace; font-weight: bold;">id</span>
+attribute specifying the tool id. The tool id is the way a benchmark
+run would specify a tool to run in the run configuration file. The tool
+id is also referenced in the toolsets.xml, discussed later. Also it may
+contain a <span style="font-family: monospace; font-weight: bold;">service</span>
+attribute linking the tool to a service. If the tool is linked to a
+service, it will be able to obtain the service configuration through
+its ToolContext. Note that the service id or name is global. A tool can
+reference a service even though it is deployed in a different jar and
+deployed at a different time (as long as it is deployed on the master).
+This allows users to add tools referencing a service without being the
+same implementor or bundling in the same services/tools bundle.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">class</span>
+element is used as a child element to either the service and tool
+elements. This is a required element linking the service, by id, to the
+fully qualified name of the service class or tool class the Faban
+harness needs to invoke when specified in the run configuration.</p>
+<h2>Toolset Configuration<br>
+</h2>
+<p><span style="font-weight: bold;"></span>The
+toolset
+configuration file - <span style="font-family: monospace;">toolsets.xml</span>
+- is located the <span style="font-family: monospace;">deploy</span>
+directory of a Faban project. It resides in the&nbsp;<span
+ style="font-family: monospace;">META-INF</span>
+directory for a jar.&nbsp;Note that the project's deploy directory
+maps to the META-INF directory at the time we build the jar. Also, for
+OS toolsets, a similar
+file with the same name may also reside in the&nbsp;<span
+ style="font-family: monospace;">FABAN_HOME/config/&lt;OS&gt;</span>
+directory. It defines the toolset for the operating system in question.
+Below is
+an example of
+a
+toolset&nbsp;configuration file:</p>
+<div style="margin-left: 40px;"><span style="font-family: monospace;">&lt;?xml
+version="1.0"
+encoding="UTF-8"?&gt;</span><br>
+<span style="font-family: monospace;">&lt;toolsets&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;toolset&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;service&gt;MySQLService&lt;/service&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;name&gt;default&lt;/name&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;includes&gt;mysqlstat&lt;/includes&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;includes&gt;vmstat 10&lt;/includes&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;includes&gt;iostat -xn 10&lt;/includes&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;includes&gt;mpstat 10&lt;/includes&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;/toolset&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;toolset&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;service&gt;MySQLService&lt;/service&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;name&gt;detail&lt;/name&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;base&gt;default&lt;/base&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;includes&gt;cpustat&lt;/includes&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;includes&gt;trapstat&lt;/includes&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;/toolset&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;
+&nbsp;&lt;toolset&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;service&gt;MySQLService&lt;/service&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;name&gt;lite&lt;/name&gt;<br>
+</span><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;base&gt;default&lt;/base&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;
+&lt;excludes&gt;iostat -xn 10&lt;/excludes&gt;</span><br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&lt;/toolset&gt;<br>
+</span><span style="font-family: monospace;">&lt;/toolsets&gt;</span><br>
+</div>
+<p>Each <span style="font-family: monospace; font-weight: bold;">toolset</span>
+element defines a toolset which is identified by the toolset name.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">service</span>
+element binds the toolset to a service. For OS toolsets, the service
+element shall be omitted. It will implicitly refer to the OS as the
+services.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">name</span>
+element sets the name the toolset is to be referred. The toolset name
+is unique in the scope of the service it refers. Therefore, the same
+toolset name can be used for multiple services and the OS. The reserved
+name "default" is used to specify default toolsets for a service or for
+the OS. If no tools are specified, the tools specified in the default
+toolset are getting invoked.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">includes</span>
+element includes a tool command or name into the toolset.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">excludes</span>
+element excludes an previously included tool command or name from the
+toolset.</p>
+<p>The <span style="font-family: monospace; font-weight: bold;">base</span>
+element includes all the tools included in another toolset. In
+conjunction with include and exclude, it allows forming a toolset from
+another toolset and making minor modification to the set of tools
+specified without having to specify the whole list of tools over and
+over again.<br>
+</p>
+<h3>Tool Output</h3>
+<p>Any arbitrary tools can be configured&nbsp; either in the toolset
+configuration file as described above or manually during every run.
+Faban has in-built support for tools like vmstat, iostat, mpstat,
+nicstat (for network statistics), etc. These tools will be run at the
+start of the steady-state period and stopped at the end of
+steady-state. The tool output will automatically appear in the
+Statistics tab in the Run result view. You can add any custom tools but
+for their result to show up in the Statistics tab, the tool output log
+should follow this naming convention: <span style="font-style: italic;">&lt;tool&gt;</span>.<span
+ style="font-weight: bold;">log</span>.<span style="font-style: italic;">&lt;host&gt;</span>
+where <span style="font-style: italic;">&lt;tool&gt;</span> refers to
+the tool name and <span style="font-style: italic;">&lt;host&gt;</span>
+identifies the host it was collected from. The host name should be one
+of the hosts in the benchmark configuration. For example, when iostat
+is run on a host called "dbserver", it's output will appear in the log
+file iostat.log.dbserver. <br>
+</p>
+<br>
+<h2>Building and Packaging</h2>
+<p>Now we have all the pieces we need for packaging. Next step is
+to build and package up the services into a deployable unit called the
+deployable jar file. &nbsp;This may be part of a benchmark jar or a
+separate service/tools jar. The structure is the same. We usually use
+the build.xml, our ant build
+script, to package both benchmarks and services. The <span
+ style="font-family: monospace;">build.properties</span>
+file controls how the build script builds, packages, and deploys the
+jars. For service packages, lets look at the file from our MySQL
+sample. Other samples
+use the exact same structure:</p>
+<p style="font-family: monospace; margin-left: 40px;">service.shortname=MySQLService<br>
+faban.home=../../..<br>
+faban.url=http://localhost:9980/<br>
+deploy.user=deployer<br>
+deploy.password=adminadmin<br>
+compiler.target.version=1.5</p>
+<p>The&nbsp;<span style="font-weight: bold;">service.shortname</span>
+(in case of a benchmark deployment this property is called <span
+ style="font-weight: bold;">bench.shortname</span>)
+field names the generated libraries and deployable file name. It is
+also used throughout Faban and referred to as the short name. Please
+note that the&nbsp;bench.shortname value CANNOT have any dot
+characters in
+the name.The <span style="font-weight: bold;">faban.home</span>
+field
+references the path where the Faban kit is installed on your system.
+This path can be either relative or absolute and is used for the build
+script to find all the necessary Faban compile-time and deploy-time
+libraries. The <span style="font-weight: bold;">compiler.target.version</span>
+controls how the classes are compiled. Faban supports both 1.5 and 1.6.
+A benchmark build with 1.6 can use the JavaSE 6 features. However, it
+cannot be used on J2SE 1.5. Other fields are used for deployment and
+will be discussed in the next section.</p>
+<p>Once we have all these fields configured properly, we can
+build our deployable jar file by just calling ant from the base
+directory of our project. This will build the default target:
+deploy.jar.</p>
+<p style="font-family: monospace; margin-left: 40px;">$ ant</p>
+<p>Or</p>
+<p style="font-family: monospace; margin-left: 40px;">$
+ant deploy.jar</p>
+<p>To call ant from an IDE, just have the IDE build the
+deploy.jar target directly. Ant will create a deployable jar file and
+place it into the project's build directory.</p>
+<p>The deploy.jar target builds and packages the deployable jar
+file according to the Faban benchmark deployable jar file structure
+described in the followings:</p>
+<p style="margin-left: 40px; color: rgb(51, 153, 153);"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle">
+&lt;service.shortname&gt;.jar<a href="overview.html#config"><br>
+</a>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-open.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> META-INF<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle">
+services-tools.xml<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/l-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle"> toolsets.xml
+<br>
+<img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> bin<br>
+<img style="border: 0px solid ; width: 20px; height: 20px;" alt=""
+ src="../../img/t-open.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> lib<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle">
+&lt;other_libs&gt;.jar<br>
+<img style="width: 20px; height: 20px;" alt="" src="../../img/v.gif"
+ align="middle"><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/l-file.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/file.gif"
+ align="middle">
+&lt;service.shortname&gt;.jar<a href="overview.html#lib"><br>
+</a><img style="width: 20px; height: 20px;" alt=""
+ src="../../img/t-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> public_html<br>
+<img style="border: 0px solid ; width: 20px; height: 20px;" alt=""
+ src="../../img/l-closed.gif" align="middle"><img
+ style="width: 20px; height: 20px;" alt="" src="../../img/folder.gif"
+ align="middle"> resources
+</p>
+<p>The structure of the deployable jar file is a subset of the
+project structure described in the development overview with the
+content of the deploy directory being placed in the jar's META-INF
+directory. The scripts and binaries are archived directly into the
+jar's bin directory. The lib directory is also archived directly with
+the addition of the jar of our benchmark classes. This jar is also
+named after the benchmark's short name but is located in the lib
+directory. The public_html and resources directories are archived
+directly from their corresponding directories in the project struture.<br>
+</p>
+<h2>Deployment</h2>
+<p>At this point we should be ready to deploy. Lets go back to
+our <span style="font-family: monospace;">build.properties</span>
+file and address the entries used for deployment. Here is the file once
+again:</p>
+<p style="margin-left: 40px; font-family: monospace;">service.shortname=MySQLService<br>
+faban.home=../../..<br>
+faban.url=http://localhost:9980/<br>
+deploy.user=deployer<br>
+deploy.password=adminadmin<br>
+compiler.target.version=1.5</p>
+<p>The&nbsp;<span style="font-weight: bold;">faban.url</span>
+field refers to the URL of the Faban harness/master we want to deploy
+to. The <span style="font-weight: bold;">deploy.user</span>
+and <span style="font-weight: bold;">deploy.password</span>
+fields are required if and only if security is enabled in the Faban
+master. By default they are not needed. If security is enabled, the
+deploy user and password is NOT the same as the user password provided
+by a security provider in order not to expose a person's password in a
+file. The deploy user and password can be configured in the <span
+ style="font-family: monospace;">config/harness.xml</span>
+file and defaults to <span style="font-family: monospace;">deployer</span>
+and <span style="font-family: monospace;">adminadmin</span>,
+subsequently. please change this if security is a concern.</p>
+<p>Once these fields are set correctly, just run</p>
+<p style="font-family: monospace; margin-left: 40px;">$
+ant deploy</p>
+<p>The ant deploy target will internally contact the Faban master
+specified by faban.url, upload the deployable jar file, and execute the
+deployment process on the master. Note that the deploy target will
+automatically call the deploy.jar target to build the deployable jar
+before deploying, if not already done so. There is no need to build the
+deploy.jar target prior to the deploy target.</p>
+<p>For a service that is deployed as part of a benchmark, only
+that particular benchmark may refer to the service and invoke the
+service. For services in their own service bundle, however, all
+benchmarks may refer to the newly deployed services from their
+configuration files. The service will get invoked as specified in the
+benchmark configuration file.</p>
+<h2>Alternate Deploym<span style="font-family: monospace;"></span>ent
+Methods</h2>
+<p>The section above describes the deployment method that is most
+intuitive for&nbsp;developers. However, there are two other
+deployment methods that may be used:</p>
+<ol>
+  <ol>
+    <li>Using the deploy form. Point your browser to
+http://&lt;faban_master&gt;:9980/deploy and select the
+deployable jar file. Enter the deploy user name and password if
+security is enabled on the master. The "Clear previous benchmark
+configuration" checkbox does nothing when deploying a service. Once all
+is done press the deploy button.
+The deployable jar file will get uploaded and deployed on the Faban
+harness. This method is also shown in the <a
+ href="../harness/deploy.html">Deploying Benchmarks</a>
+section of the <a href="../../toc.html#Faban_Harness_Users_Guide_">Faban
+Harness
+Users Guide</a>. The same interfaces is used for both
+deploying benchmarks and services.<br>
+      <br>
+    </li>
+    <li>Copy the deployable jar file directly into the&nbsp;<span
+ style="font-family: monospace;">services</span>
+directory in the Faban master installation. DO NOT unjar the file.
+Faban&nbsp;will automatically pick up this jar file the next time
+you use your browser to access Faban.</li>
+  </ol>
+</ol>
+<h2>Troubleshooting Deployment</h2>
+<p>Once the services are deployed, benchmarks can refer to them
+via the configuration file. If a particular service is deployed in the
+benchmark deployable jar file of the benchmark, it can only be used by
+that benchmark. Service deployables can be referred to by both the
+benchmark and the service.</p>
+<p>If the service cannot be used by a benchmark, the errors
+will get logged into the run log for the benchmark run. The error
+messages indicate the problem with the service.
+Check the contents of the run log to diagnose service issues and
+correct your deploy image accordingly.</p>
+<a href="deploybenchmark.html"><img alt="Previous"
+ src="../../img/previous.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><a
+ acccesskey="c" href="../../toc.html#Faban_Harness_Developers_Guide_"
+ title="Beginning"><img alt="Beginning" src="../../img/up.gif"
+ style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+<script type="text/javascript" language="javascript">
+var sc_project=1267791;
+var sc_invisible=1;
+var sc_partition=11;
+var sc_security="34f5f6d1";
+</script>
+<script type="text/javascript" language="javascript"
+ src="http://www.statcounter.com/counter/counter.js">
+</script><noscript><a href="http://www.statcounter.com/" target="_blank"><img
+ src="http://c12.statcounter.com/counter.php?sc_project=1267791&amp;java=0&amp;security=34f5f6d1&amp;invisible=1"
+ alt="counter hit xanga" border="0"></a></noscript><!-- End of StatCounter Code --><!-- Start of StatCounter Code -->
+<script type="text/javascript" language="javascript">
+var sc_project=1126578;
+var sc_invisible=1;
+var sc_partition=10;
+var sc_security="488b7ec0";
+</script>
+<script type="text/javascript" language="javascript"
+ src="http://www.statcounter.com/counter/counter.js">
+</script><noscript><a href="http://www.statcounter.com/" target="_blank"><img
+ src="http://c11.statcounter.com/counter.php?sc_project=1126578&amp;java=0&amp;security=488b7ec0&amp;invisible=1"
+ alt="free tracking" border="0"></a></noscript><!-- End of StatCounter Code -->
+<script src="http://www.google-analytics.com/urchin.js"
+ type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-237864-1";
+_udn="opensparc.net";
+urchinTracker();
+</script>
+</body>
+
+<!-- Mirrored from faban.org/1.3/docs/guide/harnessdev/deployservice.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:02 GMT -->
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/harnessdev/definingbenchmark.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:01 GMT -->
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>The Benchmark Class</title>
+
+<meta content="AKARA SUCHARITAKUL" name="author">
+<link href="../../css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="overview.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<a acccesskey="c" href="../../toc.html#Faban_Harness_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="definingservice.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1><a name="Introduction"></a>The Benchmark
+Class<br>
+</h1>
+<p>The benchmark class, also referred to as a "harness hook" is
+the
+actual program or script that defines the process of executing the
+benchmark. Every benchmark deployment requires a benchmark class .
+However, if your benchmark is written using the Faban harness, the
+class com.sun.faban.harness.DefaultFabanBenchmark2 will be your default
+harness hook and the benchmark class is optional.
+DefaultFabanBenchmark2
+defines the process of how to run a benchmark written
+using the Faban driver framework. A benchmark class is annotated using
+annotations. They are defined in the package com.sun.faban.harness.
+Since annotations
+are not inherited when subclassed, we need to explicitly annotate the
+relevant methods if you extend DefaultFabanBenchmark2.</p>
+<p>Your own benchmark class is only required if you are using a
+non-Faban
+benchmark or if you want to customize and control the behaviour of a
+Faban benchmark that is different from the default. The sample web101
+benchmark includes a hook in <span style="font-style: italic;">src/samples/web1/harness/WebBenchmark.java</span>.
+The hook is a java class that extends <a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/DefaultFabanBenchmark2.html">com.sun.faban.harness.DefaultFabanBenchmark2</a>
+and adds annotated methods to configure and post process the benchmark
+run. You can customize, configure or subclass the other annotated
+methods to include any additional tasks
+that need to be done prior to or after these operations. For example,
+if the benchmark requires that some script be executed (say to clean
+out some files) before the start of a run, the start() method can be
+modified to execute the script before calling super.start(). This can
+also be done in the method annotated with @Configure (see the next
+section).</p>
+<p>The benchmark class can be created in the package of your
+choice and must be placed into the Java source tree of your project.
+The provided build script will pick up all classes in the source tree
+and compile and package them properly for deploying into the Faban
+harness.</p>
+<a name="The_Benchmark_Annotations_"></a>
+<h2>The Benchmark Annotations</h2>
+<p>The
+benchmark class is implemented as a plain old Java object
+(Pojo) with annotated methods and referenced in the benchmark
+deployment descriptor <span style="font-style: italic;">benchmark.xml</span>
+explained later under <a href="deploybenchmark.html">Benchmark
+Deployment</a>. The benchmark annotations used for the benchmark
+class
+are defined in
+<a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/package-summary.html">com.sun.faban.harness</a>.
+The followings are the annotations used:</p>
+<ol>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/Validate.html">@Validate</a></li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/Configure.html">@Configure</a></li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/PreRun.html">@PreRun</a></li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/StartRun.html">@StartRun</a></li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/EndRun.html">@EndRun</a></li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/PostRun.html">@PostRun</a></li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/KillRun.html">@KillRun</a><br>
+</li>
+</ol>
+<h3>@Validate</h3>
+<p>The method annotated with @Validate is called for validating
+the
+benchmark
+configuration file. It is the first method called when the benchmark
+starts after initialization of the benchmark class. No other
+facility or remote Faban agents are started before or while the
+validate method is in progress. The validate method is used to validate
+the benchmark configuration to ensure that it is not only syntactically
+valid (done by the xml parser) but also semantically valid. It also the
+only place you may, edit, change, or complete the configuration file.</p>
+<p>For integrations of existing benchmarks or workloads, it is a
+common
+practice to use XSL
+stylesheets to translate the configuration file into the target
+benchmark's configuration file. Thus it makes sense to translate the
+configuration files in the validate method and this is
+also a way to ensure the configuration file is correct. Such code can
+be found in the <a href="http://www.spec.org/web2005">SPECWeb2005
+integration example</a> provided in the samples directory of the
+Faban
+kit.<br>
+</p>
+<h3>@Configure</h3>
+<p>The method annotated with @Configure is the one that gets
+called
+after the
+Faban infrastructure, including remote agents are set up. Having these
+in place allows you to make remote calls to configure or set up the
+benchmarking environment. This method is however called before the
+services, if any are started. The method implementation will commonly
+contain logic to prepare and reconfigure remote servers or other
+supporting processes
+to run the benchmark. For benchmarks written using the Faban driver
+framework, you may want to subclass the DefaultFabanBenchmark2 and
+provide a method with this annotation to prepare your rig.</p>
+<h3>@PreRun</h3>
+<p>The method annotated with @PreRun is called just before
+starting the
+run. The method implementation will commonly contain calls to prepare
+and reload data required to run the
+benchmark, etc. Those functions will need all the services to be up and
+available. Off-line data reload may be better done in configure.
+&nbsp;For benchmarks written using the Faban driver
+framework, you may want to subclass the DefaultFabanBenchmark2 and
+provide a method with this annotation.</p>
+<h3>@StartRun<br>
+</h3>
+<p>The method annotated with @StartRun actually starts the
+benchmark
+driver. You
+will need
+to ensure all the driver processes on all driver systems get started,
+and - if feasible - enter the rampup state before returning from this
+method as the tools timer will get started immediately after this
+method terminates.</p>
+<p>Generally, benchmarks written using the Faban driver framework
+will
+not need to override this method. However, in rare circumstances - such
+as
+starting processes not controlled by the driver framework, i.e.
+emulators, - you'll want to override this method. Just make sure you
+make a call to super.start().</p>
+<h3>@EndRun</h3>
+<p>The method annotated with @EndRun is called sometime after the
+start
+method
+terminates. The implementation of the end method must wait for the
+driver processes to terminate before proceeding. <br>
+</p>
+<h3>@PostRun</h3>
+<p>The method annotated with @PostRun is called after
+the end method.
+This may do some
+post-processing of the benchmark and/or tools results.&nbsp;For
+benchmarks written using the Faban driver
+framework, you may want to subclass the DefaultFabanBenchmark2 and
+provide a method with this annotation.</p>
+<h3>@KillRun</h3>
+<p>The method annotated with @KillRun is used by the Faban
+harness to
+signal premature
+termination of the benchmark. It provides the opportunity to cleanup
+after the benchmark run. Most commonly, the kill method is left empty.
+Processes started by Faban's execution facilities are automatically
+terminated, except for daemons or other server processes over which
+Faban does not have control. Such processes may require explicit
+termination calls.
+</p>
+<h2>Common Facilities</h2>
+<h3>The RunContext</h3>
+<p>The <a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/RunContext.html">RunContext
+</a>is the central point for getting information
+about
+the run. All methods in RunContext are static. We suggest a static
+import of all methods in this class:</p>
+<div style="margin-left: 40px;"><span style="font-family: monospace;">import
+static
+com.sun.faban.harness.RunContext.*;</span><br>
+</div>
+<p>Then you'll be able to call the RunContext without referring
+to the
+RunContext class, which looks just like function calls. You can use the
+RunContext to obtain information about the benchmark run as well as
+executing commands on local or remote agents.</p>
+<h3>The ParamRepository</h3>
+<p>The <a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/ParamRepository.html">ParamRepository</a>
+represents the XML configuration file and
+allows
+obtaining configuration parameters using an XPath pointing to the
+parameter. It also allows manipulating and modifying the configuration
+file (effective only in the validate method) and saving it back to the
+run using the setParameter and save methods. To obtain the
+ParamRepository, just call <span style="font-family: monospace;">getParamRepository()</span>.
+This is a method of the RunContext. With the static import above, the
+benchmark class can refer to this method without providing a reference
+to the RunContext class.</p>
+<p>The ParamRepository provides several
+methods to access the XML structure within it. Most accesses require an
+XPath string to locate the parameter. It also provides methods that
+automatically parse list of strings in the elements, or even parse
+host:port pairs in the hostport fields frequently used for addressing
+server instances. Please refer to the ParamRepostory javadocs for more
+detail, and the configuration file documentation for specific fields
+used by different Faban components, such as the host:port fields.</p>
+<h3>Execution Facilities</h3>
+<p>The <a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/RunContext.html">RunContext&nbsp;</a>
+provides two sets of methods for execution: 1)
+The
+exec methods can be used to execute any operating system or shell
+command. 2) The java methods are used to execute java commands
+inheriting the classpaths and other java command line parameters from
+the Faban environment. Both methods make use of the Faban command
+infrastructure to remotely start processes and execute commands. To
+construct a command, you will need to create a new Command object. The
+Command object constructor takes 3 types of parameters:</p>
+<ol>
+<li>A
+String - the command string will be parsed with our best effort to
+separate it into the command and arguments. The parser command parser
+is sensitive to quotes and backslash escapes and will handle most
+common cases. However, it is not as complete and sophisticated as a
+command processing shell in the target operating system. Please be
+careful.</li>
+<li>A List of command and args.</li>
+<li>A vararg - the first argument is the command, followed by
+it's arguments.</li>
+</ol>
+<p>For any given command, the execution&nbsp;search path for
+scripts and binaries are as follows, in order:</p>
+<ol>
+<li>Benchmark-specific, OS-specific, CPU architecture-specific</li>
+<li>Benchmark-specific, OS-specific</li>
+<li>Benchmark-specific</li>
+<li>Faban-specific, OS-specific, CPU architecture-specific</li>
+<li>Faban-specific, OS-specific</li>
+<li>Faban-specific</li>
+<li>PATH environment of the Faban processes</li>
+</ol>
+<p>Please also note that the commands may be re-mapped on an
+OS-specific
+command map infrastructure. If a command is mapped, the result follows
+the search path above.</p>
+<h3>The Command Map</h3>
+<p>The
+command map allows mapping commands called by the Faban harness and the
+benchmark class to some OS-Specific commands. The command map file is
+an XML file located at the following location:</p>
+<p style="margin-left: 40px;"><span style="font-family: monospace;">$FABAN_HOME/config/&lt;OS&gt;/cmdmap.xml</span></p>
+<p><span style="font-family: monospace;"></span>The
+following is an example command map file we use for Solaris. It resides
+in the <span style="font-family: monospace;">$FABAN_HOME/config/SunOS/cmdmap.xml</span>
+directory:</p>
+<p style="margin-left: 40px;"><span style="font-family: monospace;">&lt;?xml
+version="1.0"
+encoding="UTF-8"?&gt;<br>
+&lt;!-- The command map file allows commands to run with a <br>
+&nbsp; &nbsp; &nbsp;specific path and specific prefix and
+releaves users<br>
+&nbsp; &nbsp; &nbsp;from specifying all the detail. These
+commands are<br>
+&nbsp; &nbsp; &nbsp;used by Faban or user commands or tools
+specified by<br>
+&nbsp; &nbsp; &nbsp;the user.<br>
+&nbsp;--&gt;<br>
+&lt;commands&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;command&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;rsh&lt;/name&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;exec&gt;/usr/bin/rsh -n&lt;/exec&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;/command&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;command&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;date&lt;/name&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;prefix&gt;fastsu&lt;/prefix&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;/command&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;command&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;cpustat&lt;/name&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;prefix sequence="1"&gt;fastsu&lt;/prefix&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;prefix sequence="2"&gt;priocntl -e -c
+RT&lt;/prefix&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;/command&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;command&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;corestat&lt;/name&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;prefix&gt;fastsu&lt;/prefix&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;/command&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;command&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;lockstat&lt;/name&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;exec&gt;/usr/sbin/lockstat&lt;/exec&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;prefix&gt;fastsu&lt;/prefix&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;/command&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;command&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;name&gt;trapstat&lt;/name&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;prefix sequence="1"&gt;fastsu&lt;/prefix&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;prefix sequence="2"&gt;priocntl -e -c
+RT&lt;/prefix&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;/command&gt;<br>
+&lt;/commands&gt;</span></p>
+<p>Following
+this example, you can see that the commands issued by the Faban harness
+or the benchmark class can be mapped to specific paths, can have
+multiple prefixes, or can be mapped to totally different commands in
+different operating systems.<br>
+</p>
+<h3>File Utilities</h3>
+<p>In many
+instances, the benchmark class needs to process files, copy files to
+different systems in the rig, or get some files from those systems. The
+RunContext static class provides utility methods to deal with file
+processing. We'll just address a few here. Please see the javadoc pages
+for a complete list.</p>
+<p><span style="font-family: monospace;"><a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/RunContext.html#pushFile%28java.lang.String,%20java.lang.String,%20java.lang.String%29">pushFile</a>(String
+file, String destHost, String destFile)</span><br>
+Copies a file over to a remote host.</p>
+<p><span style="font-family: monospace;"><a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/RunContext.html#getFile%28java.lang.String,%20java.lang.String,%20java.lang.String%29">getFile</a>(String
+srcHost, String srcFile, String destFile)</span><br>
+Copies a file from a remote host.</p>
+<p><span style="font-family: monospace;"><a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/RunContext.html#exists%28java.lang.String,%20java.lang.String%29">exists</a>(String
+host, String file)</span><br>
+Checks existence of the remote file.</p>
+<h2>The Default Benchmark Class<br>
+</h2>
+<p>For benchmarks built using the Faban driver framework, Faban
+provides a default benchmark class -
+<a href="http://faban.org/1.0/docs/api/com/sun/faban/harness/DefaultFabanBenchmark2.html">com.sun.faban.harness.DefaultFabanBenchmark2</a>
+- that understands how to
+start the Faban driver framework implicitly. This class also contains
+more complex load balancing mechanisms for balancing the driver agents
+among the driver and client systems. DefaultFabanBenchmark2 deprecates
+DefaultFabanBenchmark which is interface-based and used in earlier
+versions of Faban. It is maintained for backward compatibility only.<br>
+</p>
+<p>Many complex benchmarks using the Faban driver framework would
+want to extend the DefaultFabanBenchmark2 to provide server control
+such
+as starting/stopping the web server and database server, clearing
+temporary directories on the server, and even collect server
+configuration information. To do so, just provide your own benchmark
+class extending the DefaultFabanBenchmark2 and implementing/overriding
+the relevant
+methods. The most common method to implement is configure(). The
+postRun() method handles some further
+processing after the benchmark run is stopped.<br>
+</p>
+<p>One general guideline for overriding the methods is to always
+call the superclass' method from inside in order not to loose any
+functionality provided by the DefaultFabanBenchmark2. In addition note
+that, since annotations are not inherrited, you need to explicitly call
+annotation for the methods.
+</p>
+<p><br>
+<br>
+</p>
+<a accesskey="p" href="overview.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a>
+<a acccesskey="c" href="../../toc.html#Faban_Harness_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="definingservice.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+<script type="text/javascript" language="javascript">
+var sc_project=1267791;
+var sc_invisible=1;
+var sc_partition=11;
+var sc_security="34f5f6d1";
+</script>
+<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js">
+</script>
+<noscript><a href="http://www.statcounter.com/"
+target="_blank"><img
+src="http://c12.statcounter.com/counter.php?sc_project=1267791&amp;java=0&amp;security=34f5f6d1&amp;invisible=1"
+alt="counter hit xanga" border="0"></a></noscript>
+<!-- End of StatCounter Code --><!-- Start of StatCounter Code --><script type="text/javascript" language="javascript">
+var sc_project=1126578;
+var sc_invisible=1;
+var sc_partition=10;
+var sc_security="488b7ec0";
+</script>
+<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js">
+</script>
+<noscript><a href="http://www.statcounter.com/"
+target="_blank"><img
+src="http://c11.statcounter.com/counter.php?sc_project=1126578&amp;java=0&amp;security=488b7ec0&amp;invisible=1"
+alt="free tracking" border="0"></a></noscript>
+<!-- End of StatCounter Code --><script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+
+
+<script type="text/javascript">
+_uacct = "UA-237864-1";
+_udn="opensparc.net";
+urchinTracker();
+</script>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/harnessdev/definingbenchmark.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:01 GMT -->
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/logging.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  
+  <title>Logging</title><meta content="AKARA SUCHARITAKUL" name="author">
+  <link href="../../css/default.css" rel="stylesheet" type="text/css">
+<body>
+<a accesskey="p" href="errorhandling.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="metrics.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1>Logging</h1>
+<p class="Textbody">The Faban driver framework utilizes the standard
+JavaSE logging facilities in the package <span class="T11">java.util.logging</span>
+and provides all the flexibility associated with that facility. Log
+targets can be configured to write to different files or network ports.
+If used with the Faban harness, all logging information will get sent
+back to the harness.</p>
+<p class="Textbody">The following table shows the J2SE 1.4 configurable
+log levels and what is logged at certain levels:&nbsp;</p>
+<div style="text-align: left;">
+<table style="text-align: left; margin-left: auto; margin-right: auto;" class="Table17" border="1" cellpadding="2" cellspacing="0">
+  <colgroup><col width="89"><col width="577"></colgroup><tbody>
+    <tr>
+      <th style="text-align: left; width: 0.8028in; background-color: rgb(51, 255, 255);">
+      <p class="P42">Level&nbsp;</p>
+      </th>
+      <th style="text-align: left; width: 5.1972in; background-color: rgb(51, 255, 255);">
+      <p class="TableHeading">Description&nbsp;</p>
+      </th>
+    </tr>
+    <tr>
+      <td class="Table17A2" style="text-align: left; width: 0.8028in;">
+      <p class="PreformattedText">SEVERE&nbsp;</p>
+      </td>
+      <td class="Table17B2" style="text-align: left; width: 5.1972in;">
+      <p class="TableContents">Exception messages and stack traces<br>
+      </p>
+      </td>
+    </tr>
+    <tr>
+      <td class="Table17A2" style="text-align: left; width: 0.8028in;">
+      <p class="PreformattedText">WARNING&nbsp;</p>
+      </td>
+      <td class="Table17B2" style="text-align: left; width: 5.1972in;">
+      <ul>
+        <li>Inconsistencies and driver state that requires special
+attention <br>
+        </li>
+        <li>Exception messages and stack traces of lesser importance </li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td class="Table17A2" style="text-align: left; width: 0.8028in;">
+      <p class="PreformattedText">INFO&nbsp;</p>
+      </td>
+      <td class="Table17B2" style="text-align: left; width: 5.1972in;">
+      <p class="TableContents">General state of the driver and other
+informational messages&nbsp;</p>
+      </td>
+    </tr>
+    <tr>
+      <td class="Table17A2" style="text-align: left; width: 0.8028in;">
+      <p class="PreformattedText">CONFIG&nbsp;</p>
+      </td>
+      <td class="Table17B2" style="text-align: left; width: 5.1972in;">
+      <p class="TableContents">Messages showing benchmark
+configurations and driver annotations&nbsp;</p>
+      </td>
+    </tr>
+    <tr>
+      <td class="Table17A2" style="text-align: left; width: 0.8028in;">
+      <p class="PreformattedText">FINE&nbsp;</p>
+      </td>
+      <td class="Table17B2" style="text-align: left; width: 5.1972in;">
+      <p class="TableContents">Detailed informational messages that are
+not of general interest&nbsp;</p>
+      </td>
+    </tr>
+    <tr>
+      <td class="Table17A2" style="text-align: left; width: 0.8028in;">
+      <p class="PreformattedText">FINER&nbsp;</p>
+      </td>
+      <td class="Table17B2" style="text-align: left; width: 5.1972in;">
+      <p class="TableContents">Debugging information</p>
+      </td>
+    </tr>
+    <tr>
+      <td class="Table17A2" style="text-align: left; width: 0.8028in;">
+      <p class="PreformattedText">FINEST&nbsp;</p>
+      </td>
+      <td class="Table17B2" style="text-align: left; width: 5.1972in;">
+      <p class="TableContents">Detailed or high volume debugging
+information&nbsp;</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p class="Textbody">&nbsp;</p>
+<p class="Textbody">We suggest the driver implementation to follow the
+same standards but this is not enforced by the driver.&nbsp;</p>
+<h2><a name="Driver_Framework_Logging"></a>Driver Framework Logging</h2>
+<p class="Textbody">The
+driver framework logs all failures that occur while reading the
+configuration files, reading the benchmark definition, benchmark
+driver, benchmark operation, and all other annotations. It also logs
+exceptions caused by failed operations where the driver framework
+catches the exceptions thrown. Finally, exceptions may be logged for
+failures in the driver framework itself. Please report such exceptions
+to the Faban team.&nbsp;</p>
+<p class="Textbody">Moreover, the driver
+framework also logs configuration information, driver states of
+interest, and other information at the levels defined in the <span class="T2">preceding</span> table.</p>
+<h2><a name="Driver_Implementation_Logging"></a>Driver Implementation
+Logging</h2>
+<p class="Textbody">While
+the driver implementation may create it's own logger, we recommend
+using the logger provided by the driver framework. The driver
+implementation may obtain its logger by calling the <span class="T11">getLogger()</span>
+method on the DriverContext object. We also suggest following the same
+standard for the log levels to reduce confusions with log levels.</p>
+<p class="Textbody">The
+name of the logger provided by the driver framework is always the fully
+qualified class name of the driver implementation appended with the
+global thread executing the driver instance in question. For example,
+if the driver implementation class is <span class="T11">sample.MyDriver</span><span class="T21">
+then the name of the logger for the first thread is
+&#8220;sample.MyDriver.0&#8221;. Using this naming convention, we can set the log
+target of the driver implementation as desired by using the standard
+J2SE logging properties file. By default, this log target is the same
+as the driver framework logging.</span></p>
+<h2><a name="Benchmark_Application_Logging"></a>Benchmark Application
+Logging</h2>
+<p class="Textbody">The
+driver framework actually does not cover logging of the benchmark application. But
+whenever possible and reasonable, we also suggest using the J2SE1.4
+logging facilities for logging exceptions and messages the application.
+The log target should be configured so that the harness can receive,
+display, and record log messages in the same results directory as the
+harness and driver logs, thus keeping one centralized repository for
+all information regarding a benchmark run.&nbsp;</p>
+<h2><a name="Log_Targets"></a>Log Targets</h2>
+<p class="Textbody">The driver framework establishes two log targets.
+The first being the <span class="T6">console</span>
+target. The second target is configurable and can vary between a local
+log file or a socket connection to a log server which will again log it
+to a central log file. The Faban harness includes such a log server and
+configures the driver logging accordingly so that all messages when run
+from the Faban harness get logged to the Faban harness' log server.</p><p class="Textbody">The console target logs messages of levels INFO
+and higher while the file (or network) target logs all loggable
+messages. Detailed messages not found on the console can be easily
+viewed in the log file.<br></p>
+<a accesskey="p" href="errorhandling.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="metrics.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/logging.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+</html>

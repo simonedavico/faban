@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/readconfig.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Reading Configuration Information</title>
+
+<link href="../../css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="drivercontext.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="communication.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1>Reading Configuration Information</h1>
+<br>
+<p>A benchmark or a driver usually has specific configuration
+information
+that needs to be obtained before the run starts. This is typically done
+in the driver's constructor. The driver context provides facilities to
+access such configuration information from any agent, local or remote.<br>
+</p>
+<h2>Reading Global Configuration Information</h2>
+<p>A driver may read global configuration information from any
+part of the
+config file using an XPath identifying the location of said
+information. This is useful if such information is general
+configuration information used by the Faban harness or used by multiple
+drivers. The <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getXPathValue%28java.lang.String%29">DriverContext.getXPathValue()</a>
+method is the one and only access point for such information. The
+following example shows a snippet from the config file:</p>
+<pre> &lt;webBenchmark&gt;<br><br> ....<br><br> &lt;serverConfig&gt;<br> &lt;host&gt;129.146.207.112&lt;/host&gt;<br> &lt;port&gt;80&lt;/port&gt;<br> &lt;/serverConfig&gt;<br> &lt;/webBenchmark&gt;<br></pre>
+<p>The following code snipped shows how to read the target host
+name/ip
+address and port from the config file.</p>
+<pre>&nbsp;&nbsp;&nbsp; DriverContext context = DriverContext.getContext();<br> String host = context.getXPathValue("/webBenchmark/serverConfig/host");<br> String port = context.getXPathValue("/webBenchmark/serverConfig/port");<br></pre>
+<h3>Namespaces</h3>
+<p>In many instances, the driver needs to get hold of namespaced
+Faban configuration parameters such as a the list of hosts managed by
+the Faban harness, like the following sample configuration entry:</p>
+<pre> &lt;webBenchmark&gt;<br><br> ....<br><br> &lt;<span class="start-tag">dbServer</span>&gt;<br> &lt;<span class="start-tag">fa:hostConfig</span><span class="attribute-name"> xmlns</span>=<span class="attribute-value">"http://faban.sunsource.net/ns/fabanharness" </span><span class="attribute-name"><br> xmlns:fa</span>=<span class="attribute-value">"http://faban.sunsource.net/ns/faban"</span>&gt;<br> &lt;<span class="start-tag">fa:host</span>&gt;129.146.207.112&lt;/<span class="end-tag">fa:host</span>&gt;<br> &lt;<span class="start-tag">enabled</span>&gt;true&lt;/<span class="end-tag">enabled</span>&gt;<br> &lt;<span class="start-tag">cpus</span>&gt;0&lt;/<span class="end-tag">cpus</span>&gt;<br> &lt;<span class="start-tag">tools/</span><span class="end-tag"></span>&gt;<br> &lt;<span class="start-tag">userCommands</span><span class="attribute-name">/</span>&gt;<br> &lt;/<span class="end-tag">fa:hostConfig</span>&gt;<br><br> ....<br><br> &lt;/<span class="end-tag">dbServer</span>&gt;<br> &lt;/webBenchmark&gt;<br></pre>
+<p>For such cases, it is important to note the namespace of the
+entry you're reading. Faban implicitly resolves prefixes to namespaces
+as follows:<br>
+</p>
+<table style="text-align: left; margin-left: auto; margin-right: auto;" border="1" cellpadding="4" cellspacing="0">
+<tbody>
+<tr>
+<th style="background-color: rgb(51, 255, 255);">Prefix</th>
+<th style="background-color: rgb(51, 255, 255);">Namespace</th>
+</tr>
+<tr>
+<td><span style="font-family: monospace;">fa</span></td>
+<td><span style="font-family: monospace;">http://faban.sunsource.net/ns/faban</span></td>
+</tr>
+<tr>
+<td><span style="font-family: monospace;">fh</span></td>
+<td><span style="font-family: monospace;">http://faban.sunsource.net/ns/fabanharness</span></td>
+</tr>
+<tr>
+<td><span style="font-family: monospace;">fd</span></td>
+<td><span style="font-family: monospace;">http://faban.sunsource.net/ns/fabandriver</span></td>
+</tr>
+</tbody>
+</table>
+<p>The following code shows an example for accessing Faban
+namespaced XPaths from the XML segment above:</p>
+<pre>&nbsp;&nbsp;&nbsp; DriverContext context = DriverContext.getContext();<br> String host = context.getXPathValue(<br> "/webBenchmark/dbServer/fa:hostConfig/fa:host");<br> String userCommands = context.getXPathValue(<br> "/webBenchmark/dbServer/fa:hostConfig/fh:userCommands");<br></pre>
+<p>Note that even though the <span style="font-family: monospace;">userCommands</span>
+element did not have a namespace alias prefix in the XML segment above,
+it is actually in the <span style="font-family: monospace;">http://faban.sunsource.net/ns/fabanharness</span>
+namespace since this is the default namespace for the <span style="font-family: monospace;">fa:hostConfig</span>
+element and all its child elements. We still need to use the <span style="font-family: monospace;">fh</span> namespace to
+query for the <span style="font-family: monospace;">userCommands</span>.<br>
+</p>
+<h2>Reading Driver Properties</h2>
+<p>Each driver may have it's own properties. Driver properties
+are name to
+value maps and allow for multiple values for a name. The Faban driver
+framework allows for a few flexible ways to specify the properties and
+to read them. The properties must be listed under the <span style="font-family: monospace;">&lt;properties&gt;</span>
+node under
+the <span style="font-family: monospace;">&lt;driverConfig&gt;</span>
+node of the given driver. The following shows the different ways to
+specify properties:</p>
+<pre> &lt;webBenchmark&gt;<br> ....<br> &lt;runConfig definition="sample.driver.WebDriver" <span class="attribute-name"><br> xmlns</span>=<span class="attribute-value">"http://faban.sunsource.net/ns/fabandriver" </span><span class="attribute-name"><br> xmlns:fa</span>=<span class="attribute-value">"http://faban.sunsource.net/ns/faban"</span>&gt;<br> ....<br> &lt;driverConfig name="WebDriver"&gt;<br> ....<br> &lt;properties&gt;<br> &lt;!-- Demonstrates the different ways to specify properties --&gt;<br> &lt;!-- The first way is a full name value pair, multiple<br> values are supported, but only one name --&gt;<br> &lt;property&gt;<br> &lt;name&gt;path1&lt;/name&gt;<br> &lt;value&gt;systems&lt;/value&gt;<br> &lt;/property&gt;<br> &lt;!-- The second way is a little more compact while preserving<br> the ability to set multiple values for a name --&gt;<br> &lt;property name="path2"&gt;<br> &lt;value&gt;software&lt;/value&gt;<br> &lt;/property&gt;<br> &lt;!-- The third way is very compact but you can only use one<br> value. This is adequate for most applications. --&gt;<br> &lt;property name="path3"&gt;services&lt;/property&gt;<br> &lt;/properties&gt;<br> ....<br> &lt;/driverConfig&gt;<br> ....<br> &lt;/runConfig&gt;<br> ....<br> &lt;/webBenchmark&gt;<br></pre>
+<p>Such properties can be read, only by the specific driver (in
+this case,
+"WebDriver"), using the following methods of the driver context:</p>
+<ul>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getProperty%28java.lang.String%29">getProperty</a>
+- Reads a single-value property<br>
+</li>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getPropertyValues%28java.lang.String%29">getPropertValues</a>
+- Reads a multiple-value property</li>
+</ul>
+<p>For more complex properties, the values under the <span style="font-family: monospace;">&lt;properties&gt;</span>
+element can
+also be any XML subtree. You can certainly obtain the whole DOM tree
+and manipulate it using the DOM or XPath APIs directly. The following
+driver context method is used for obtaining the whole properties
+subtree:</p>
+<ul>
+<li><a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getPropertiesNode%28%29">getPropertiesNode</a><br>
+</li>
+</ul>
+<br>
+<a accesskey="p" href="drivercontext.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="communication.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/readconfig.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/metrics.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:03 GMT -->
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Metrics, Data Collection, and Reporting</title>
+
+<meta content="AKARA SUCHARITAKUL" name="author">
+<link href="../../css/default.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a accesskey="p" href="logging.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="recording.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<h1>Metrics, Data Collection, and Reporting<br>
+</h1>
+<p class="Textbody"><br>
+The key to running any performance benchmark is - measuring
+performance. In order to measure performance, timing data for each
+individual operation needs to be collected, organized, and reported.
+The Faban driver framework has a rich set of data collection and
+reporting facilities. And the good news is - most or all of it happens
+automatically.<br>
+</p>
+<h2>General Metrics<br>
+</h2>
+<p class="Textbody">Collecting and reporting of general
+metrics happens
+automatically. For <a href="recording.html">automatic
+timing</a>, the
+operation does not need to
+deal with data collection at all. With <a href="recording.html">manual
+timing</a>, the operation
+will need to call <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#recordTime%28%29">DriverContext.recordTime()</a>
+and optionally,
+<a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#pauseTime%28%29">DriverContext.pauseTime()</a>.
+All data collection is then done
+automatically by the driver framework.</p>
+<p class="Textbody">The Faban driver framework
+automatically collects
+the following data:
+</p>
+<ul>
+<li style="margin-left: 0.5cm;" class="P37">Count
+of successful
+operations</li>
+<li style="margin-left: 0.5cm;" class="P37">Count
+of failed
+operations</li>
+<li style="margin-left: 0.5cm;" class="P37">Response
+times of each
+operation</li>
+<li style="margin-left: 0.5cm;" class="P37">Cycle
+time of each
+operation</li>
+<li style="margin-left: 0.5cm;" class="P37">Targeted
+cycle time of
+each operation</li>
+</ul>
+<p class="Textbody">After the run, the master will
+automatically
+postprocess the data and generate a <a href="summary.html">summary
+report</a> and a <a href="detail.xan.html">detail
+report</a>. The summary report is in XML format and can be easily
+read and reformatted to fit
+specific reporting needs. However, Faban provides a stylesheet for
+formatting the <a href="summary.xml">summary report in a
+web browser</a>.
+&nbsp;The detail report is in a text format compatible with FenXi,
+the tool we use for analysis and graph generation. It is also extremely
+readable by a human eye.<br>
+</p>
+<h2><a name="Miscellaneous_Statistics"></a>CustomMetrics</h2>
+<p class="Textbody">While most of the standard data
+collection and
+reporting is handled by Faban, it is not uncommon for the driver to
+collect additional data. The Faban driver framework provides a
+mechanism to collect such
+additional metrics by attaching a <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.html">CustomMetrics</a>
+implementation to the DriverContext.&nbsp;This is typically done in
+the driver's constructor. There are two method signatures for attaching
+the custom metrics:</p>
+<ol style="margin-left: 40px;">
+<li> <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#attachMetrics%28com.sun.faban.driver.CustomMetrics%29">DriverContext.attachMetrics(CustomMetrics)</a><br>
+Attaches the CustomMetrics titled "Miscellaneous Statistics." This is
+the same as calling attachMetrics("Miscellaneous Statistics",
+CustomMetrics).</li>
+<li> <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#attachMetrics%28java.lang.String,%20com.sun.faban.driver.CustomMetrics%29">DriverContext.attachMetrics(String,
+CustomMetrics)</a><br>
+Attaches the CustomMetrics with a given title. Only one CustomMetrics
+can be attached using a given title. &nbsp;Each metrics is reported
+in its own table in the summary report with the title used for
+attaching. The metrics are reported in the sequence they were attached.</li>
+</ol>
+<p class="Textbody">Each CustomMetrics can represent a
+multitude of data the particular driver needs to
+keep track. At reporting time, each of the line items are
+reported using a CustomMetrics.Element instance.&nbsp; The results
+are
+then reported in the given section of the <a href="summary.xml">summary
+report</a> identified by the title.</p>
+<h2>CustomTableMetrics</h2>
+<p class="Textbody">Besides the standard reporting format
+for CustomMetrics, some workloads may need to report arbitrary tables
+in the summary report. This can be achieved by
+attaching&nbsp;<a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomTableMetrics.html">CustomTableMetrics</a>
+with <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#attachMetrics%28java.lang.String,%20com.sun.faban.driver.CustomTableMetrics%29">DriverContext.attachMetrics(String,
+CustomTableMetrics)</a>. The CustomTableMetrics is an open
+interface used for collecting stats just like CustomMetrics while
+enforcing the result to be a&nbsp;<a href="http://faban.org/1.0/docs/api/com/sun/faban/common/TableModel.html">TableModel</a>.
+The TableModel will then be used for reporting the result table.</p>
+<p class="Textbody">While
+very flexible, the CustomTableMetrics has some limitation. It does not
+have the ability to render a run passed or failed as the TableModel
+does not have a way to express such results explicitly. It is merely
+used for reporting that does not impact the pass/fail status of the
+run.
+</p>
+<h2>Implementing CustomMetrics<br>
+</h2>
+<p class="Textbody">Implementing the CustomMetrics is
+rather
+straightforward. In Java
+terms, it is done by creating a class implementing the <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.html">CustomMetrics</a>
+interface. The class can have any name, be in any package, and can have
+any kind of constructor. The driver will need to instantiate the
+CustomMetrics at construction time.</p>
+<p class="Textbody">A typical CustomMetrics implementation
+will keep
+the collected data in
+its instance variables. The driver needs to update the data during the
+run. The driver can both check the time by calling <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#getTime%28%29">DriverContext.getTime()</a>
+and check whether it is in the steady state by calling <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/DriverContext.html#isTxSteadyState%28%29">DriverContext.isTxSteadyState()</a>
+methods to know whether or not to record data.</p>
+<p class="Textbody">The form of keeping data is not
+prescribed and can
+vary from individual
+instance variables to arrays to collections, etc. Since a CustomMetrics
+instance is attached to each driver instance, thread, and simulated
+user, it needs to be aggregated at the run. The implementor will need
+to implement the methods <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.html#add%28com.sun.faban.driver.CustomMetrics%29">add()</a>
+and <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.html#add%28com.sun.faban.driver.CustomMetrics%29">clone()</a>
+which are used for aggregation which means he/she will need to know the
+characteristics of the data. Counts and times are generally added
+directly, min and max values are compared and selected. Averages and
+variances will need some more complex processing, accordingly.</p>
+<p class="Textbody">Once all CustomMetrics instances are
+aggregated,
+the driver framework
+will call <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.html#getResults%28%29">getResults()</a>
+on the aggregated instance to obtain the final results. This method
+returns an array of <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.Element.html">Element</a>s,
+each describing the metric to report. At the minimum, the <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.Element.html#description">description</a>
+field must not be null. This is for just reporting metrics that have
+no effect on the pass or fail status of the run. If the metric has an
+impact on the pass or
+fail status of the run, the <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.Element.html#passed">passed</a>
+field need to be set. The <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.Element.html#target">target</a>
+and <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.Element.html#allowedDeviation">allowedDeviation</a>
+fields are optional and are useful to report such deviations. All
+fields except <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.Element.html#passed">passed</a>
+are of type java.lang.String to allow for flexibility of data type and
+formatting. The data will be represented in the <a href="summary.xml">summary
+report </a>exactly the same way it is formatted in the string.</p>
+<h2>Implementing CustomTableMetrics</h2>
+<p class="Textbody">Similar to the CustomMetrics
+implementation, we subclass the&nbsp;<a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomTableMetrics.html">CustomTableMetrics</a>
+class and are allowed to do all kinds of data collection and keeping
+the data in the in the instance. &nbsp;It also gets aggregated
+similar
+to CustomMetrics. The only difference is that at reporting time, it has
+to produce a&nbsp;<a href="http://faban.org/1.0/docs/api/com/sun/faban/common/TableModel.html">TableModel</a>
+instead of an array of CustomMetrics.Element objects. This table will
+be placed in the summary report with the given title used when
+attaching the CustomTableMetrics.</p>
+<h2>ContentSizeStats</h2>
+<p>The <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/util/ContentSizeStats.html">com.sun.faban.driver.util.ContentSizeStats</a>
+is a convenient
+CustomMetrics implementation provided for collecting and averaging
+content sizes. It is one of the simplest cases of collecting custom
+metrics and is provided as part of the <a href="../../man/fhb.html">fhb</a>
+facility and and some Faban
+sample code. If you just want to know the average content size,
+ContentSizeStats is right for you. To use it, just do the followings:</p>
+<ol>
+<li>Declare an instance variable to hold the reference to
+ContentSizeStats.<br>
+<br>
+<pre>&nbsp; &nbsp; ContentSizeStats contentStats = null;</pre>
+</li>
+<li>In the driver constructor, just create the ContentSizeStats
+as follows:<br>
+<br>
+<pre> ctx = DriverContext.getContext();<br> contentStats = new ContentSizeStats(ctx.getOperationCount());<br> ctx.attachMetrics(contentStats);</pre>
+</li>
+<li>At the end of each operation, add up the content size:<br>
+<br>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;if (ctx.isTxSteadyState())<br>&nbsp;&nbsp;&nbsp;&nbsp; contentStats.sumContentSize[ctx.getOperationId()] += contentSize;<br></pre>
+</li>
+</ol>
+<p>You'll find the content sizes for each operation reported in
+the miscellaneous stats section of the summary result.
+</p>
+<h2>Accessing General Results</h2>
+<p class="Textbody">In many cases the results need to be
+calculated
+based on the run
+results. For instance, the percentage of cancelled purchase orders
+(custom metrics) is calculated from the number of cancelled purchase
+orders and the number of total purchase orders (run results).&nbsp;
+So
+the <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.html#getResults%28%29">getResults()</a>
+method implementation will need to have a way to know the number of
+purchase order transactions during steady state.</p>
+<p class="Textbody">The <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/Result.html">Result</a>
+class is provided for this purpose. It provides the <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/CustomMetrics.html#getResults%28%29">CustomMetrics.getResults()</a>
+with access to the run results and&nbsp; metrics. It is only
+available
+to the getResults() method at reporting time as this gets called after
+the results are established. The getResults() method may access the <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/Result.html">Result</a>
+object by calling <a href="http://faban.org/1.0/docs/api/com/sun/faban/driver/Result.html#getInstance%28%29">Result.getInstance()</a>
+inside the method implementation.</p>
+<br>
+<a accesskey="p" href="logging.html" title="Previous"><img alt="Previous" src="../../img/previous.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a acccesskey="c" href="../../toc.html#Faban_Driver_Framework_Developers_Guide_" title="Beginning"><img alt="Beginning" src="../../img/up.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><a accesskey="n" href="recording.html" title="Next"><img alt="Next" src="../../img/next.gif" style="border: 0px solid ; width: 40px; height: 40px;"></a><br>
+<br>
+</body>
+<!-- Mirrored from faban.org/1.3/docs/guide/driver/metrics.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jul 2015 09:04:05 GMT -->
+</html>
