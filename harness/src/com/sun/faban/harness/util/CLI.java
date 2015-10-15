@@ -167,7 +167,23 @@ public class CLI {
                         url.append("/tail/follow");
                 }
                 cli.doGet(url.toString());
-            } else {
+            } else if ("deploy".equals(action)){
+            	if(argList.size() > 1) {
+            		
+            		File jarFile = new File(argList.get(1));
+            		DeployLogic dl = new DeployLogic(user, password, master, jarFile);
+            		
+            		try {
+            			dl.deploy();
+            		} catch(DeployException e) {
+            			System.err.println("[Deploy]: " + e);
+            			System.exit(1);
+            		}
+            	} else {
+            		System.err.println("[Deploy] Please provide a benchmark to deploy");
+            		printUsage();
+            	}
+            }else {
                 printUsage();
             }
         } catch (IOException e) {
@@ -186,6 +202,7 @@ public class CLI {
         System.err.println(cmd + "submit benchmark profile configfile");
         System.err.println(cmd + "kill runId");
         System.err.println(cmd + "wait runId");
+        System.err.println(cmd + "deploy jarFile");
         System.err.println(cmd + "showlogs runId [-ft]");
         System.exit(1);
     }
