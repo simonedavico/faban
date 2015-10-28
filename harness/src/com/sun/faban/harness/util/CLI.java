@@ -174,11 +174,14 @@ public class CLI {
             		DeployLogic dl = new DeployLogic(user, password, master, jarFile);
             		
             		try {
-            			dl.deploy();
+            			final DeployStatus.CODE status = dl.deploy();
+            			System.out.println(status);
             		} catch(DeployException e) {
-            			System.err.println("[Deploy]: " + e);
+            			//Print exit status to stdout 
+            			//to act accordingly from caller
+            			System.out.println(e.status);
             			System.exit(1);
-            		}
+            		} 
             	} else {
             		System.err.println("[Deploy] Please provide a benchmark to deploy");
             		printUsage();
