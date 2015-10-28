@@ -110,26 +110,34 @@ public class DeployLogic {
 
 	/**
 	 * Actual deployment logic
+	 * @throws FileNotFoundException, IOException 
 	 */
-	public void deploy() throws DeployException {
+	public DeployStatus.CODE deploy() throws DeployException {//, FileNotFoundException, IOException {
 		
-//		System.err.println("[DeployStatus] User " + user);
-//		System.err.println("[DeployStatus] Password " + password);
-//		System.err.println("[DeployStatus] Harness " + harness);
-//		System.err.println("[DeployStatus] Jar " + jarFile.getAbsolutePath());
-		
-		if (jarFile == null)
+		if (jarFile == null) {
 			throw new DeployException(
+					DeployStatus.CODE.NO_BENCHMARK_SPECIFIED,
 					"jar attribute missing for target deploy.");
-		if (!jarFile.isFile())
-			throw new DeployException("jar file not found.");
-		String jarName = jarFile.getName();
-		if (!jarName.endsWith(".jar"))
+		}
+		
+		if (!jarFile.isFile()) {
 			throw new DeployException(
+					DeployStatus.CODE.NOT_ACCEPTABLE,
+					"jar file not found.");
+		}
+		
+		String jarName = jarFile.getName();
+		if (!jarName.endsWith(".jar")) {
+			throw new DeployException(
+					DeployStatus.CODE.NOT_ACCEPTABLE,
 					"Jar file name must end with \".jar\"");
+		}
+		
 		jarName = jarName.substring(0, jarName.length() - 4);
 		if (jarName.indexOf('.') > -1) {
-			throw new DeployException("Jar file name must not have any " +
+			throw new DeployException(
+					DeployStatus.CODE.NOT_ACCEPTABLE,
+					"Jar file name must not have any " +
 					"dots except ending with \".jar\"");
 		}
 
@@ -161,28 +169,37 @@ public class DeployLogic {
 
 //			String response = b.toString();
 //			System.err.println(response);
-
+						
 			// Check status.
 			if (status == HttpStatus.SC_CONFLICT) {
-				throw new DeployException("Benchmark to deploy is currently " +
+				throw new DeployException(
+						DeployStatus.CODE.CONFLICT, 
+						"Benchmark to deploy is currently " +
 						"run or queued to be run. Please clear run queue " +
 						"of this benchmark before deployment");
 			} else if (status == HttpStatus.SC_NOT_ACCEPTABLE) {
-				throw new DeployException("Benchmark deploy name or deploy " +
+				throw new DeployException(
+						DeployStatus.CODE.NOT_ACCEPTABLE,
+						"Benchmark deploy name or deploy " +
 						"file invalid. Deploy file may contain errors. Name " +
 						"must have no '.' and file must have the " +
 						"'.jar' extensions.");
 			} else if (status != HttpStatus.SC_CREATED) {
-				throw new DeployException("Faban responded with status code " +
+				throw new DeployException(
+						DeployStatus.CODE.UNDEFINED_ERROR,
+						"Faban responded with status code " +
 						status + ". Status code 201 (SC_CREATED) expected.");
 			}
-
-		} catch(HttpException e) {
-			throw new DeployException(e);
-		} catch (FileNotFoundException e) {
-			throw new DeployException(e);
+			
+			//if I'm here, everything went smoothly
+			return DeployStatus.CODE.DEPLOYED;
+		} 
+		catch (FileNotFoundException e) {
+			throw new DeployException(DeployStatus.CODE.FILE_NOT_FOUND, e);
 		} catch (IOException e) {
-			throw new DeployException(e);
+			throw new DeployException(DeployStatus.CODE.IO_EXCEPTION, e);
+		} catch (Exception e) {
+			throw new DeployException(DeployStatus.CODE.UNDEFINED_ERROR, e);
 		}
 	}
 

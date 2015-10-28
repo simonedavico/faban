@@ -27,7 +27,9 @@ package com.sun.faban.harness.util;
  * Signifies a deployment exception
  */
 public class DeployException extends Exception {
-
+	
+	
+	public final DeployStatus.CODE status;
     /**
      * Constructs a new exception with the specified detail message.  The
      * cause is not initialized, and may subsequently be initialized by
@@ -38,8 +40,14 @@ public class DeployException extends Exception {
      */
     public DeployException(String message) {
         super(message);    //To change body of overridden methods use File | Settings | File Templates.
+        this.status = DeployStatus.CODE.UNDEFINED_ERROR;
     }
-
+    
+    public DeployException(DeployStatus.CODE status, String message) {
+    	super(message);
+    	this.status = status;
+    }
+    
     /**
      * Constructs a new exception with the specified detail message and
      * cause.  <p>Note that the detail message associated with
@@ -55,7 +63,18 @@ public class DeployException extends Exception {
      * @since 1.4
      */
     public DeployException(String message, Throwable cause) {
+    	super(message, cause);    //To change body of overridden methods use File | Settings | File Templates.
+    	this.status = DeployStatus.CODE.UNDEFINED_ERROR;
+    }
+    
+    public DeployException(DeployStatus.CODE status, Throwable cause) {
+    	super(cause);
+    	this.status = status;
+    }
+    
+    public DeployException(DeployStatus.CODE status, String message, Throwable cause) {
         super(message, cause);    //To change body of overridden methods use File | Settings | File Templates.
+        this.status = status;
     }
 
     /**
@@ -74,5 +93,6 @@ public class DeployException extends Exception {
      */
     public DeployException(Throwable cause) {
         super(cause);    //To change body of overridden methods use File | Settings | File Templates.
+        this.status = DeployStatus.CODE.UNDEFINED_ERROR;
     }
 }

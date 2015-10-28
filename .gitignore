@@ -9,6 +9,8 @@ harness/lib/fabancommon.jar
 stage/build.properties
 
 nightly/
+stage/
+stage/master/
 stage/ant/
 stage/bin/
 stage/config/
@@ -20,6 +22,7 @@ stage/lib/fabanagents.jar
 stage/lib/fabancommon.jar
 stage/lib/fabandriver.jar
 stage/master/conf/Catalina/localhost/faban.xml
+stage/master/conf/tomcat-users.xml
 stage/master/webapps/faban.war
 stage/master/webapps/faban/
 stage/release
