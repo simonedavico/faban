@@ -1,0 +1,1692 @@
+bplist00“._WebSubresources_WebMainResource® $)‘	
+_WebResourceData_WebResourceMIMEType^WebResourceURL_WebResourceResponseO)[  .__wb_overlay {
+    filter:alpha(opacity=60); /* IE */
+    opacity: 0.6; /* Safari, Opera */
+    -moz-opacity:0.6; /* FireFox */  
+    opacity: 0.6;
+    
+    background-color: #000;
+    position: fixed;
+    width:100%;
+    height:100%;
+    top: 0px;
+    left: 0px;
+    padding: 0px !important;
+    border: 0px !important;
+    margin: 0px !important;
+    border-radius: 0px !important;
+    z-index: 2147483643 !important;
+  }
+  
+  #__wb_record_overlay_div {
+    cursor: wait !important;
+  }
+  
+
+
+  .__wb_record_content {
+    opacity: 1.0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: 0px !important;
+    padding: 0px !important;
+
+    background-color: #ffffff !important;
+    border-radius: 8px;
+    z-index: 2147483644 !important;
+    box-shadow: 0 0 30px 5px #000;
+    -moz-box-shadow: 0 0 30px 5px #000;    
+    -webkit-box-shadow: 0 0 30px 5px #000;  
+  }
+    
+  #__wb_record_content_loader {
+    cursor: wait !important;
+    padding-top: 30px !important;    
+    margin-left: -287px !important;
+    margin-top: -177px !important;    
+    width: 574px !important;
+    height: 355px !important;  
+  }
+  
+  #__wb_record_content_done {
+    margin-left: -427px !important;
+    margin-top: -177px !important;      
+    width: 855px !important;
+    height: 355px !important;  
+  }
+  
+  .__wb_record_content > * {
+    margin: auto !important;
+    display: block !important;
+
+    text-align: center !important;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  }
+  
+  .__wb_record_content > wb_h1 {
+    font-size: 36px !important;
+    color: #222 !important;
+    margin: 0px 0px 0px 0px !important;
+    padding: 0px !important;
+    line-height: 2em;
+    font-weight: normal !important;
+    width: auto !important;
+    height: auto !important;    
+  }   
+  
+  .__wb_record_content > wb_p {
+    font-size: 17px !important;
+    color: #222 !important;    
+    margin: 8px 0px 8px 0px !important;
+    padding: 0px !important;
+    line-height: 2em;
+  }  
+  
+  .__wb_record_content > #_wb_logo  {
+    margin-bottom: 10px !important;
+  }
+  
+  .__wb_record_content > #_wb_spinner {
+    margin-top: 30px !important;
+    margin-bottom: 30px !important;    
+  }
+  
+  .__wb_record_content > #_wb_curr_url {
+    text-decoration: underline !important;
+    font-weight: bold !important;
+  }
+  
+  #__wb_record_content_done > #__wb_link {
+    font-size: 20px !important;
+    border: 1px !important;
+    border-color: #aaa !important;
+    border-style: solid !important;
+    padding: 3px !important;
+    text-align: center !important;
+    width: 80% !important;
+    height: auto !important;
+  }
+ 
+  #__wb_record_content_done > #__wb_link:focus {
+    outline: 0px !important;
+    border-color: #428bca !important;
+  }
+  
+  /* DONATE */
+  
+  #__wb_record_content_done > #__wb_donate_close {
+    font-size: 18px !important;
+    width: auto !important;
+    float: right;
+    display: inline-block;
+    margin: 0px !important;
+    padding: 8px 8px 0px 0px !important;   
+  }
+  
+  #__wb_donate_close > #__wb_record_done_close {
+    cursor: pointer !important;
+    display: inline-block;
+    vertical-align: bottom !important;
+  }
+  
+  #__wb_record_content_done > #__wb_donate_close a {
+    color: #428bca !important;
+  } 
+  
+  #__wb_record_content_done > #__wb_donate_close a:link {
+    color: #428bca !important;
+    text-decoration: none !important;
+    margin-right: 16px !important;
+  }
+  
+  #__wb_record_content_done > #__wb_donate_close a:visited {
+    color: #428bca !important;
+  } 
+  
+  #__wb_record_content_done > #__wb_donate_close a:hover {
+    color: #00B1F7 !important;
+  }
+
+#wm-ipp {
+  width:100%;
+  min-height:65px;
+  min-width:800px;
+  left:0;
+  top:0;
+  padding:0;
+  margin:0;
+  border-radius:0;
+  background-color:transparent;
+  font-size:11px;
+}
+#wm-ipp * {
+  font-family:Lucida Grande, Helvetica, Arial, sans-serif;
+  font-size:inherit;
+  line-height:1.2;
+  width:auto;
+  outline:none;
+  float:none;
+}
+#wm-ipp div, #wm-ipp tr, #wm-ipp td, #wm-ipp a, #wm-ipp form {
+  padding:0;
+  margin:0;
+  border:none;
+  border-radius:inherit;
+  background-color:transparent;
+  background-image:none;
+  z-index:2147483640;
+}
+#wm-ipp table {
+  border:none;
+  border-collapse:collapse;
+  margin:0;
+  padding:0;
+  width:auto;
+  font-size:inherit;
+}
+#wm-ipp form input {
+  padding:1px;
+  height:auto;
+  display:inline;
+  margin:0;
+}
+#wm-ipp form input[type=submit] {
+  padding:0 8px;
+  margin:1px 0 1px 5px;
+  width:auto !important;
+}
+#wm-ipp a:hover{
+  text-decoration:underline !important;
+}
+#wm-ipp #wm-ipp-inside {
+  width:98% !important;
+  min-width:780px;
+  margin: 0 auto;
+  border:5px solid #000;
+  border-top:none;
+  background-color:rgba(255,255,255,0.9);
+  -moz-box-shadow:1px 1px 4px #333;
+  -webkit-box-shadow:1px 1px 4px #333;
+  box-shadow:1px 1px 4px #333;
+  border-radius:0 0 8px 8px;
+}
+/* selectors are intentionally verbose to ensure priority */
+#wm-ipp #wm-logo {
+  padding:0 10px;
+  vertical-align:middle;
+  min-width:110px;
+}
+#wm-ipp td.c {
+  vertical-align:top;
+  width:100%;
+}
+#wm-ipp td.c td.u {
+  padding: 3px 0;
+  text-align:center;
+}
+#wm-ipp td.c td.n {
+  padding-left:5px;
+}
+#wm-ipp td.c td.n a {
+  text-decoration:none;
+  color:#33f;
+  font-weight:bold;
+}
+#wm-ipp td.c td.n td.b {
+  padding-right:6px !important;
+  text-align:right !important;
+  overflow:visible;
+  white-space:nowrap;
+  color:#99a;
+  vertical-align:middle;
+}
+#wm-ipp td.c td.n td.c {
+  background:#000;
+  color:#ff0;
+  font-weight:bold;
+  text-align:center;
+}
+#wm-ipp.hi td.c td.n td.c {
+  color:#ec008c;
+}
+#wm-ipp td.c td.n td.f {
+  padding-left:6px !important;
+  text-align:left !important;
+  overflow:visible;
+  white-space:nowrap;
+  color:#99a;
+  vertical-align:middle;
+}
+#wm-ipp td.c td.n tr.m td {
+  text-transform:uppercase;
+  white-space:nowrap;
+  padding:2px 0;
+}
+#wm-ipp td.c td.s {
+  padding-right:5px;
+  text-align:center;
+  vertical-align:bottom;
+}
+#wm-ipp td.c td.s a.t {
+  color:#33f;
+  font-weight:bold;
+  line-height: 1.8;
+}
+#wm-ipp td.c td.s div.r {
+  color: #666;
+  font-size:9px;
+  white-space:nowrap;
+}
+#wm-ipp td.c td.k {
+  vertical-align:bottom;
+  padding-bottom:2px;
+}
+#wm-ipp td.c td.n tr.y td, #wm-ipp td.c td.s {
+  padding-bottom:2px;
+}
+
+div#wm-ipp-sparkline {
+  position:relative;/* for positioning markers */
+  white-space:nowrap;
+  background-color:#fff;
+  cursor:pointer;
+  border-right:1px solid #ccc;
+  line-height:0.9;
+}
+#sparklineImgId {
+  position:relative;
+  z-index:9012;
+}
+#wm-ipp-sparkline div.yt {
+  position:absolute;
+  z-index:9010 !important;
+  background-color:#ff0 !important;
+}
+#wm-ipp-sparkline div.mt {
+  position:absolute;
+  z-index:9011 !important;
+  background-color:#ec008c !important;
+}  
+#wm-ipp td.r {
+  position:relative;
+  padding-left:65px;/* to push td.c to the left */
+}
+#wm-ipp td.r a {
+  display:block;
+  padding:0 15px 0 0;
+  color:#33f;
+  border:none;
+  position:absolute;
+  right:5px;
+  background-color:transparent;
+  background-repeat:no-repeat !important;
+  background-position:100% 100% !important;
+}
+/* Spinner */
+#__wb_spinningSquaresG{        
+  position: relative;
+  width: 240px;
+  height: 20px;
+  
+ 
+  padding: 0px !important;
+  margin: 30px 0px 30px 160px !important;
+  border: 0px !important;
+  border-radius: 0px !important;
+}
+
+.__wb_spinningSquaresG {
+   
+      
+  margin: 0px !important;
+  padding: 0px !important;
+  border: 0px !important;
+  border-radius: 0px !important;
+    
+position:absolute;
+top:0;
+background-color:#000000;
+width:22px;
+height:22px;
+-moz-animation-name:bounce_spinningSquaresG;
+-moz-animation-duration:1.9s;
+-moz-animation-iteration-count:infinite;
+-moz-animation-direction:linear;
+-moz-transform:scale(.3);
+-webkit-animation-name:bounce_spinningSquaresG;
+-webkit-animation-duration:1.9s;
+-webkit-animation-iteration-count:infinite;
+-webkit-animation-direction:linear;
+-webkit-transform:scale(.3);
+-ms-animation-name:bounce_spinningSquaresG;
+-ms-animation-duration:1.9s;
+-ms-animation-iteration-count:infinite;
+-ms-animation-direction:linear;
+-ms-transform:scale(.3);
+-o-animation-name:bounce_spinningSquaresG;
+-o-animation-duration:1.9s;
+-o-animation-iteration-count:infinite;
+-o-animation-direction:linear;
+-o-transform:scale(.3);
+animation-name:bounce_spinningSquaresG;
+animation-duration:1.9s;
+animation-iteration-count:infinite;
+animation-direction:linear;
+transform:scale(.3);
+}
+
+#__wb_spinningSquaresG_1{
+left:0;
+-moz-animation-delay:0.76s;
+-webkit-animation-delay:0.76s;
+-ms-animation-delay:0.76s;
+-o-animation-delay:0.76s;
+animation-delay:0.76s;
+}
+
+#__wb_spinningSquaresG_2{
+left:30px;
+-moz-animation-delay:0.95s;
+-webkit-animation-delay:0.95s;
+-ms-animation-delay:0.95s;
+-o-animation-delay:0.95s;
+animation-delay:0.95s;
+}
+
+#__wb_spinningSquaresG_3{
+left:60px;
+-moz-animation-delay:1.14s;
+-webkit-animation-delay:1.14s;
+-ms-animation-delay:1.14s;
+-o-animation-delay:1.14s;
+animation-delay:1.14s;
+}
+
+#__wb_spinningSquaresG_4{
+left:90px;
+-moz-animation-delay:1.33s;
+-webkit-animation-delay:1.33s;
+-ms-animation-delay:1.33s;
+-o-animation-delay:1.33s;
+animation-delay:1.33s;
+}
+
+#__wb_spinningSquaresG_5{
+left:120px;
+-moz-animation-delay:1.52s;
+-webkit-animation-delay:1.52s;
+-ms-animation-delay:1.52s;
+-o-animation-delay:1.52s;
+animation-delay:1.52s;
+}
+
+#__wb_spinningSquaresG_6{
+left:150px;
+-moz-animation-delay:1.71s;
+-webkit-animation-delay:1.71s;
+-ms-animation-delay:1.71s;
+-o-animation-delay:1.71s;
+animation-delay:1.71s;
+}
+
+#__wb_spinningSquaresG_7{
+left:180px;
+-moz-animation-delay:1.9s;
+-webkit-animation-delay:1.9s;
+-ms-animation-delay:1.9s;
+-o-animation-delay:1.9s;
+animation-delay:1.9s;
+}
+
+#__wb_spinningSquaresG_8{
+left:210px;
+-moz-animation-delay:2.09s;
+-webkit-animation-delay:2.09s;
+-ms-animation-delay:2.09s;
+-o-animation-delay:2.09s;
+animation-delay:2.09s;
+}
+
+@-moz-keyframes bounce_spinningSquaresG{
+0%{
+-moz-transform:scale(1);
+background-color:#000000;
+}
+
+100%{
+-moz-transform:scale(.3) rotate(90deg);
+background-color:#FFFFFF;
+}
+
+}
+
+@-webkit-keyframes bounce_spinningSquaresG{
+0%{
+-webkit-transform:scale(1);
+background-color:#000000;
+}
+
+100%{
+-webkit-transform:scale(.3) rotate(90deg);
+background-color:#FFFFFF;
+}
+
+}
+
+@-ms-keyframes bounce_spinningSquaresG{
+0%{
+-ms-transform:scale(1);
+background-color:#000000;
+}
+
+100%{
+-ms-transform:scale(.3) rotate(90deg);
+background-color:#FFFFFF;
+}
+
+}
+
+@-o-keyframes bounce_spinningSquaresG{
+0%{
+-o-transform:scale(1);
+background-color:#000000;
+}
+
+100%{
+-o-transform:scale(.3) rotate(90deg);
+background-color:#FFFFFF;
+}
+
+}
+
+@keyframes bounce_spinningSquaresG{
+0%{
+transform:scale(1);
+background-color:#000000;
+}
+
+100%{
+transform:scale(.3) rotate(90deg);
+background-color:#FFFFFF;
+}
+
+}
+
+Xtext/css_4https://web.archive.org/static/css/banner-styles.cssOØbplist00‘qrX$versionX$objectsY$archiverT$top Ü†Ø##)*0123QRSTUVWXYZ[\]^_`abcdefghilU$null›	
+ !"R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1Ä	ÄÄÄ Ä"ÄÄÄ”$%'(WNS.base[NS.relativeÄ ÄÄ_4https://web.archive.org/static/css/banner-styles.css“+,-.Z$classnameX$classesUNSURL¢-/XNSObject#Aª”˚i∑∏ë »”456CPWNS.keysZNS.objects¨789:;<=>?@ABÄ	Ä
+ÄÄÄÄÄÄÄÄÄÄ¨EFGHIJKLMNOÄÄÄÄÄÄÄÄÄÄÄÄ Ä!\Content-TypeVServerTLink\X-Page-Cache_X-Archive-Wayback-PerfTDate^Content-Length_X-Archive-PlaybackZConnectionTEtag]Accept-Ranges]Last-ModifiedXtext/css]Tengine/2.1.0_8<http://mementoweb.org/terms/donotnegotiate>; rel="type"TMISS[{"Total":3}_Sun, 18 Oct 2015 15:48:27 GMTU10587Q0Zkeep-alive_W/"10587-1424992116000"Ubytes_Thu, 26 Feb 2015 23:08:36 GMT“+,jk\NSDictionary¢j/“+,mn_NSHTTPURLResponse£op/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—st_WebResourceResponseÄ    # - 2 7 ] c ~ Å Ö à ã é í ï ú ü ¢ • ® ´ ≠ Ø ± ≥ µ ∂ ∏ ∫ º æ ¿ ¬ ƒ À ” ﬂ · „ Â!,5;>GPRT[cn{}ÅÉÖáâãçèëì†¢§¶®™¨Æ∞≤¥∂∏∫«Œ”‡˘˛"-2@NWe†•±—◊Ÿ‰˛$)69>RVjxäç£             u              •’
+_WebResourceTextEncodingNameO∆
+
+
+
+
+/*
+     FILE ARCHIVED ON 14:29:24 Dec 20, 2013 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 15:48:28 Oct 18, 2015.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+body {
+    font-size: 11pt;
+    font-family: Tahoma;
+    color: #424242;
+    margin: 40pt;
+}
+
+h1 {
+    font-size: 18pt;
+    font-family: Helvetica;
+    color: #181818;
+    font-weight: bold;
+    border-bottom: 1px solid black;
+}
+
+h2 {
+    font-size: 14pt;
+    font-family: Helvetica;
+    color: #2e2e2e;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 12pt;
+    font-family: Helvetica;
+    color: #2e2e2e;
+    font-weight: bold;
+}
+
+a:link {
+    color: #003a76;
+    text-decoration:none;
+}
+
+a:visited {
+    color: #003a76;
+    text-decoration:none;
+}
+
+a:hover {
+    color: #003a76;
+    text-decoration:underline;
+}
+
+a:active {
+    color: #003a76;
+    text-decoration:none;
+}
+Uutf-8_Ohttps://web.archive.org/web/20140911142603cs_/http://faban.org/css/wp_style.cssO”bplist00‘ïñX$versionX$objectsY$archiverT$top Ü†Ø5#)*0123cdefghijklmnopqrstuvwxyz{|}~ÄÅÇÉÑÖÜáàâäãåçêU$null›	
+ !"R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1Ä	ÄÄÄ Ä4ÄÄ!Ä”$%'(WNS.base[NS.relativeÄ ÄÄ_Ohttps://web.archive.org/web/20131220142924cs_/http://faban.org/css/wp_style.css“+,-.Z$classnameX$classesUNSURL¢-/XNSObject#Aª”˚i∑€ »”456LbWNS.keysZNS.objectsØ789:;<=>?@ABCDEFGHIJKÄ	Ä
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄØMNOQRSTUVWXYZ[\]^_`aÄÄÄ Ä!Ä"Ä#Ä$Ä%Ä&Ä'Ä(Ä)Ä*Ä+Ä,Ä-Ä.Ä/Ä0Ä1Ä2Ä3ZSet-CookieVServerTLink_X-Archive-Orig-content-type_X-Archive-Orig-date_X-Archive-Orig-last-modified_X-Archive-Wayback-Perf_Memento-Datetime_X-Archive-Orig-server^Content-Length_X-Archive-Orig-content-length_X-Archive-Guessed-CharsetTDateZConnection_X-Archive-Orig-vary\X-Page-Cache_X-Archive-Orig-connection_X-Archive-Orig-accept-ranges\Content-Type_X-Archive-Playback_X-Archive-Orig-etag_=JSESSIONID=374C1CEE826EB2C6B7B6C67FAC43A3FF; Path=/; HttpOnly]Tengine/2.1.0_í<http://faban.org/css/wp_style.css>; rel="original", <http://web.archive.org/web/timemap/link/http://faban.org/css/wp_style.css>; rel="timemap"; type="application/link-format", <http://web.archive.org/web/http://faban.org/css/wp_style.css>; rel="timegate", <http://web.archive.org/web/20131220142924/http://faban.org/css/wp_style.css>; rel="first last memento"; datetime="Fri, 20 Dec 2013 14:29:24 GMT"Xtext/css_Fri, 20 Dec 2013 14:51:15 GMT_Thu, 02 Feb 2012 21:24:42 GMT_D{"IndexLoad":66,"IndexQueryTotal":66,"Total":186,"WArcResource":116}_Fri, 20 Dec 2013 14:29:24 GMT_Apache/2.2.16 (Ubuntu)S966S672UUTF-8_Sun, 18 Oct 2015 15:48:28 GMTZkeep-alive_Accept-EncodingTMISSUcloseUbytes_text/css;charset=UTF-8Q1_"580ba-2a0-4b801d30a7a80"“+,éè\NSDictionary¢é/“+,ëí_NSHTTPURLResponse£ìî/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—óò_WebResourceResponseÄ    # - 2 7 o u ê ì ó ö ù † § ß Æ ± ¥ ∑ ∫ Ω ø ¡ √ ≈ « »   Ã Œ – “ ‘ ÷ › Â Ò Û ı ˜INYbhkt}Åàêõ≥µ∑πªΩø¡√≈«…ÀÕœ—”’◊Ÿ€›ı˜˘˚˝ˇ	!,38Vlã§∑œﬁ˛*@Miàï™¿ §≠ÕÌ4Tmqu{õ¶∏Ω√…‚‰ .2FTfi             ô              Å‘OåâPNG
+
+   IHDR   n   '   anÍ   	pHYs     öú  
+OiCCPPhotoshop ICC profile  x⁄ùSgTSÈ=˜ﬁÙBKàÄîKoR RBãÄë&*!	Jà!°ŸQ¡EE»†àééÄåQ,ä
+ÿ‰!¢éÉ£àä ˚·{£k÷º˜ÊÕ˛µ◊>Á¨Ûù≥œ¿ñH3Q5Ä©B‡É«ƒ∆·‰.@Å
+$p ≥d!s˝# ¯~<<+"¿æ x” ¿Mõ¿0áˇÍBô\ÄÑ¿të8KÄ @zéB¶ @FÄùò&S † `Àcb„ P- `'Ê” Äù¯ô{ [î!†ë  eàD h; ¨œVäE X0 fKƒ9 ÿ- 0IWfH ∞∑ ¿Œ≤  0QàÖ) { `»##x Ñô FÚW<Ò+ÆÁ*  xô≤<π$9EÅ[-qWW.(ŒI+6aaö@.¬yô2Å4‡ÛÃ  †ë‡ÉÛ˝xŒÆŒŒ6é∂_-Íøˇ"bb„˛Âœ´p@  ·t~—˛,/≥Ä;Äm˛¢%Óh^†u˜ãf≤@µ †È⁄WÛp¯~<<E°êπŸŸÂ‰‰ÿJƒB[a W}˛g¬_¿W˝l˘~<¸˜ı‡æ‚$Å2]ÅG¯‡¬ÃÙL•œí	Ñb‹ÊèG¸∑ˇ¸”"ƒIbπX*„QqéDöåÛ2•"âBí)≈%“ˇd‚ﬂ,˚>ﬂ5 ∞j>{ë-®]cˆK'Xt¿‚˜  Úªo¡‘(ÄhÉ·œwˇÔ?˝G†% ÄfIíq  ^D$.T ≥?«  D†Å*∞AÙ¡,¿¡‹¡¸`6ÑB$ƒ¬BB
+dÄr`)¨ÇB(ÜÕ∞*`/‘@4¿QhÜìp.¬U∏=p˙aû¡(ºÅ	A»a!⁄àbäX#éôÖ¯!¡Hã$ …àQ"Kë5H1RäT UHÚ=r9á\F∫ë;» 2Ç¸ÜºG1îÅ≤Q=‘µCπ®7ÑF¢–dt1öè†õ–r¥=å6°Á–´h⁄è>C«0¿Ë3ƒl0.∆√B±8,	ìcÀ±"¨´∆∞V¨ªâıcœ±wÅE¿	6wB aAHXLXNÿH® $4⁄	7	ÑQ¬'"ì®K¥&∫˘ƒb21áXH,#÷è/{àCƒ7$âC2'πêI±§T““F“nR#È,©õ4H#ì…⁄dk≤9î, +»Ö‰ù‰√‰3‰‰!Ú[
+ùb@q§¯S‚(R jJÂÂ4Âeò2AU£öR›®°T5èZB≠°∂RØQá®4uö9ÕÉIK•≠¢ï”hh˜iØËt∫›ïNó–W“ÀÈGËóËÙwÜÉ«àg(õgwØòL¶”ã«T071ÎòÁôôoUX*∂*|ë 
+ïJï&ï*/T©™¶™ﬁ™UÛUÀTè©^S}ÆFU3S„©	‘ñ´U™ùPÎSSg©;®á™g®oT?§~Y˝âY√L√OC§Q†±_„º∆ c≥x,!k´ÜuÅ5ƒ&±ÕŸ|v*ªò˝ªã=™©°9C3J3W≥RÛîf?„òq¯útN	Á(ßóÛ~äﬁÔ)‚)¶4Lπ1e\k™ñóñX´H´Q´GÎΩ6ÆÌßù¶ΩEªY˚ÅA«J'\'GgèŒùÁSŸS›ß
+ßM=:ıÆ.™k•°ªDwønßÓòûæ^ÄûLoßﬁyΩÁ˙}/˝T˝m˙ßıGX≥$€Œ<≈5qo</«€ÒQC]√@C•aïaó·Ñëπ—<£’FçFåi∆\„$„m∆m∆£&&!&KMÍMÓöRMπ¶)¶;L;L«ÕÃÕ¢Õ÷ô5õ=1◊2ÁõÁõ◊õﬂ∑`ZxZ,∂®∂∏eI≤‰Z¶YÓ∂ºnÖZ9Y•XUZ]≥F≠ù≠%÷ª≠ªßßπNìN´û÷g√∞Ò∂…∂©∑∞Âÿ€Æ∂m∂}agbg∑≈Æ√ÓìΩì}∫}ç˝=áŸ´Z~s¥r:V:ﬁöŒúÓ?}≈ÙñÈ/gXœœÿ3„∂À)ƒiùSõ”GggπsÉÛàãâKÇÀ.ó>.õ∆›»Ω‰Jtıq]·z“ıùõ≥õ¬Ì®€ØÓ6ÓiÓá‹üÃ4ü)ûY3s–√»C‡QÂ—?üï0kﬂ¨~OCOÅgµÁ#/c/ëW≠◊∞∑•w™˜aÔ>ˆ>rü„>„<7ﬁ2ﬁY_Ã7¿∑»∑ÀO√oû_ÖﬂC#ˇdˇzˇ— ßÄ%gâÅAÅ[˚¯z|!øé?:€eˆ≤ŸÌAå†πAAèÇ≠ÇÂ¡≠!h»Ïê≠!˜ÁòŒëŒiÖP~Ë÷–aÊaã√~'ÖáÖWÜ?épàX—1ó5w—‹CsﬂD˙DñDﬁõg1O9Ø-J5*>™.j<⁄7∫4∫?∆.fYÃ’XùXIlK9.*Æ6nlæﬂ¸ÌÛá‚ù‚„{ò/»]py°Œ¬ÙÖß©.,:ñ@LàN8îA*®å%Úw%é
+y¬¬g"/—6—àÿC\*NÚH*MzíÏëº5y$≈3•,ÂπÑ'©êºLL›õ:ûöv m2=:Ω1ÉíëêqB™!Mì∂gÍgÊfvÀ¨eÖ≤˛≈nã∑/ï…k≥ê¨Y-
+∂B¶ËTZ(◊*≤geWføÕâ 9ñ´û+ÕÌÃ≥ €ê7úÔüˇÌ¬·í∂•ÜKW-XÊΩ¨j9≤<qy€
+„+ÜV¨<∏ä∂*m’O´ÌWóÆ~Ω&zMkÅ^¡ Ç¡µkÎU
+ÂÖ}Î‹◊Ì]OX/Yﬂµa˙Üù>âäÆ€óÿ(‹xÂáo øô‹î¥©´ƒπdœf“fÈÊﬁ-û[ñ™óÊónŸ⁄¥ﬂV¥ÌıˆE€/óÕ(€ªÉ∂Cπ£ø<∏ºeß…ŒÕ;?T§TÙT˙T6Ó“›µa◊¯n—Ó{ºˆ4Ï’€[º˜˝>…æ€UUM’f’e˚I˚≥˜?Æâ™È¯ñ˚m]≠NmqÌ«“˝#∂◊π‘’“=TRè÷+ÎG«æ˛ùÔw-6Uçú∆‚#pDy‰È˜	ﬂ˜:⁄vå{¨·”vg/jBöÚöFõSö˚[b[∫OÃ>—÷Íﬁz¸G€ú4<YyJÛT…i⁄ÈÇ”ìgÚœåùïù}~.˘‹`€¢∂{ÁcŒﬂjoÔ∫t·“EˇãÁ;º;Œ\Ú∏tÚ≤€ÂW∏WöØ:_mÍtÍ<˛ì”O«ªúªöÆπ\kπÓzΩµ{f˜Èû7Œ›ÙΩyÒˇ÷’û9=›ΩÛzo˜≈˜ıﬂ›~r'˝ŒÀªŸw'Ó≠ºOº_Ù@ÌAŸC›á’?[˛‹ÿÔ‹j¿w†Û—‹G˜ÖÉœ˛ëıèCèôèÀÜÜÎû8>99‚?r˝È¸ßCœdœ&û˛¢˛ÀÆ/~¯’Î◊Œ—ò—°óÚóìøm|•˝Í¿ÎØ€∆¬∆æ…x31^ÙV˚Ì¡w‹wÔ£ﬂO‰| (ˇh˘±ıS–ß˚ìììˇòÛ¸c3-€    cHRM  z%  ÄÉ  ˘ˇ  ÄÈ  u0  Í`  :ò  oí_≈F  ∑IDATx⁄ÏZ{tT’πˇˆ>èy'ì	3dBû‰IÚÄDXy∏ƒ[±ÎUz—ÿã∫∏µ◊Z/Em—EKΩïîóΩ-,–´^ZÅBx$ê@HÑ ¡$fbﬁìê…ºŒÃ9gÔ˚«ñ1@J∞Ì]ó˝◊ú=ÁÏ«oèﬂ˜ÌQJ·nªﬂÖ‡N5˛ögYñké„8Æ∞®àÁ˘vá„‚≈ãÖEE&ìÈ≥KóbbcµZÌ‡‡‡…∫:≠VGTU£’@C}}ˇÄ(
+Zù.//!‘’’uæ±QUIÑŸúó?! ııı∑ª∏§$8⁄⁄RRS†ªª˚|c£ ä¢ÊM…3ôL^Ø˜d]∆ò*àBaQ∆#ú˙Ò„«-KJJ
+{î$©∫∫⁄Âr•¶¶fggá^kkk;~¸xLLÃ¥i” @U’Éé?ﬁn∑744Lô2Ö„8 8yÚdOOœÃô3u:ùœÁ;r‰HAAÅ≈biii±ŸlF£Qí§#Géx<JÈ<†”ÈFë ≠õ∑ÏÿæÉ˝¶ ?˝˜ü,_∂ ∂lﬁ‹◊◊ ]ùùΩΩΩõﬁ~˚„è?n˛Ï3è« á~ıgÀM&”ßÅ@Äù kØº24‰⁄∏a√÷MõŸÄÌ«˜ô®Ú†œÎ}{„F÷©* kØº⁄◊◊70–ﬂ”› Nß≥Ø∑Ôwk÷:x∞ª´€Áıé(ø˝ÌoÀÀÀCè°’´W744¸‚ø8q‚ÎÏÌÌ-//‹πsß”ÈdùÔΩ˜ﬁé;˙˙˙ñ,Y‚Û˘Xguuıä+ÿë#Ñ÷¨Y≥eÀ Xø~}0dÔl‹∏±¶¶¶ΩΩ=4‘_ÖRÑ‰î‰ÙÙtûÁ ::∫Ï˚èµ}˛yÂÅ&22 {,***33≥Ï˚ﬂ7°ƒƒDù^◊’’ùöö™—h ¿n∑GGGGFFFéâÑÿ¯©©iO˛`—˙ﬂ˝Æ´´€h4≤Œ(ª=::⁄„ÒÉ¡(ª ‚„„yt˛∏òò¥	È˜;Ü+oo>ü/..é„∏∂∂6÷£—hRRR‚„„1∆í$±Œ⁄⁄⁄∞∞∞ÚÚÚ◊^{ç…«qyyy˝˝˝Áœü◊jµ!yOLL,((–jµ †”Èñ.]ZYYŸÿÿ8n‹8ã≈ Z≠6++Àb±ƒ««≥ûQ§RUUUUŸÔ@ ˆ¸“[∑fÕ@?SÑ–k≤, [ä™™™¢∏›C<œ≥É%Ñ ÑWæ˛F«O˛`˚ „ÒóîMù∫˙≠ﬂ?|FØ€DQ>tÂ$Ü∑sÁŒy<£—XYY9\V≠ZÖ1æ˜ﬁ{C[`ba4ÎT•∑∑∑ππô|¯∆ ??üR˙Œ;ÔîîîÑ:Eikkºﬁ‡\˚L)uπ\Æ¡AÊŸ)•ÉÉÉ%˜î§§¶˛i˜nÅBo˙˝˛êÿ3;≈¸ºá¢‹n˜óXÉ/˛Ù%óÀu¯–°+ÀU<nœ‚ß œü;◊⁄⁄öTí§)˘3fÃhw8˛⁄◊¨≥¶¶fˆÏŸ,¯‡É!¨ﬂÌvWTTÙÙÙ\∏pÅı‰‰‰\∏p°ÆÆÆ••≈{≈P¯|æ¨¨¨“““@ Çœ„ÒtttÑÜ2çIII˚˜Ôœ  
+ÕÎız'MöTXXË˜˚ØY∑|˘Ú·œÑGõ√h0‰LûÑ1¶î™™öêêêëô…Û\¡‘¬ê‘H))9)666¥7Ø◊€ÔÏw8⁄r&MÅ≠x˙å	â	}}}ôôô ¿<U\||l\‹ÿ±c≥≤≥ô–πá˙ùŒñÊfª›nµŸB«ìúös=îÑ∑€=sÊÃÙÙtóÀïùùÕfÙzΩ≈≈≈vª!îêê  ëëë6õÌ¿ÅNßs‚ƒâl˝¡`–f≥±ëãääòÿ~˛˘Áí$Öˆôëë1i“§–º¡`∞•••µµ577˜∑ÉÓÚ ªºÚûW˛„4T=ü‘´Å1B¥¡ê9¢{ÆRLIˇéÌõVp@ -à¿Âﬁ˜›<{(°8Ôû?˛DmËØˆˆˆ_ˇ˙◊UUUîRùN'Àr0LOO_∫ti~~˛Õ.ÀÚ©Sß!πππå∫›y©§™Ï™?„Úö∆ƒh√mŒÊOD}xDLÜ≥Â¥™ ÜÒ1±„orËÆùÓŸÛ£Ä
+t\TÃ∑#ßf}≠S∆≤	K—»◊ò|EGd˘Ö^ÿ±cGAAÅ¢(Gè7n\ZZ⁄ˆÌ€œú9s¯a€ØuÉÊrπ   Å@MMM»s¿––êNßcÏv°¯•É/<%’_{∂˘û˘~∂“Gü[vq’∆`w}“O*
+ü≈›v©ØÆ60`–'ò¨S&Î-cõÍïsgº∫∞1ÒâÅ÷ãä¨rgÙ~˙i˝™x„xP/çi⁄ˆ˚È¸OÎîúØc…`yè””“™≈í·?uÍ l€∂≠ÆÆÓÒ«ü;wÓ∫uÎÚÚÚZ[[m6[UU’˛˝˚EQ|‡Å&OûÃÿeSSBh¬Ñ	«QJeYñ$i8jGè-++{˛˘Á+**∫ªª≠Vkggß,ÀÃw>|∏ππ9..n˙ÙÈzΩ~4©PUjQ®J¸†§P⁄°Í<Tà¶AÊ±‘Ì9Xˆåß©IQ∆ö∂»ío}{Ûf«ÅOœ˝Ù?46.ÂŸeü≠›(Òi¡äWE≥Y‘ÎÑ»Ó®yÖΩ´RGC˜Åù÷)9 AÁ˛Í`[2⁄¬ßeòS&_—:pı¥ÇËX¯äíS¨”{N‘V=˝têèŒ_˚¢mŒ|F™yûWÖ—fé„ÿﬁ¥ZÌæ}˚zË!ºÆZµj◊Æ]ì'O~Ù—Gè=J)ù={ˆÊÕõEQƒÎı˙ﬁﬁﬁ'NX≠÷¢¢¢ÿÿÿ≈ãóîî¨^Ω˙ç7ﬁHOOøxÒ"•Ù≠∑ﬁZ∏p·À/ø¸Êõoä¢(ÀÚÇ÷Æ]kº:¡T#å¶cÑ0¬aÑ #DX£wÏ˘À–Ÿ!ùm∫yrò˜Ttˇ°™Æ›Ú·FUó«C'—P’ò¶¢ÀàJ zJ©»iÃÁÙ‘ÏÉÆ†À@¸«ó¸∞˘´$àß±i&˝Ëıî'æ„iÍ<˘≥˝ù-ÄHdlr·keº=.tºd¬á©8M—Å~üÑ‹#øåZBvÓ‹6m⁄$I“3œ<Û˛˚Ô777ÔﬂøˇŸgüEÒWø˙’÷≠[/^ÃÛ|ooÔÉ>ÿﬁﬁn0>¯‡É‚‚‚ÏÏl¬p7oﬁº-[∂Ï⁄µk∆å€∂m≥Z≠€∑o_∂lŸªÔæªh—¢3f‹"Xq:ÑDCÏS%»¬# )¡3Ä8ÑT¿Ä !D¶ÄpHÃIPB/j⁄.µTVrhä1i¶—>IÓån^ˇKı≤∑~›€Ì˙∑9qãˇãˇ\˚˙[Aøá‚TÑFS4Í	a±VFF∆ƒâœÔÈÈÄyÛÊÕü? :;;	!c∑€=k÷¨‚‚bØ◊[SS”––PZZ∫}˚v&nÂÂÂÀñ-”ÈtÑY,ñ‹‹\f[].◊ÌÚJ§Ú  "%™Ñ§‡¶X éÔil£ﬁ\Ç.¶.∫/j¢éb
+ﬁ~œÁõ/sú~Ïlù≠4ÛQ˛sgî˛N‡nÖﬂ∞DÅ$I,£Å1f<…ÁÛ±¿ë=*äærÂ 'ûxb¯áÇ 0ag#`åB!å±¢(°XvÙ¸&∞º"ltò}ΩYÆXƒH†TÌ◊òMH;®ä8å∆~•&ç≈¥© Ùç2Aé„dYf1¯àJÈÕì≈øy¥É>U	Pı´N∂¢K. ˙¶◊BØ¥ªÅ„ˇ˘ú!p7r€PR¢2u…Éî|3
+à0 w;⁄}ÖeÑix~˜ÔñŒPÓ¯«ûà∏Ø@–k=¡n¢*__§ÅDUB)	G§˙.+û’=# ÇËM®s‹≤,_ÔdA0çÏ ·Ô%Ucº’oP}u]D!_KZAÒp‰"’ X1·ØFôbU?!Q≥¿®1Ã°¢%‰ó0áP"ª9"å +ÀÀÀÛÛÛ≥≤≤Nü>=¸/øﬂ?k÷¨ÍÍjª›oÕ€0bt†DOΩ¥·ıü˜ü˛ÿÎıa˜ è¶âàp#ûÿ$†ÑÇ{¬˛_ ∆‰q={◊ p√ù;ê}2·—' 0‰&≤Ä@@.W0®B¯§àÿ‹iÂFÍ©( ú9sÊÃô √Øâ Z≠6'' Æø/ºª¡qú(ä√/∏nJN£Ôÿw≤a›.GaÉ¶£Q5hÓ;ÿDz|∆íi…•Os´uzÙófóÙ oh/ò;ÑŒ≥˚Äd[„5ëa~ø˜FZ∆Ûí$Ì‹π≥£££±±ÒØ∆[h¢(:éEãUUU±3ªΩ‘/Â\M«±™”%G≈îe∂nh§~zCB…÷πªû◊jdGó˜lµhÿ±_œG€®lq^à„D‡ã·G?\ó  8¨Ù#¢¯yçæu˜ˆÒèdÍäÔΩ¡åçf√Üœ=˜ òL¶·P2,÷Ø_?sÊÃººº[PÌ@ –‹‹<~¸¯¥¥4´’zõYtÑ ı#õAò˙≥pckI':çqc|ùh?›R_71£‰ƒ”ˇ"˜«Qzâ◊«°´CC§îÓ˛@oË¬ë≈äGÆi`…ºØ˝˜ïîãx«çñ”≠≠≠Ä-[∂òÕÊ“““–¢(äÁœü_±bÖﬂÔ/((¯∫“ˆÏŸußx%@@)*◊πSˆ(Aº∂'ÓS—Ä'"?¯Yü,8]DÃÏ©ÜïáBk@AWˇŒoˆﬁˇ`Ì??$_Ó@ÇHà¡ßOO∆®	 èXÓ2bKKKãàà∏∆ÿ1Îy}™ÒÊìù«ﬁΩ{GØŒ∏â‰ †bN£π˙k(¿aTtµ[÷–Å@ ( ~ ÿåp¶™6ƒ<|ü-)EU|WÁ^.Ã'Á!ÄhÄùë@ëî´‘hfπ^VÒ0Ç¯`|kîe4ñ/_>wÓ‹c«é›îÙ*k5¸®™!8õ“ÊÍ¸c%uÑ0®ÇXQ":˜‘R']õør—Éf∑=Çî–k∞¿a!Lø≤õË%hxŸÀ
+≥õÎ€	∫ôZPJCv„F∂í™<  §`§^R˘r?D≤ßzó∑ãHª:0ó.{˝Í`–6≈Æ—:¸Œh˘∞kı_m!P%⁄€~à|≈∂R@ Ó´¥°Ä9Í•‘©¡îœ†ºÄ‹¬np¢(2()•¨t`Î÷≠,Ω∆ääÆ!ƒú2Kø_œÑTUEÒ<œ–ºﬁ‘◊y@ù=Ó[≠üûñö|Éû„X´∏„ª∂T#7P™ÑõÕ∂‹ÇIø\:XÁ¥d$™JˇP˜}¶Ã¨1πìK÷æÿÛŸeÅ£çõéÅõ UT¢¯•°ÑKõé(.é
+R‘¯DßW @∏{AÈ¿T%≥^Lß‰x†Î ¿'DÈ¢Kƒà(UÚ©Aâ <BÇ˚	ëGÕõÖÖÖ¿ ï+Yâ⁄––PiiÈ‚≈ãwÔﬁM)++{‰ëGÆØüQ≈jµŒõ7/33ì9.EQ!~øﬂÁÛEDDLò0°∫∫z·¬Ö«é3ôLqqq£@â~¬gıù≠¯\D-'9R¿YEêFı≠úËY  u·BXx’WÕzœuËå÷8ßÄ%î(úy»+r·A™ MJJ˙Óè¨süP*˜˘å N>ˇÊ!Eëxçïê/A,¯·c«˚õÇg?ôös2_\»u∫(OD-câﬁb≤ák±dÕÑ√à¬ë$âR äx!è?˛¯ﬁΩ{+++ãää‚‚‚Ãfsxx¯Ü⁄€€	!ÒÒÒ –◊◊ß(
+C¶™>ü/))È£è>Ä¶¶¶ÏÏlõÕ¶◊ÎÛÛÛìììÕfÛ⁄µk_~˘Âã/fddTTT0™?äÇ[äf›ˇ˛îˆ„!n'b¶A•ÿlHπˇA."r‰∞∑÷l◊F€‘3x0úaJX\‚˜˛)··ßhQ–R—h ÄàúÏ»¥±ŒO*y A∑¨à˝≤œñûwﬂªˇ-wµ@P«§£0N%r…∫uH•Tê±÷0„/G5ä·:	§ˇ¯«V´µ††‡•ó^bµ¶Kñ,ÈÏÏdï@µµµÅ@ >>æªª;qø§≈3÷…LÅV´òWTT,Z¥HØ◊sw‡¿ﬁdgg¯·áèGØ◊èH$ÓLIÅØ’y‡±g]ó˙ÓEtå1≈ÔÆwÕˆƒ_ˆ∑ı¥æøC;—j÷§KéA‘DŒûÜMÜøeBLU’ññUUììì›n∑√·∞€Ì7sÅ~#Gwßr»nGgÛÓ}“eòÅ$~ª@óïˇœ⁄›J∂;÷˛w .V2ÀI Öñ    IENDÆB`ÇYimage/png_Fhttps://web.archive.org/static/images/toolbar/wayback-toolbar-logo.pngO¿bplist00‘qrX$versionX$objectsY$archiverT$top Ü†Ø##)*0123QRSTUVWXYZ[\]^_`abcdefghilU$null›	
+ !"R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1Ä	ÄÄÄ Ä"ÄÄÄ”$%'(WNS.base[NS.relativeÄ ÄÄ_Fhttps://web.archive.org/static/images/toolbar/wayback-toolbar-logo.png“+,-.Z$classnameX$classesUNSURL¢-/XNSObject#Aª”˚i∑ÌÈ »”456CPWNS.keysZNS.objects¨789:;<=>?@ABÄ	Ä
+ÄÄÄÄÄÄÄÄÄÄ¨EFGHIJKLMNOÄÄÄÄÄÄÄÄÄÄÄÄ Ä!\Content-TypeVServerTLink\X-Page-Cache_X-Archive-Wayback-PerfTDate^Content-Length_X-Archive-PlaybackZConnectionTEtag]Accept-Ranges]Last-ModifiedYimage/png]Tengine/2.1.0_8<http://mementoweb.org/terms/donotnegotiate>; rel="type"TMISS[{"Total":8}_Sun, 18 Oct 2015 15:48:27 GMTT7564Q0Zkeep-alive_W/"7564-1402435148000"Ubytes_Tue, 10 Jun 2014 21:19:08 GMT“+,jk\NSDictionary¢j/“+,mn_NSHTTPURLResponse£op/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—st_WebResourceResponseÄ    # - 2 7 ] c ~ Å Ö à ã é í ï ú ü ¢ • ® ´ ≠ Ø ± ≥ µ ∂ ∏ ∫ º æ ¿ ¬ ƒ À ” ﬂ · „ Â.3>GMPYbdfmuÄçèëìïóôõùü°£•≤¥∂∏∫ºæ¿¬ƒ∆» ÃŸ‡ÂÚ4?DR`jx≥∏ƒ‰ÈÎˆ5:GJOcg{âõû¥             u              ∂‘O$âPNG
+
+   IHDR         &îN:   tEXtSoftware Adobe ImageReadyq…e<   ∆IDATx⁄î”±
+Aa¿q.I&ãí' ÉtŸÃ,íºÇ§ÿe`%ô¨`ÒºÅ¡Ë,6É˛_ùo†.ﬂ9ı[n˝oÁﬁÔﬁ∞ÔøB )¢Ô)Çÿ£ubË`Ñ¥\{˛kò zf%h›Ò;Lbå‚øV±aDû√Dó7e¬&»kŒƒìï⁄√4·9p—ÑfÓòÀ∫K<\C;gtQ∆V⁄9†äéö–å˘˙7(aà´khÁÜ
+XŸNÛwú–Fª∑  ï ∆#∆ƒ    IENDÆB`Ç_>https://web.archive.org/static/images/toolbar/wm_tb_prv_on.pngO∂bplist00‘qrX$versionX$objectsY$archiverT$top Ü†Ø##)*0123QRSTUVWXYZ[\]^_`abcdefghilU$null›	
+ !"R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1Ä	ÄÄÄ Ä"ÄÄÄ”$%'(WNS.base[NS.relativeÄ ÄÄ_>https://web.archive.org/static/images/toolbar/wm_tb_prv_on.png“+,-.Z$classnameX$classesUNSURL¢-/XNSObject#Aª”˚i∑˚ú »”456CPWNS.keysZNS.objects¨789:;<=>?@ABÄ	Ä
+ÄÄÄÄÄÄÄÄÄÄ¨EFGHIJKLMNOÄÄÄÄÄÄÄÄÄÄÄÄ Ä!\Content-TypeVServerTLink\X-Page-Cache_X-Archive-Wayback-PerfTDate^Content-Length_X-Archive-PlaybackZConnectionTEtag]Accept-Ranges]Last-ModifiedYimage/png]Tengine/2.1.0_8<http://mementoweb.org/terms/donotnegotiate>; rel="type"TMISS[{"Total":2}_Sun, 18 Oct 2015 15:48:28 GMTS292Q0Zkeep-alive_W/"292-1402435148000"Ubytes_Tue, 10 Jun 2014 21:19:08 GMT“+,jk\NSDictionary¢j/“+,mn_NSHTTPURLResponse£op/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—st_WebResourceResponseÄ    # - 2 7 ] c ~ Å Ö à ã é í ï ú ü ¢ • ® ´ ≠ Ø ± ≥ µ ∂ ∏ ∫ º æ ¿ ¬ ƒ À ” ﬂ · „ Â&+6?EHQZ\^emxÖáâãçèëìïóôõù™¨Æ∞≤¥∂∏∫ºæ¿¬ƒ—ÿ›Í,7<JXbp´∞º‹‡‚Ì+0=@EY]qëî™             u              ¨‘O&âPNG
+
+   IHDR         &îN:   tEXtSoftware Adobe ImageReadyq…e<   »IDATx⁄î“œ
+A¿Ò¡&9π(yWÌ;pë‰)îrPÆú)áï?yWé A˘S ∏8psP¬wjßˆ∞1ø_}⁄⁄˙6≥3q›œT)5¬N	&ä∂êñÑoˇŸ¿uƒm¬‡d0ƒEIh&èÊ»IB3ˇ–˙HIB=	4qB1€–LPñÑfízé ∏°ãû6·3¥q5/ˇÖK¥∞∑Ωé3™(ÑEa+ﬁ—Ûˇû«Ø≠8ÅUıwtp±9)Æ0∆Zr'_ Œ4"2›˛ıà    IENDÆB`Ç_>https://web.archive.org/static/images/toolbar/wm_tb_nxt_on.pngO∂bplist00‘qrX$versionX$objectsY$archiverT$top Ü†Ø##)*0123QRSTUVWXYZ[\]^_`abcdefghilU$null›	
+ !"R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1Ä	ÄÄÄ Ä"ÄÄÄ”$%'(WNS.base[NS.relativeÄ ÄÄ_>https://web.archive.org/static/images/toolbar/wm_tb_nxt_on.png“+,-.Z$classnameX$classesUNSURL¢-/XNSObject#Aª”˚i∏	 »”456CPWNS.keysZNS.objects¨789:;<=>?@ABÄ	Ä
+ÄÄÄÄÄÄÄÄÄÄ¨EFGHIJKLMNOÄÄÄÄÄÄÄÄÄÄÄÄ Ä!\Content-TypeVServerTLink\X-Page-Cache_X-Archive-Wayback-PerfTDate^Content-Length_X-Archive-PlaybackZConnectionTEtag]Accept-Ranges]Last-ModifiedYimage/png]Tengine/2.1.0_8<http://mementoweb.org/terms/donotnegotiate>; rel="type"TMISS[{"Total":1}_Sun, 18 Oct 2015 15:48:27 GMTS294Q0Zkeep-alive_W/"294-1402435148000"Ubytes_Tue, 10 Jun 2014 21:19:08 GMT“+,jk\NSDictionary¢j/“+,mn_NSHTTPURLResponse£op/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—st_WebResourceResponseÄ    # - 2 7 ] c ~ Å Ö à ã é í ï ú ü ¢ • ® ´ ≠ Ø ± ≥ µ ∂ ∏ ∫ º æ ¿ ¬ ƒ À ” ﬂ · „ Â&+6?EHQZ\^emxÖáâãçèëìïóôõù™¨Æ∞≤¥∂∏∫ºæ¿¬ƒ—ÿ›Í,7<JXbp´∞º‹‡‚Ì+0=@EY]qëî™             u              ¨‘!"#OÉâPNG
+
+   IHDR  Ù      ä≥}i  JIDATx⁄Ì‹;
+Ñ0@—¨”⁄ÂX∫¨,≈=¯√Ä-åZú¿+fÑ9‹nBå±ôÉ¡`0åê˛9á¡`0åeùsÊ˜Ë”;ƒ˝—{	:É¡`0Çn±É!ËÇŒ`0Ü†:É¡`0Ç.ËÉ¡`∫≈b0Ü†:É¡`0Ç.ËÉ¡`∫†3É!Ë^:É¡`0]–É¡x…∏
+gz>˝œ˙bRà◊ü◊ﬂßiB5ŒY–∑Ü†3É!ËÇŒ`0Atã≈`0AtÉ¡`0]–É¡tAg0Ü†∫≈b0Ü†:É¡`0Ç.ËÉ¡`∫†3C–›b1C–›b1C–ù¡`0AøÙê˘0ÉÒÅë‚y˙|/∂7~c7Ë˜829
+ëARú,    IENDÆB`Ç_›https://web.archive.org/web/jsp/graph.jsp?graphdata=500_27_1996:-1:000000000000_1997:-1:000000000000_1998:-1:000000000000_1999:-1:000000000000_2000:-1:000000000000_2001:-1:000000000000_2002:-1:000000000000_2003:-1:000000000000_2004:-1:000000000000_2005:-1:000000000000_2006:-1:000000000000_2007:-1:000000000000_2008:-1:000000000000_2009:-1:000000000000_2010:-1:000000000000_2011:-1:000000000000_2012:-1:000000000000_2013:-1:000000010001_2014:8:110100111000_2015:-1:120000000000O,bplist00‘ijX$versionX$objectsY$archiverT$top Ü†Ø#)*0123MNOPQRSTUVWXYZ[\]^_`adU$null›	
+ !"R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1Ä	ÄÄÄ ÄÄÄÄ”$%'(WNS.base[NS.relativeÄ ÄÄ_›https://web.archive.org/web/jsp/graph.jsp?graphdata=500_27_1996:-1:000000000000_1997:-1:000000000000_1998:-1:000000000000_1999:-1:000000000000_2000:-1:000000000000_2001:-1:000000000000_2002:-1:000000000000_2003:-1:000000000000_2004:-1:000000000000_2005:-1:000000000000_2006:-1:000000000000_2007:-1:000000000000_2008:-1:000000000000_2009:-1:000000000000_2010:-1:000000000000_2011:-1:000000000000_2012:-1:000000000000_2013:-1:000000010001_2014:8:110100111000_2015:-1:120000000000“+,-.Z$classnameX$classesUNSURL¢-/XNSObject#Aª”˚i∏” »”456ALWNS.keysZNS.objects™789:;<=>?@Ä	Ä
+ÄÄÄÄÄÄÄÄ™BDEFGHIJKÄÄÄÄÄÄÄÄÄÄÄVServer\Content-TypeZSet-Cookie_Transfer-Encoding\X-Page-Cache_X-Archive-PlaybackTDateTLink_X-Archive-Wayback-PerfZConnection]Tengine/2.1.0Yimage/png_=JSESSIONID=8FB0F1461C08D2B4E642067EF27FF6A6; Path=/; HttpOnlyXIdentityTMISSQ0_Sun, 18 Oct 2015 15:48:28 GMT_8<http://mementoweb.org/terms/donotnegotiate>; rel="type"[{"Total":6}Zkeep-alive“+,bc\NSDictionary¢b/“+,ef_NSHTTPURLResponse£gh/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—kl_WebResourceResponseÄ    # - 2 7 Y _ z } Å Ñ á ä é ë ò õ û ° § ß © ´ ≠ Ø ± ≤ ¥ ∂ ∏ ∫ º æ ¿ « œ € › ﬂ ·¬«“€·‰Ìˆ¯˙	!#%')+-/13>@BDFHJLNPRT[hsáî©Æ≥Ã◊ÂÔ/8=?_ö¶±∂√∆Àﬂ„˜0             m              2‘%&'(OÖfunction getFrameArea(frame) {
+  if(frame.innerWidth) return frame.innerWidth * frame.innerHeight;
+  if(frame.document.documentElement && frame.document.documentElement.clientHeight) return frame.document.documentElement.clientWidth * frame.document.documentElement.clientHeight;
+  if(frame.document.body) return frame.document.body.clientWidth * frame.document.body.clientHeight;
+  return 0;
+}
+
+function isLargestFrame() {
+	if(top == self) {
+		return true;
+	}
+	if(top.document.body.tagName == "BODY") {
+		return false;
+	}
+	largestArea = 0;
+	largestFrame = null;
+	for(i=0;i<top.frames.length;i++) {
+		frame = top.frames[i];
+		area = getFrameArea(frame);
+		if(area > largestArea) {
+			largestFrame = frame;
+			largestArea = area;
+		}
+	}
+	return (self == largestFrame);
+}
+
+function disclaimElement(element) {
+	if(isLargestFrame()) {
+		element.style.display="block";
+		document.body.insertBefore(element,document.body.firstChild);
+	}
+}
+
+function disclaimToggle(largest, nonLargest) {
+	if(isLargestFrame()) {
+		largest.style.display="block";
+		nonLargest.style.display="none";
+	} else {
+		largest.style.display="none";
+		nonLargest.style.display="block";
+	}
+}
+
+_application/javascript_5https://web.archive.org/static/js/disclaim-element.jsO⁄bplist00‘rsX$versionX$objectsY$archiverT$top Ü†Ø$#)*0123QRSTUVWXYZ[\]^_`abcdefghilmU$null›	
+ !"R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1Ä	ÄÄÄ Ä#ÄÄ"Ä”$%'(WNS.base[NS.relativeÄ ÄÄ_5https://web.archive.org/static/js/disclaim-element.js“+,-.Z$classnameX$classesUNSURL¢-/XNSObject#Aª”˚i∏"´ »”456CPWNS.keysZNS.objects¨789:;<=>?@ABÄ	Ä
+ÄÄÄÄÄÄÄÄÄÄ¨DEFGHIJKLMNOÄÄÄÄÄÄÄÄÄÄÄÄ Ä!\Content-TypeVServerTLink\X-Page-Cache_X-Archive-Wayback-PerfTDate^Content-Length_X-Archive-PlaybackZConnectionTEtag]Accept-Ranges]Last-Modified_application/javascript]Tengine/2.1.0_8<http://mementoweb.org/terms/donotnegotiate>; rel="type"TMISS[{"Total":1}_Sun, 18 Oct 2015 15:48:27 GMTT1157Q0Zkeep-alive_W/"1157-1402435148000"Ubytes_Tue, 10 Jun 2014 21:19:08 GMT“+,jk\NSDictionary¢j/_application/javascript“+,no_NSHTTPURLResponse£pq/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—tu_WebResourceResponseÄ    # - 2 7 ^ d  Ç Ü â å è ì ñ ù † £ ¶ © ¨ Æ ∞ ≤ ¥ ∂ ∑ π ª Ω ø ¡ √ ≈ Ã ‘ ‡ ‚ ‰ Ê#.7=@IRTV]ep}ÅÉÖáâãçèëìï¢§¶®™¨Æ∞≤¥∂∏∫º…–’‚˚ $/4BPiw≤∑√„ËÍı49FIbg{ì°≥∂Ã             v              Œ‘*+,-O÷function getEventX(event) {
+	var posx = 0;
+	if (event.pageX || event.pageY) {
+		posx =  event.pageX;
+	}
+	else if (event.clientX || event.clientY) 	{
+		posx = event.clientX + document.body.scrollLeft
+			+ document.documentElement.scrollLeft;
+	}
+	return posx;
+}
+function getOffset(elem) {
+  var box = (typeof elem.getBoundingClientRect !== 'undefined') ?
+    elem.getBoundingClientRect() : {top: 0, left: 0};
+  var w = window, d = elem.ownerDocument.documentElement;
+  return {
+    top: box.top + (w.pageYOffset || d.scrollTop) - (d.clientTop || 0),
+    left: box.left + (w.pageXOffset || d.scrollLeft) - (d.clientLeft || 0)
+  };
+}
+function getElementX(obj) {
+  return Math.round(getOffset(obj).left);
+}
+function zeroPad(str,len) {
+	var i;
+	var pad = "";
+	var s = str.toString();
+	for(i=s.length; i < len; i++) {
+		pad = "0".toString() + pad.toString();
+	}
+	return pad.toString() + s.toString();
+}
+
+function dateToTimestamp(date) {
+	return date.getFullYear() +
+		zeroPad(date.getMonth()+1,2) +
+		zeroPad(date.getDay()+1,2) +
+		zeroPad(date.getHours(),2) +
+		zeroPad(date.getMinutes(),2) +
+		zeroPad(date.getSeconds(),2);
+}
+
+function calcTimestamp(event,element,firstMS,lastMS) {
+	  var eventX = getEventX(event);
+	  var elementX = getElementX(element);
+	  var elementWidth = element.width;
+	  var msWidth = lastMS - firstMS;
+	  var x = eventX - elementX;
+	  var pct = x / elementWidth;
+	  var pctDate = pct * msWidth;
+	  var date = pctDate + firstMS;
+	  return dateToTimestamp(new Date(date));
+}
+_application/javascript_/https://web.archive.org/static/js/graph-calc.jsO’bplist00‘rsX$versionX$objectsY$archiverT$top Ü†Ø$#)*0123QRSTUVWXYZ[\]^_`abcdefghilmU$null›	
+ !"R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1Ä	ÄÄÄ Ä#ÄÄ"Ä”$%'(WNS.base[NS.relativeÄ ÄÄ_/https://web.archive.org/static/js/graph-calc.js“+,-.Z$classnameX$classesUNSURL¢-/XNSObject#Aª”˚i∏0+ »”456CPWNS.keysZNS.objects¨789:;<=>?@ABÄ	Ä
+ÄÄÄÄÄÄÄÄÄÄ¨DEFGHIJKLMNOÄÄÄÄÄÄÄÄÄÄÄÄ Ä!\Content-TypeVServerTLink\X-Page-Cache_X-Archive-Wayback-PerfTDate^Content-Length_X-Archive-PlaybackZConnectionTEtag]Accept-Ranges]Last-Modified_application/javascript]Tengine/2.1.0_8<http://mementoweb.org/terms/donotnegotiate>; rel="type"TMISS\{"Total":12}_Sun, 18 Oct 2015 15:48:27 GMTT1494Q0Zkeep-alive_W/"1494-1434060822000"Ubytes_Thu, 11 Jun 2015 22:13:42 GMT“+,jk\NSDictionary¢j/_application/javascript“+,no_NSHTTPURLResponse£pq/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—tu_WebResourceResponseÄ    # - 2 7 ^ d  Ç Ü â å è ì ñ ù † £ ¶ © ¨ Æ ∞ ≤ ¥ ∂ ∑ π ª Ω ø ¡ √ ≈ Ã ‘ ‡ ‚ ‰ Ê(17:CLNPW_jwy{}ÅÉÖáâãçèúû†¢§¶®™¨Æ∞≤¥∂√ œ‹ı˙	).<Jcq¨±æﬁ„Â	/4AD]bvzéúÆ±«             v              …’/01234_WebResourceFrameNameO©l<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head>
+
+
+<script type="text/javascript" src="/static/js/analytics.js"></script>
+<script type="text/javascript">archive_analytics.values.server_name="wwwb-app19.us.archive.org";archive_analytics.values.server_ms=134;</script>
+<link type="text/css" rel="stylesheet" href="/static/css/banner-styles.css">
+
+
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=ISO-8859-1">
+    <title>Creating a Workload in Faban Tutorial</title>
+    <link rel="stylesheet" type="text/css" href="/web/20140911142603cs_/http://faban.org/css/wp_style.css">
+  <style type="text/css"></style></head>
+  <body><div id="wm-ipp" lang="en" style="display: none;" class="">
+
+<div style="position:fixed;left:0;top:0;width:100%!important">
+<div id="wm-ipp-inside">
+   <table style="width:100%;"><tbody><tr>
+   <td id="wm-logo">
+       <a href="/web/" title="Wayback Machine home page"><img src="/static/images/toolbar/wayback-toolbar-logo.png" alt="Wayback Machine" width="110" height="39" border="0"></a>
+   </td>
+   <td class="c">
+       <table style="margin:0 auto;"><tbody><tr>
+       <td class="u" colspan="2">
+       <form target="_top" method="get" action="/web/form-submit.jsp" name="wmtb" id="wmtb" _lpchecked="1"><input type="text" name="url" id="wmtbURL" value="http://faban.org/docs/CreatingWorkloadTutorial.html" style="width:400px;" onfocus="this.focus();this.select();"><input type="hidden" name="type" value="replay"><input type="hidden" name="date" value="20140911142603"><input type="submit" value="Go"><span id="wm_tb_options" style="display:block;"></span></form>
+       </td>
+       <td class="n" rowspan="2">
+           <table><tbody>
+           <!-- NEXT/PREV MONTH NAV AND MONTH INDICATOR -->
+           <tr class="m">
+           	<td class="b" nowrap="nowrap">
+		
+		    <a href="/web/20140718034403/http://faban.org/docs/CreatingWorkloadTutorial.html" title="18 Jul 2014">JUL</a>
+		
+		</td>
+		<td class="c" id="displayMonthEl" title="You are here: 14:26:03 Sep 11, 2014">Sep</td>
+		<td class="f" nowrap="nowrap">
+		
+		    <a href="/web/20150102035359/http://faban.org/docs/CreatingWorkloadTutorial.html" title="2 Jan 2015"><strong>JAN</strong></a>
+		
+                </td>
+	    </tr>
+           <!-- NEXT/PREV CAPTURE NAV AND DAY OF MONTH INDICATOR -->
+           <tr class="d">
+               <td class="b" nowrap="nowrap">
+               
+                   <a href="/web/20140819055132/http://faban.org/docs/CreatingWorkloadTutorial.html" title="5:51:32 Aug 19, 2014"><img src="/static/images/toolbar/wm_tb_prv_on.png" alt="Previous capture" width="14" height="16" border="0"></a>
+               
+               </td>
+               <td class="c" id="displayDayEl" style="width:34px;font-size:24px;" title="You are here: 14:26:03 Sep 11, 2014">11</td>
+	       <td class="f" nowrap="nowrap">
+               
+		   <a href="/web/20150102035359/http://faban.org/docs/CreatingWorkloadTutorial.html" title="3:53:59 Jan 2, 2015"><img src="/static/images/toolbar/wm_tb_nxt_on.png" alt="Next capture" width="14" height="16" border="0"></a>
+	       
+	       </td>
+           </tr>
+           <!-- NEXT/PREV YEAR NAV AND YEAR INDICATOR -->
+           <tr class="y">
+	       <td class="b" nowrap="nowrap">
+               
+                   <a href="/web/20130831223407/http://faban.org/docs/CreatingWorkloadTutorial.html" title="31 Aug 2013"><strong>2013</strong></a>
+               
+               </td>
+               <td class="c" id="displayYearEl" title="You are here: 14:26:03 Sep 11, 2014">2014</td>
+	       <td class="f" nowrap="nowrap">
+               
+                   2015
+               
+	       </td>
+           </tr>
+           </tbody></table>
+       </td>
+       </tr>
+       <tr>
+       <td class="s">
+           <a class="t" href="/web/20140911142603*/http://faban.org/docs/CreatingWorkloadTutorial.html" title="See a list of every capture for this URL">11 captures</a>
+           <div class="r" title="Timespan for captures of this URL">31 Aug 13 - 13 Feb 15</div>
+       </td>
+       <td class="k">
+       <a href="/web/19971115000000/http://faban.org/docs/CreatingWorkloadTutorial.html" id="wm-graph-anchor">
+       <div id="wm-ipp-sparkline" title="Explore captures for this URL">
+	 <img id="sparklineImgId" alt="sparklines" onmouseover="__wm.st(1)" onmouseout="__wm.st(0)" onmousemove="__wm.mv(event,this)" width="500" height="27" border="0" src="/web/jsp/graph.jsp?graphdata=500_27_1996:-1:000000000000_1997:-1:000000000000_1998:-1:000000000000_1999:-1:000000000000_2000:-1:000000000000_2001:-1:000000000000_2002:-1:000000000000_2003:-1:000000000000_2004:-1:000000000000_2005:-1:000000000000_2006:-1:000000000000_2007:-1:000000000000_2008:-1:000000000000_2009:-1:000000000000_2010:-1:000000000000_2011:-1:000000000000_2012:-1:000000000000_2013:-1:000000010001_2014:8:110100111000_2015:-1:120000000000">
+       <div class="yt" style="display: none; width: 25px; height: 27px; left: 25px;"></div><div class="mt" style="display: none; width: 2px; height: 27px; left: 46px;"></div></div>
+       </a>
+       </td>
+       </tr></tbody></table>
+   </td>
+   <td class="r">
+       <a href="#close" onclick="__wm.h();return false;" style="background-image:url(/static/images/toolbar/wm_tb_close.png);top:5px;" title="Close the toolbar">Close</a>
+       <a href="http://faq.web.archive.org/" style="background-image:url(/static/images/toolbar/wm_tb_help.png);bottom:5px;" title="Get some help using the Wayback Machine">Help</a>
+   </td>
+   </tr></tbody></table>
+</div>
+</div>
+</div>
+
+
+<!-- BEGIN WAYBACK TOOLBAR INSERT -->
+<script type="text/javascript" src="/static/js/disclaim-element.js"></script>
+<script type="text/javascript" src="/static/js/graph-calc.js"></script>
+<script type="text/javascript">//<![CDATA[
+var __wm = (function(imgWidth,imgHeight,yearImgWidth,monthImgWidth){
+var wbPrefix = "/web/";
+var wbCurrentUrl = "http://faban.org/docs/CreatingWorkloadTutorial.html";
+
+var firstYear = 1996;
+var displayDay = "11";
+var displayMonth = "Sep";
+var displayYear = "2014";
+var prettyMonths = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var $D=document,$=function(n){return document.getElementById(n)};
+var trackerVal,curYear = -1,curMonth = -1;
+var yearTracker,monthTracker;
+function showTrackers(val) {
+  if (val===trackerVal) return;
+  var $ipp=$("wm-ipp");
+  var $y=$("displayYearEl"),$m=$("displayMonthEl"),$d=$("displayDayEl");
+  if (val) {
+    $ipp.className="hi";
+  } else {
+    $ipp.className="";
+    $y.innerHTML=displayYear;$m.innerHTML=displayMonth;$d.innerHTML=displayDay;
+  }
+  yearTracker.style.display=val?"inline":"none";
+  monthTracker.style.display=val?"inline":"none";
+  trackerVal = val;
+}
+function trackMouseMove(event,element) {
+  var eventX = getEventX(event);
+  var elementX = getElementX(element);
+  var xOff = Math.min(Math.max(0, eventX - elementX),imgWidth);
+  var monthOff = xOff % yearImgWidth;
+
+  var year = Math.floor(xOff / yearImgWidth);
+  var monthOfYear = Math.min(11,Math.floor(monthOff / monthImgWidth));
+  // 1 extra border pixel at the left edge of the year:
+  var month = (year * 12) + monthOfYear;
+  var day = monthOff % 2==1?15:1;
+  var dateString = zeroPad(year + firstYear) + zeroPad(monthOfYear+1,2) +
+    zeroPad(day,2) + "000000";
+
+  $("displayYearEl").innerHTML=year+firstYear;
+  $("displayMonthEl").innerHTML=prettyMonths[monthOfYear];
+  // looks too jarring when it changes..
+  //$("displayDayEl").innerHTML=zeroPad(day,2);
+  var url = wbPrefix + dateString + '/' +  wbCurrentUrl;
+  $("wm-graph-anchor").href=url;
+
+  if(curYear != year) {
+    var yrOff = year * yearImgWidth;
+    yearTracker.style.left = yrOff + "px";
+    curYear = year;
+  }
+  if(curMonth != month) {
+    var mtOff = year + (month * monthImgWidth) + 1;
+    monthTracker.style.left = mtOff + "px";
+    curMonth = month;
+  }
+}
+function hideToolbar() {
+  $("wm-ipp").style.display="none";
+}
+function bootstrap() {
+  var $spk=$("wm-ipp-sparkline");
+  yearTracker=$D.createElement('div');
+  yearTracker.className='yt';
+  with(yearTracker.style){
+    display='none';width=yearImgWidth+"px";height=imgHeight+"px";
+  }
+  monthTracker=$D.createElement('div');
+  monthTracker.className='mt';
+  with(monthTracker.style){
+    display='none';width=monthImgWidth+"px";height=imgHeight+"px";
+  }
+  $spk.appendChild(yearTracker);
+  $spk.appendChild(monthTracker);
+
+  var $ipp=$("wm-ipp");
+  $ipp&&disclaimElement($ipp);
+}
+return{st:showTrackers,mv:trackMouseMove,h:hideToolbar,bt:bootstrap};
+})(500, 27, 25, 2);//]]>
+</script>
+<style type="text/css">
+body {
+  margin-top:0 !important;
+  padding-top:0 !important;
+  min-width:800px !important;
+}
+</style>
+
+<script type="text/javascript">__wm.bt();</script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+
+    <p style="text-align: right;"><a href="/web/20140911142603/http://faban.org/docs/CreatingWorkloadTutorial.html"><small>faban.org</small></a><br>
+    </p>
+    <h1>Tutorial: Creating your first Workload in Faban</h1>
+    <br>
+    <h2>Table Of Contents</h2>
+    <span class="pageContent"> <a href="/web/20140911142603/http://faban.org/docs/CreatingWorkloadTutorial.html#Introduction">Introduction</a><br>
+      <a href="/web/20140911142603/http://faban.org/docs/CreatingWorkloadTutorial.html#FabanConcepts">Basic
+
+        Faban Concepts</a><br>
+      <a href="/web/20140911142603/http://faban.org/docs/CreatingWorkloadTutorial.html#The_CoreHTTP_Workload">The
+
+        CoreHttp Workload</a><br>
+      <a href="/web/20140911142603/http://faban.org/docs/CreatingWorkloadTutorial.html#samplewebapp">The
+
+        SampleWeb Application</a><br>
+      <a href="/web/20140911142603/http://faban.org/docs/CreatingWorkloadTutorial.html#Building_the_Workload">Building
+
+        the Workload</a><br>
+      <a href="/web/20140911142603/http://faban.org/docs/CreatingWorkloadTutorial.html#Editing_the_Driver">Editing
+
+        the Driver</a><br>
+      <a href="/web/20140911142603/http://faban.org/docs/CreatingWorkloadTutorial.html#Editing_the_Driver">Editing
+
+        the Configuration File</a><br>
+      <a href="/web/20140911142603/http://faban.org/docs/CreatingWorkloadTutorial.html#Building_and_Deploying_the_Workload">Build
+
+        and Deploy</a><br>
+      <a href="/web/20140911142603/http://faban.org/docs/CreatingWorkloadTutorial.html#Run_the_Workload">Run_the_Workload</a><br>
+      <a href="/web/20140911142603/http://faban.org/docs/CreatingWorkloadTutorial.html#Learning_More">Learning
+
+        More</a><br>
+      <br>
+    </span>
+    <h2><a name="Introduction"></a>Introduction</h2>
+    <p>Faban provides a framework for developing workloads (called the <span style="font-style: italic;">Driver Framework</span>) and a
+      mechanism for run execution and management (called the <span style="font-style: italic;">Harness</span>).&nbsp; We assume
+      that you have already installed faban and gone through the <a href="/web/20140911142603/http://faban.org/docs/QuickStartTutorial.html">Quick
+Start
+
+        Tutorial</a> that shows you how to deploy and run a workload
+      test. This tutorial goes through the steps of creating a workload
+      using faban. Faban is written completely in Java and provides APIs
+      to access the framework. We will use the <a href="/web/20140911142603/http://faban.org/downloads/corehttp.tar.gz">CoreHttp workload</a>
+      as a starting point and modify it to test a web application that
+      has three pages - a home page (home.html), a products page
+      (products.html) and a contacts page (contacts.html). This workload
+      was used as an example in the <a href="/web/20140911142603/http://faban.org/docs/WorkloadDesign.pdf">Workload
+
+        Design</a> paper.<br>
+    </p>
+    <p> We will refer to the root directory of faban as $FABAN_HOME.
+      This is the directory that contains the <span style="font-style:
+        italic;">bin,
+        lib, samples</span> and other sub-directories. Please set your
+      environment variable FABAN_HOME on your driver system and make
+      that your current working directory. If you will be installing the
+      web application on another system (that runs the apache server),
+      you will have to install Faban on that machine as well in the same
+      $FABAN_HOME location.</p>
+    <p> You will need the following software installed on the driver
+      system : </p>
+    <ul>
+      <li><a target="_blank" href="/web/20140911142603/http://java.sun.com/javase/downloads/index.jsp">JDK 1.6
+        </a>(not just the JRE)</li>
+      <li><a target="_blank" href="/web/20140911142603/http://ant.apache.org/bindownload.cgi">Ant 1.7.1</a> or
+        higher</li>
+    </ul>
+    <p>and Apache httpd server on the system you want to test.</p>
+    <h2><a name="FabanConcepts"></a>Basic Faban Concepts<br>
+    </h2>
+    <ul>
+      <li><span style="font-weight: bold;">Master</span>: The Faban
+        Master refers to the primary Faban application that you interact
+        with through a browser. Master may also refer to the system
+        running the Faban Master.<br>
+        <span style="font-weight: bold;"></span></li>
+      <li><span style="font-weight: bold;">Driver</span> : This is the
+        load generator and is responsible for implementing the workload
+        definition, including operation mixes (the ratio in which
+        various types of requests are made), cycle times (the rate at
+        which requests are submitted), generate the operations and
+        process responses from the server application. The Driver
+        typically runs on the Master system but can run on any number of
+        additional systems as required.<br>
+      </li>
+      <li><span style="font-weight: bold;">Run Configuration</span>:
+        Typically named run.xml, it describes the run parameters
+        associated with this workload. <br>
+      </li>
+    </ul>
+    <h2><a name="The_CoreHTTP_Workload"></a>The CoreHTTP Workload</h2>
+    Although, it is possible to develop a new Faban workload from
+    scratch, it is better to start with an existing one and edit it to
+    fit our needs. For this tutorial, we will start with the CoreHTTP
+    workload which tests a web server serving a "Hello World" html file.
+    CoreHTTP is part of the workloads repository on this site. <a href="/web/20140911142603/http://faban.org/downloads/corehttp.tar.gz">Download</a>
+    and install it now. The steps below install it in the same directory
+    as faban :<br>
+    <br>
+    <table style="text-align: left; width: 500px; height: 66px;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>$ <span style="font-weight: bold;">ls</span><br>
+              corehttp.tar.gz&nbsp;&nbsp;&nbsp; faban<br>
+              $ <br>
+              $ <span style="font-weight: bold;">tar xf corehttp.tar.gz<br>
+                $ <br>
+              </span>$ <span style="font-weight: bold;">ls</span><br>
+              corehttp&nbsp;&nbsp; corehttp.tar.gz&nbsp;&nbsp;&nbsp;
+              faban<br>
+              $ <br>
+              $ <span style="font-weight: bold;">cd corehttp<br>
+                $<br>
+              </span>$ <span style="font-weight: bold;">ls</span><br>
+              README&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              license.txt<br>
+              build&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              nbproject<br>
+              build.properties.template&nbsp;&nbsp;&nbsp; src<br>
+              build.xml&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              webapp<br>
+              deploy<br>
+              $<br>
+            </code> </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    The source code for driver (CoreHttpDriver.java) resides in the <span style="font-style: italic;">com.testnscale.corehttp</span> package
+    under the <span style="font-style: italic;">src</span>
+    sub-directory. The configuration file <span style="font-style:
+      italic;">run.xml</span> resides in the deploy sub-directory. We
+    will be editing these files in the following sections.<br>
+    <br>
+    <h2><a name="samplewebapp"></a>The SampleWeb Application</h2>
+    <a target="_blank" href="/web/20140911142603/http://faban.org/downloads/samplewebapp.tar">Download</a>
+    the SampleWeb application, <span style="font-style: italic;">samplewebapp.tar</span>
+    The first step is to setup the web application. To do this, you will
+    need an apache http server and privileges to start/stop the server
+    as well as add files to it's DocumentRoot. Most Unix distributions
+    come with some version of apache pre-installed. If not, you can
+    easily install your own as apache distributions are freely available
+    for most platforms. Locate the DocumentRoot directory - it can be
+    found from the apache configuration file, <span style="font-style:
+      italic;">httpd.conf</span>. The following snippet assumes that you
+    are in the 'DocumentRoot' directory and shows how to deploy the
+    SampleWeb application :<br>
+    <br>
+    <table style="text-align: left; width: 60%;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>$ tar xf samplewebapp.tar<br>
+              $ ls samplewebapp<br>
+              home.html&nbsp;&nbsp;&nbsp;
+              products.html&nbsp;&nbsp;&nbsp; contacts.html<br>
+              $ </code><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Make a note of the port number the server is listening on, usually
+    port 80. <br>
+    <br>
+    <table style="text-align: left; width: 631px; height: 92px;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>$ <span style="font-weight: bold;">grep
+                'Listen ' /etc/apache2/httpd.conf</span><br>
+              # Change this to Listen on specific IP addresses as shown
+              below to <br>
+              #Listen 12.34.56.78:80<br>
+              <span style="color: rgb(102, 51, 255);">Listen 80</span><br>
+              $ <br>
+            </code><code><span style="font-weight: bold;"></span></code><br>
+            <br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    Start apache httpd server and check if you can connect to it from
+    your browser using the <span style="font-style: italic;">Listen</span>
+    address displayed above (http://localhost:80 if your browser is
+    running on the same machine):<br>
+    <br>
+    <table style="text-align: left; width: 804px; height: 116px;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>$ <span style="font-weight: bold;">apachectl
+
+                start</span><br>
+              $ <span style="font-weight: bold;">tail
+                /var/logs/apache2/error_log</span><br>
+              $ Sun Aug 16 15:27:19 2009] [warn] Init: Session Cache is
+              not configured [hint: SSLSessionCache]<br>
+              [Sun Aug 16 15:27:20 2009] [notice] Digest: generating
+              secret for digest authentication ...<br>
+              [Sun Aug 16 15:27:20 2009] [notice] Digest: done<br>
+              $ <br>
+              <br>
+              <br>
+            </code></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <h2><a name="Building_the_Workload"></a>Building the Workload</h2>
+    Start by creating a copy of the corehttp workload directory that was
+    installed previously.<br>
+    <br>
+    <table style="text-align: left; width: 708px; height: 129px;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>$ cp -rp corehttp sampleweb<br>
+              $ cd sampleweb<br>
+              $ <span style="font-weight: bold;">ls</span><br>
+            </code><code>README&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              license.txt<br>
+              build&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              nbproject<br>
+              build.properties.template&nbsp;&nbsp;&nbsp; src<br>
+              build.xml&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              webapp<br>
+              deploy<br>
+              $<br>
+            </code> <code><br>
+            </code></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    We will first change all the package/file names and references from
+    corehttp to sampleweb. Do the following :<br>
+    <br>
+    <table style="text-align: left; width: 70%;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>$ cd src/com/testnscale<br>
+              $ mv corehttp sampleweb<br>
+              $ cd sampleweb<br>
+              $ mv CoreHttpDriver.java SampleWebDriver.java<br>
+              $ cd ../../..<br>
+              <br>
+            </code></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    The directory includes a Netbeans project in 'nbproject'. If you use
+    Netbeans as your IDE, you can open this project. Change the Project
+    name to 'SampleWeb Workload'. Go to 'Project Properties' and set all
+    the paths to reflect your environment. For any other IDE, create a
+    project for sampleweb specifying the ant build script as 'build.xml'
+    - do not use the IDE generated ant script. For this simple project,
+    you can also choose to hand-edit the files.<br>
+    <br>
+    Edit <code>build.properties.template,
+      src/com/testnscale/sampleweb/SampleWebDriver.java</code> and <code>deploy/run.xml
+
+    </code>to change the following references :<br>
+    <br>
+    <table style="text-align: left; width: 493px; height: 98px;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-weight:
+              bold;">Old Value</span><br>
+          </td>
+          <td style="vertical-align: top;"><span style="font-weight:
+              bold;">New Value</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">corehttp<br>
+          </td>
+          <td style="vertical-align: top;">sampleweb<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">CoreHttp<br>
+          </td>
+          <td style="vertical-align: top;">SampleWeb<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">coreHttp<br>
+          </td>
+          <td style="vertical-align: top;">sampleWeb<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    Be careful with the upper and lowercase letters and double-check
+    that you've changed all references in these files. With the
+    re-factoring done, we can now edit the files.<br>
+    <br>
+    <h2><a name="Editing_the_Driver"></a>Editing the Driver</h2>
+    Open the driver source in
+    src/com/testnscale/sampleweb/SampleWebDriver.java. <br>
+    <h3>Defining the Operation Mix</h3>
+    The operation mix defines the navigation between the pages and the
+    proportion in which each page will be visited. The mix was defined
+    in the <a href="/web/20140911142603/http://faban.org/docs/WorkloadDesign.pdf">Workload
+
+      Design</a> document as a Matrix Mix (modeling a Markov chain) as
+    follows :<br>
+    <br>
+    <table style="text-align: left; width: 60%;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; font-weight: bold;">From<br>
+          </td>
+          <td style="vertical-align: top; font-weight: bold;">To <br>
+            home.html<br>
+          </td>
+          <td style="vertical-align: top; font-weight: bold;">To <br>
+            products.html<br>
+          </td>
+          <td style="vertical-align: top; font-weight: bold;">To <br>
+            contacts.html<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">home.html<br>
+          </td>
+          <td style="vertical-align: top;">0%<br>
+          </td>
+          <td style="vertical-align: top;">80%<br>
+          </td>
+          <td style="vertical-align: top;">20%<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">products.html<br>
+          </td>
+          <td style="vertical-align: top;">20%<br>
+          </td>
+          <td style="vertical-align: top;">39%<br>
+          </td>
+          <td style="vertical-align: top;">41%<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">contacts.html<br>
+          </td>
+          <td style="vertical-align: top;">60%<br>
+          </td>
+          <td style="vertical-align: top;">19%<br>
+          </td>
+          <td style="vertical-align: top;">21%<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    To specify this mix in Faban, add the following code after the
+    FixedTime annotation :<br>
+    <br>
+    <table style="text-align: left; width: 60%;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>@MatrixMix (<br>
+              &nbsp;&nbsp;&nbsp; operations = {"HomePage", "ProductsPage",
+              "ContactsPage"},<br>
+              &nbsp;&nbsp;&nbsp; mix = { @Row ({ 0, 80, 20 }),<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+@Row
+({20,
+
+              39, 41 }),<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+@Row
+({60,
+
+              19, 21 })<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+              )<br>
+            </code></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    For example, if an emulated user is currently on the Products page,
+    there is a 20% probability that he will visit the Home page, 39%
+    probability to visit the Products page and 41% probability to visit
+    the Contacts page.<br>
+    <h3>Retrieving the Parameters</h3>
+    The next step is to modify the constructor to retrieve the
+    additional parameters we need for this workload. Notice that a
+    parameter <span style="font-style: italic;">contextPath</span> is
+    defined. For our workload, we need three paths, one each for the 3
+    pages. Define these on line 70 where url is defined :<br>
+    <br>
+    <table style="text-align: left; width: 60%;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>private String url, homeUrl, productsUrl,
+              contactsUrl;</code><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Modify lines 102-17 (where <code>contextPath</code> is parsed and <code>url</code>
+    is built) as follows :<br>
+    <br>
+    <table style="text-align: left; width: 60%;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; url =
+              urlBuilder.toString();<br>
+              <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s =
+              ctx.getProperty("homePath");<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (s.charAt(0)
+              == '/')<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+homeUrl
+
+              = url + s;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+homeUrl
+
+              = url + '/' + s;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s =
+              ctx.getProperty("productsPath");<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (s.charAt(0)
+              == '/')<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+productsUrl
+
+              = url + s;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+productsUrl
+
+              = url + '/' + s;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s =
+              ctx.getProperty("contactsPath");<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (s.charAt(0)
+              == '/')<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+contactsUrl
+
+              = url + s;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+contactsUrl
+
+              = url + '/' + s;<br>
+              <br>
+            </code></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <h3>Defining the Operations</h3>
+    In the corehttp workload, a single operation called <span style="font-style: italic;">Request</span> is defined. We need to
+    change this to 3 different operations, but all doing the same thing
+    with just the url being different. <br>
+    <br>
+    <table style="text-align: left; width: 592px; height: 162px;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>&nbsp;&nbsp;&nbsp; @BenchmarkOperation (<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              name&nbsp;&nbsp;&nbsp; = "HomePage",<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; max90th = 250,
+              // 250 millisec<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; timing&nbsp; =
+              Timing.AUTO<br>
+              &nbsp;&nbsp;&nbsp; )<br>
+              &nbsp;&nbsp;&nbsp; public void doHomePage() throws
+              IOException {<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int size =
+              http.readURL(homeUrl);<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+              (ctx.isTxSteadyState())<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+contentStats.sumContentSize[ctx.getOperationId()]
+
+              += size;<br>
+              &nbsp;&nbsp;&nbsp; }<br>
+              <br>
+            </code><code>&nbsp;&nbsp; @BenchmarkOperation (<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              name&nbsp;&nbsp;&nbsp; = "ProductsPage",<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; max90th = 250,
+              // 250 millisec<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; timing&nbsp; =
+              Timing.AUTO<br>
+              &nbsp;&nbsp;&nbsp; )<br>
+              &nbsp;&nbsp;&nbsp; public void doProductsPage() throws
+              IOException {<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int size =
+              http.readURL(homeUrl);<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+              (ctx.isTxSteadyState())<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+contentStats.sumContentSize[ctx.getOperationId()]
+
+              += size;<br>
+              &nbsp;&nbsp;&nbsp; }<br>
+              <br>
+            </code><code>&nbsp;&nbsp;&nbsp; @BenchmarkOperation (<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              name&nbsp;&nbsp;&nbsp; = "ContactsPage",<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; max90th = 250,
+              // 250 millisec<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; timing&nbsp; =
+              Timing.AUTO<br>
+              &nbsp;&nbsp;&nbsp; )<br>
+              &nbsp;&nbsp;&nbsp; public void doProductsPage() throws
+              IOException {<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int size =
+              http.readURL(contactsUrl);<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+              (ctx.isTxSteadyState())<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+contentStats.sumContentSize[ctx.getOperationId()]
+
+              += size;<br>
+              &nbsp;&nbsp;&nbsp; }</code><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Save the file. The driver code is now done.<br>
+    <h2>Editing the Configuration File</h2>
+    The next step is to edit the run configuration file in
+    deploy/run.xml.<br>
+    This file specifies the parameters that the user will enter values
+    for when submitting a test run. For our workload, the only
+    parameters we need are the values of the 3 URL's of the application.
+    We replace the &lt;contextPath&gt; element under
+    &lt;driverConfig&gt;&nbsp; :<br>
+    <br>
+    <table style="text-align: left; width: 570px; height: 233px;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>&lt;driverConfig name="SampleWeb"&gt;<br>
+              ...<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;property&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;name&gt;homePath&lt;/name&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;value&gt;/samplewebapp/home.html&lt;/value&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;/property&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;property&gt;<br>
+            </code><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;name&gt;productsPath&lt;/name&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;value&gt;/samplewebapp/products.html&lt;/value&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;/property&gt;</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+            </code><code>&lt;property&gt;<br>
+            </code><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;name&gt;contactsPath&lt;/name&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;value&gt;/samplewebapp/contacts.html&lt;/value&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;/property&gt;</code><br>
+            <code></code><code>...<br>
+              &lt;/driverConfig&gt;</code><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Scroll down and look at the parameters under &lt;webServer&gt;. You
+    can change the default value of &lt;hostPorts&gt; to the server on
+    which apache will be running for this workload. Alternatively, you
+    can change this when scheduling a run. The next element is
+    &lt;enabled&gt; - this specifies whether to allow Faban to start an
+    Agent on this host. Since we want Faban to monitor performance on
+    this host, change the default value to &lt;true&gt;. <br>
+    <br>
+    <table style="text-align: left; width: 703px; height: 106px;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>&nbsp;&nbsp;&nbsp; &lt;webServer&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &lt;fa:hostConfig <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+xmlns="http://faban.sunsource.net/ns/fabanharness"
+
+
+              <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              xmlns:fa="http://faban.sunsource.net/ns/faban"&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;fa:hostPorts&gt;<span style="font-style: italic;
+                font-weight: bold;">sampleWebHost</span>:80&lt;/fa:hostPorts&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              &lt;enabled&gt;true&lt;/enabled&gt;<br>
+            </code><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Save the run.xml file.<br>
+    <br>
+    <h2>Build and Deploy<br>
+    </h2>
+    We are now ready to deploy the workload. This can be done using the
+    ant target 'deploy'. Before we do that, make sure the faban master
+    is up. Edit build.properties and set 'faban.home' and 'faban.url' to
+    the appropriate hostname of the master/driver system. First cleanup
+    the build directory to remove the corehttp files. These steps are
+    shown below :<br>
+    <br>
+    <table style="text-align: left; width: 741px; height: 356px;" border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; background-color: rgb(255,
+            255, 204);"><code>$ <span style="font-weight: bold;">cat
+                build.properties</span><br>
+              bench.shortname=sampleweb<br>
+              faban.home=/opt/faban<br>
+              faban.url=http://localhost:9980/<br>
+              deploy.user=deployer<br>
+              deploy.password=adminadmin<br>
+              deploy.clearconfig=true<br>
+              compiler.target.version=1.5<br>
+              $ <br>
+              $ <span style="font-weight: bold;">rm -rf build/*</span><br>
+              <br>
+              $ <span style="font-weight: bold;">ant deploy</span><br>
+              Buildfile: build.xml<br>
+              <br>
+            </code><span style="font-family: monospace;">in</span><code>it:<br>
+              <br>
+              compile:<br>
+              Compiling 1 source file to
+              /Users/testnscale/sampleweb/build/classes<br>
+            </code><code><br>
+              bench.jar:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [jar] Building jar:
+              /Users/testnscale/sampleweb/build/lib/sampleweb.jar<br>
+              <br>
+              deploy.jar:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [jar] Building jar:
+              /Users/testnscale/sampleweb/build/sampleweb.jar<br>
+              <br>
+              deploy:<br>
+              <br>
+              BUILD SUCCESSFUL<br>
+              Total time: 14 seconds<br>
+            </code><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    If you run into problems, you can download the <a href="/web/20140911142603/http://faban.org/downloads/sampleweb.tar.gz">sampleweb
+      kit</a> and compare your code against it.<br>
+    <h2><a name="Run_the_Workload"></a>Run the Workload</h2>
+    Point your browser at the Faban master (http://<span style="font-style: italic;">host</span>:9980) and Schedule a Run.
+    You should see the first JVM parameters form. If instead you see an
+    error, compare your code against the sampleweb kit (or simply deploy
+    and run it !) Tab through the forms and once you have all the
+    correct parameters, submit the run. Good luck !<br>
+    <br>
+    <h2>Next Steps</h2>
+    You can do any (or all) of the following :<br>
+    <ul>
+      <li>Do runs at different load levels (by changing the <span style="font-style: italic;">Scale</span> parameter) to see how
+        the response time and throughput changes.</li>
+      <!--li>See the <a target="_blank"
+          href="/web/20140911142603/http://faban.org/docs/CycleTimesTutorial.html">Cycle
+          Times Tutorial</a> to learn how to modify the workload to add
+        cycle/think times to create a more realistic workload.</li-->
+    </ul>
+    <h2><a name="Learning_More"></a>Learning More</h2>
+    <ul>
+      <li>See the <a target="_blank" href="/web/20140911142603/http://faban.org/latest/docs/toc.html#Faban_Driver_Framework_Developers_Guide_">Faban
+Driver
+Framework
+
+          Developers Guide</a> for more information on the framework
+        offered to write drivers.</li>
+      <li>See the <a target="_blank" href="/web/20140911142603/http://faban.org/latest/docs/toc.html#Faban_Harness_Developers_Guide_">Faban
+Harness
+Developers
+
+          Guide</a> for more advanced information on how you can hook
+        into the harness.</li>
+      <li><a target="_blank" href="/web/20140911142603/http://faban.org/latest/docs/api/index.html">Faban
+API
+
+          JavaDocs</a><br>
+      </li>
+    </ul>
+    <br>
+    <hr style="width: 100%; height: 2px;"><font size="-1">All Rights
+      Reserved. See <a href="/web/20140911142603/http://faban.org/docs/copyright.html">Terms
+
+        and Conditions</a>.</font><br>
+    <br>
+  
+
+
+
+
+
+
+<!--
+     FILE ARCHIVED ON 14:26:03 Sep 11, 2014 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 15:48:24 Oct 18, 2015.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<script id="hiddenlpsubmitdiv" style="display: none;"></script><script>try{for(var lastpass_iter=0; lastpass_iter < document.forms.length; lastpass_iter++){ var lastpass_f = document.forms[lastpass_iter]; if(typeof(lastpass_f.lpsubmitorig2)=="undefined"){ lastpass_f.lpsubmitorig2 = lastpass_f.submit; if (typeof(lastpass_f.lpsubmitorig2)=='object'){ continue;}lastpass_f.submit = function(){ var form=this; var customEvent = document.createEvent("Event"); customEvent.initEvent("lpCustomEvent", true, true); var d = document.getElementById("hiddenlpsubmitdiv"); if (d) {for(var i = 0; i < document.forms.length; i++){ if(document.forms[i]==form){ if (typeof(d.innerText) != 'undefined') { d.innerText=i.toString(); } else { d.textContent=i.toString(); } } } d.dispatchEvent(customEvent); }form.lpsubmitorig2(); } } }}catch(e){}</script></body></html>Ytext/htmlUUTF-8P_^https://web.archive.org/web/20140911142603/http://faban.org/docs/CreatingWorkloadTutorial.html            1   :   C   U   k   z   ê  )Ô  )¯  */  .‚  .Ì  /  2’  2€  3-  <  <  Yù  Yß  Y  ^¥  ^Ω  _Â  `&  d‡  dÈ  f  fT  k  k  lû  n  tØ  t∏  yA  yZ  yí  ~p  ~y  ÑS  Ñl  Ñû  âw  âÇ  âô 3	 3 3 3             5             3{
