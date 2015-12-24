@@ -22,8 +22,8 @@ cache:
 
 deploy:
   provider: releases
-  user: $GITHUB_USERNAME
-  password: $GITHUB_PASSWORD
+  api_key:
+    secure: BFdxERZVSkJvn6MqL9Yf2KvWuOigjy22348ggGwjw+iwc3LMiQfd0JEUw6GJeuFFm3vKx3jcBCRaIeLUwl5HvQn0v09zToTC4EVp8XAayuW2Tx/yErgwuOhgu+bSBn2rd2TN59pchLUt8eNHu4y4QPB1iiqbFP6l9GnDfga97aY9puLtLddz9RgDZ+EZTBA43TkK3BBp+v/lvsY/UPXe/8NP+2sFzEuNyPpYZ7kY25NMLP0jqoZ6EMN6gK2gWqYVsn2kAU6Os8gi3HePtWVZGJGgh1MgUT2uGH5PU4glSQLFkwSbP47k+EgQ+E/Qt19/+etVDnRh5T6LBlETa2nQt4lR3241RF2JclyTSterbLkTk+HBL9c23go9z0dfwBVvYz8AtTyGjqRoLVvHVCV18CoppfAFVwg5VYTaOZAQzFnfs/9mZ1IymakC61xayYyfs2CmK7Rs+cG59HGXh682OvoS24EtnfRAnCJlA8jpMwDYw12TrG3Wh44e2bL4+787+MpRwXCy0ouS3oOD6EmAX7tibSXoRLRorryNi8v+/sGSMlmCw3pGv/iQjTBGSW9Ep5H+CG5r0+k0sLWHO0OTXK/BO8WvzI8752SfFIa2ePxEVeUJtvtPnRpKdEbcDudChCJzHxfDwqDpdtityCfCB/tjkz+DbeoCKbj292Tg8dQ=
   file: 
     - nightly/faban-kit-dev.tar.gz
   skip_cleanup: true
