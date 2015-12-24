@@ -387,7 +387,7 @@
 
     <target name="package-agent"
         description="Package agent install image">
-        <tar destfile="${kit.dir}/${package.name}-agent.tar.gz"
+        <tar destfile="${kit.dir}/${package.name}-agent-dev.tar.gz"
             longfile="warn" compression="gzip">
             <tarfileset dir="." prefix="${package.name}" mode="755" dirmode="755">
                 <patternset refid="agent.bin"/>
@@ -446,7 +446,7 @@
         unless="faban.bundled"
         description="Package the Faban kit only packages."/>
 
-    <target name="all" depends="package-faban, package-benchmark"
+    <target name="all" depends="package-faban, package-agent, package-benchmark"
         description="Create all packages."/>
 
     <target name="clean-master"
