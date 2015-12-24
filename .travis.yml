@@ -10,6 +10,8 @@ jdk:
 branches:
   only:
     - dev
+  except:
+    - v-dev
 
 
 install:
@@ -24,8 +26,8 @@ cache:
 before_deploy:
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
-  # configure tag
-  - export GIT_TAG=dev
+  # configure tag (prepended v- in order to ignore the build on push)
+  - export GIT_TAG=v-dev
   # delete tag if it already exists
   - git tag | grep $GIT_TAG | if [ $(grep -c $GIT_TAG) -eq 1 ]; then git tag -d $GIT_TAG; fi
   - git push -q https://$GITHUB_ACCESS_TOKEN:x-oauth-basic@github.com/benchflow/faban :refs/tags/$GIT_TAG
