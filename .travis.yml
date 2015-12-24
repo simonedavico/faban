@@ -24,16 +24,19 @@ cache:
 before_deploy:
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
+  # configure tag
   - export GIT_TAG=devel
   # delete tag if it already exists
   - git tag | grep $GIT_TAG | if [ $(grep -c $GIT_TAG) -eq 1 ]; then git tag -d $GIT_TAG; fi
+  - git push -q https://$GITHUB_ACCESS_TOKEN:x-oauth-basic@github.com/benchflow/faban :refs/tags/$GIT_TAG
+  # push the tag
   - git tag $GIT_TAG -a -m "Development Tag"
-  - git push -q https://$GITHUB_OAUTH@github.com/benchflow/faban --tags
+  - git push -q https://$GITHUB_ACCESS_TOKEN:x-oauth-basic@github.com/benchflow/faban --tags
 
 deploy:
   provider: releases
   api_key:
-    secure: $GITHUB_OAUTH
+    secure: $GITHUB_ACCESS_TOKEN
   file: 
     - nightly/faban-kit-dev.tar.gz
   skip_cleanup: true
