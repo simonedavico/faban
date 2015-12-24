@@ -113,6 +113,8 @@ final public class CmdService { 	// The final keyword prevents clones
         try {
             master = (InetAddress.getLocalHost()).getHostName();
             masterAddress = (InetAddress.getLocalHost()).getHostAddress();
+//            System.out.println(">>> My localhost is: " + InetAddress.getLocalHost());
+//            System.out.println(">>>>Starting and logging me as master: " + masterAddress);
             logger.config("InetAddress master Host = " + master);
             logger.config("InetAddress master address = " + masterAddress);
         } catch (Exception e) {
@@ -349,6 +351,8 @@ final public class CmdService { 	// The final keyword prevents clones
             logger.log(Level.SEVERE, "Strange! Master is unknown.", e);
             return false;
         }
+        
+//        System.out.println("The master has many names: " + masterIps[0]);
 
         HashSet<String> remoteMachines = new HashSet<String>();
         boolean isMasterSet = false;
@@ -382,11 +386,13 @@ final public class CmdService { 	// The final keyword prevents clones
                         if (!isMasterSet) { // Set the master to the first
                             // found master name in the list.
                             master = machines[i];
+//                            System.out.println(">>>>Changing the master to: " + master);
                             isMasterSet = true;
                         } else { // Set all subsequent masters to the same.
                             machines[i] = master;
                         }
                     } else {     // All remote machines go into a set.
+//                    	System.out.println("Adding remote machine: " + machines[i]);
                         remoteMachines.add(machines[i]);
                     }
                 } catch (UnknownHostException e) {
@@ -481,6 +487,8 @@ final public class CmdService { 	// The final keyword prevents clones
                 }
 
                 String interfaceAddress = ifMap.get(machines[i]);
+                
+//                logger.info("I am the machine: " + machines[i]);
 
                 if (interfaceAddress == null || interfaceAddress.length() == 0) {
                     return false;
@@ -489,6 +497,8 @@ final public class CmdService { 	// The final keyword prevents clones
                 if (!startCmdAgent(benchName, machines[i], interfaceAddress)) {
                     return false;
                 }
+                
+//                logger.info("The download interface is: " + interfaceAddress);
 
                 // By adding the mach to the list we prevent multiple
                 // agents being started on the same server
@@ -684,7 +694,7 @@ final public class CmdService { 	// The final keyword prevents clones
 
                 URL fabanURL = new URL(Config.FABAN_URL);
                 URL downloadURL = new URL(fabanURL.getProtocol(),
-                        interfaceAddress, fabanURL.getPort(),
+                		masterAddress, fabanURL.getPort(),
                         fabanURL.getFile());
                 agentParams.add("faban.download=" + downloadURL.toString());
 
