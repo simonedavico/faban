@@ -177,8 +177,8 @@ public class AgentBootstrap {
             throws Exception {
 
         String hostname = args[0];
-        master = args[1];
-        String masterLocal = args[2];
+        master = args[2];
+        String masterLocal = args[1];
         javaHome = args[3];
 
         String benchName = null;
