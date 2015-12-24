@@ -3,10 +3,14 @@ dist: precise
 group: edge
 
 language: java
-install: 
-    - ant build
 jdk:
     - oraclejdk7
+
+
+install: 
+    - ant build
+# attempt to skip tests
+script: 
 
 cache:
   directories:
