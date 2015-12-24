@@ -123,6 +123,8 @@ public class DefaultFabanBenchmark2 {
 
             // Prepare the agent distribution...
             String[] agentSpecs = params.getTokenizedValue(qb + "fd:agents");
+            
+//            System.out.println(">>> Number of agents: " + agentSpecs.length);
 
             switch (agentSpecs.length) {
                 case 0: // Default to 1 agent
@@ -333,10 +335,12 @@ public class DefaultFabanBenchmark2 {
                 logger.info("Starting " + agentType + "Agent[" + agentId +
                         "] on host " + hostName + '.');
 
-                String masterIP = getMasterIP(hostName);
-                if (masterIP == null) {
-                    masterIP = getMasterIP();
-                }
+                //String masterIP = getMasterIP(hostName);
+                //if (masterIP == null) {
+                String masterIP = getMasterIP();
+                //}
+                
+//                System.out.println(">>>>>masterIP: " + masterIP);
 
                 Command agent = new Command("com.sun.faban.driver.engine." +
                         "AgentImpl", agentType, String.valueOf(agentId),
@@ -351,6 +355,7 @@ public class DefaultFabanBenchmark2 {
 
                 agent.setSynchronous(false);
                 java(hostName, agent);
+//                System.out.println("Executing a remote call on: " + hostName);
                 agentStarted = true;
                 //Wait for the Agents to register
                 try {
