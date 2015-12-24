@@ -15,8 +15,6 @@ branches:
 install:
   - ant build
 
-# disable tests
-script: exit 0
 
 cache:
   directories:

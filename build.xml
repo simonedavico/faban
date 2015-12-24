@@ -2,18 +2,23 @@
 
 <project default="build">
 
-  <target name="build">
-    <ant dir="common"/>
-    <ant dir="driver"/>
-    <ant dir="harness"/>
-    <ant dir="stage"/>
-  </target>
+	<target name="build">
+		<ant dir="common"/>
+		<ant dir="driver"/>
+		<ant dir="harness"/>
+		<ant dir="stage"/>
+	</target>
+	
+	<!-- TODO: extend and enable tests -->
+	<target name="test">
 
-  <target name="clean">
-    <ant dir="common" target="clean"/>
-    <ant dir="driver" target="clean"/>
-    <ant dir="harness" target="clean"/>
-    <ant dir="stage" target="clean-all"/>
-  </target>
+	</target>
+
+	<target name="clean">
+		<ant dir="common" target="clean"/>
+		<ant dir="driver" target="clean"/>
+		<ant dir="harness" target="clean"/>
+		<ant dir="stage" target="clean-all"/>
+	</target>
 
 </project>
