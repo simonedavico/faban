@@ -347,8 +347,10 @@
 
     <target name="package-bundle" unless="faban.bundled"
         description="Package bundle for re-shipping with benchmark">
-        <tar destfile="${kit.dir}/${package.name}-kit-${build.date}.tar.gz"
-            longfile="warn" compression="gzip">
+        <!--<tar destfile="${kit.dir}/${package.name}-kit-${build.date}.tar.gz"
+            longfile="warn" compression="gzip">-->
+    	<tar destfile="${kit.dir}/${package.name}-kit-dev.tar.gz"
+    	            longfile="warn" compression="gzip">
             <tarfileset dir="." prefix="${package.name}" mode="755" dirmode="755">
                 <patternset refid="package.bin"/>
             </tarfileset>
@@ -363,8 +365,10 @@
 
     <target name="package-benchmark" if="faban.bundled"
         description="Package install image for specific benchmark">
-        <tar destfile="${kit.dir}/${package.name}-${build.date}.tar.gz"
-            longfile="warn" compression="gzip">
+    	<!--<tar destfile="${kit.dir}/${package.name}-${build.date}.tar.gz"
+            longfile="warn" compression="gzip">-->
+    		<tar destfile="${kit.dir}/${package.name}-dev.tar.gz"
+    	            longfile="warn" compression="gzip">
             <tarfileset dir="." prefix="${package.name}" mode="755" dirmode="755">
                 <patternset refid="server.bin"/>
             </tarfileset>
@@ -421,9 +425,12 @@
         <!-- Just the javadocs to be used by modern IDEs -->
         <zip destfile="javadocs.zip" basedir="${docs.dir}/api"/>
         <!-- The docs download including the guides -->
-        <zip destfile="${kit.dir}/${package.name}-docs-${build.date}.zip">
+        <!--<zip destfile="${kit.dir}/${package.name}-docs-${build.date}.zip">
             <zipfileset dir="${docs.dir}" prefix="docs"/>
-        </zip>
+        </zip>-->
+    	<zip destfile="${kit.dir}/${package.name}-docs-dev.zip">
+    	    <zipfileset dir="${docs.dir}" prefix="docs"/>
+    	</zip>
     </target>
 
     <target name="package-src" unless="faban.bundled">

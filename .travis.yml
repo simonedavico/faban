@@ -4,20 +4,30 @@ group: edge
 
 language: java
 jdk:
-    - oraclejdk7
+  - oraclejdk7
+
+# whitelist
+branches:
+  only:
+    - dev
 
 
-install: 
-    - ant build
-# attempt to skip tests
+install:
+  - ant build
+
+# disable tests
 script: exit 0
 
 cache:
   directories:
     - $HOME/.m2
 
-# whitelist
-branches:
-  only:
-    - dev
-    - master
+deploy:
+  provider: releases
+  api_key:
+    secure: $GITHUB_API_KEY
+  file: 
+    - nightly/faban-kit-dev.tar.gz
+  on:
+    repo: benchflow/faban
+    branch: dev
