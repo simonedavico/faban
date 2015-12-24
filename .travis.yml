@@ -29,7 +29,7 @@ before_deploy:
   # configure tag (prepended v- in order to ignore the build on push)
   - export GIT_TAG=v-dev
   # delete tag if it already exists
-  - git tag | grep $GIT_TAG | if [ $(grep -c $GIT_TAG) -eq 1 ]; then git tag -d $GIT_TAG; fi
+  - git tag | if [ $(grep -c $GIT_TAG) -eq 1 ]; then git tag -d $GIT_TAG; fi
   - git push -q https://$GITHUB_ACCESS_TOKEN:x-oauth-basic@github.com/benchflow/faban :refs/tags/$GIT_TAG
   # push the tag
   - git tag $GIT_TAG -a -m "Development Tag"
