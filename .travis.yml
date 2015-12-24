@@ -10,7 +10,7 @@ jdk:
 install: 
     - ant build
 # attempt to skip tests
-script: 
+script: exit 0
 
 cache:
   directories:
