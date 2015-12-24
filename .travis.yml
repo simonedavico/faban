@@ -1,0 +1,14 @@
+sudo: required
+dist: precise
+group: edge
+
+language: java
+install: 
+	- ant build
+jdk:
+	- oraclejdk7
+# whitelist
+branches:
+  only:
+    - dev
+    - master
