@@ -247,15 +247,20 @@ public class MasterImpl extends UnicastRemoteObject implements Master {
         scheduler = new java.util.Timer("Scheduler", false);
         try {
             int agentCnt = configure();
+//            System.out.println(">>>Number of agents: " + agentCnt);
             if (agentCnt > 0) {
                 for (int i = 0; i < benchDef.drivers.length && !runAborted; i++) {
 					configureAgents(i);
+//					System.out.println(">>>configureAgents: " + i);
 				}
                 for (int i = 0; i < benchDef.drivers.length && !runAborted; i++) {
 					startThreads(i);
+//					System.out.println(">>>startThreads: " + i);
 				}
+//                System.out.println("Detected " + agentCnt + " Remote Agents.");
                 logger.config("Detected " + agentCnt + " Remote Agents.");
             } else {
+//            	System.out.println("configureLocal");
                 configureLocal();
             }
         } catch (ConnectException e) {
