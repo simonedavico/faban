@@ -22,10 +22,11 @@ cache:
 
 deploy:
   provider: releases
-  api_key:
-    secure: $GITHUB_API_KEY
+  user: $GITHUB_USERNAME
+  password: $GITHUB_PASSWORD
   file: 
     - nightly/faban-kit-dev.tar.gz
+  skip_cleanup: true
   on:
     repo: benchflow/faban
     branch: dev
