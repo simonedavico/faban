@@ -26,8 +26,8 @@ cache:
 # needed for actually 
 before_deploy:
   # install before_deploy dependencies (JSON parser)
-  - wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -O /usr/bin/jq
-  - chmod +x /usr/bin/jq
+  - sudo wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -O /usr/bin/jq
+  - sudo chmod +x /usr/bin/jq
   # configure the Travis user for Git
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
