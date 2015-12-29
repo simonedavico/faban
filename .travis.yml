@@ -15,7 +15,7 @@ branches:
 
 
 install:
-  - ant build
+  - make all
 
 
 cache:
