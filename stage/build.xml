@@ -53,7 +53,7 @@
 	    <ant dir="${workspace.dir}/driver"/>
 	    <ant dir="${workspace.dir}/harness"/>
         <antcall target="copy"/>
-        <ant dir="samples/benchmarks/web101"/>
+        <!-- <ant dir="samples/benchmarks/web101"/>
         <ant dir="samples/benchmarks/ftp101"/>
         <ant dir="samples/benchmarks/fabanload"/>
         <ant dir="samples/benchmarks/specweb2005"/>
@@ -63,7 +63,7 @@
         <ant dir="samples/services/LighttpdService"/>
         <ant dir="samples/services/MemcachedService"/>
         <ant dir="samples/services/MysqlService"/>
-        <ant dir="samples/services/OracleService"/>
+        <ant dir="samples/services/OracleService"/> -->
     </target>
 
     <target name="copy" unless="faban.bundled"
