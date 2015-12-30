@@ -29,3 +29,5 @@ stage/release
 stage/resources/
 stage/samples/
 stage/src.zip
+
+*.cpgz
