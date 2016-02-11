@@ -382,6 +382,16 @@ public class GenericBenchmark {
         	}
             serviceMgr.shutdown();
         }
+
+        if(bmw != null) {
+            logger.info("Killing benchmark");
+            try {
+                bmw.kill();
+            } catch (Throwable t) {
+                logger.log(Level.WARNING, "Exceptions killing benchmark.", t);
+            }
+        }
+
         _kill();
     }
 
@@ -394,15 +404,6 @@ public class GenericBenchmark {
             run.updateStatus(runStatus);
         } catch (IOException e) {
             logger.log(Level.SEVERE,  "Failed to update run status.", e);
-        }
-
-        if(bmw != null) {
-            logger.info("Killing benchmark");
-            try {
-                bmw.kill();
-            } catch (Throwable t) {
-                logger.log(Level.WARNING, "Exceptions killing benchmark.", t);
-            }
         }
 
         if (tools != null) {
