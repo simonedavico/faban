@@ -926,7 +926,7 @@ public class MasterImpl extends UnicastRemoteObject implements Master {
                                    new LinkedHashMap<String, Metrics>();
         try {
             if (runInfo.driverConfigs[driverType].numAgents > 0) {
-                logger.info("REMOVE - numAgents is: " + unInfo.driverConfigs[driverType].numAgents);
+                logger.info("REMOVE - numAgents is: " + runInfo.driverConfigs[driverType].numAgents);
                 Agent[] agents = agentRefs[driverType];
                 logger.info("Gathering " +
                         benchDef.drivers[driverType].name + "Stats ...");
