@@ -865,12 +865,14 @@ public class MasterImpl extends UnicastRemoteObject implements Master {
         /* Gather stats and print report */
         changeState(MasterState.RESULTS);
         int driverTypes = runInfo.driverConfigs.length;
+        logger.info("REMOVE - driverTypes: " + driverTypes);
         ArrayList<Map<String, Metrics>> resultsList =
                 new ArrayList<Map<String, Metrics>>(driverTypes);
 
         // Note: the index into the list is the actual driver type
         for (int driverType = 0; driverType < driverTypes; driverType++) {
 			resultsList.add(getDriverMetrics(driverType));
+            logger.info("REMOVE - addedd metrics for driver type: " + driverType);
 		}
 
         generateReports(resultsList);
@@ -878,6 +880,8 @@ public class MasterImpl extends UnicastRemoteObject implements Master {
         // Tell StatsWriter to quit
         if (statsWriter != null)
             statsWriter.quit();
+
+        logger.info("REMOVE - statsWriter is: " + statsWriter);
     }
 
     private class MetricsProvider
@@ -922,6 +926,7 @@ public class MasterImpl extends UnicastRemoteObject implements Master {
                                    new LinkedHashMap<String, Metrics>();
         try {
             if (runInfo.driverConfigs[driverType].numAgents > 0) {
+                logger.info("REMOVE - numAgents is: " + unInfo.driverConfigs[driverType].numAgents);
                 Agent[] agents = agentRefs[driverType];
                 logger.info("Gathering " +
                         benchDef.drivers[driverType].name + "Stats ...");
@@ -932,6 +937,7 @@ public class MasterImpl extends UnicastRemoteObject implements Master {
 
                 for (Agent agent : agents) {
                     Metrics r = agent.getResults();
+                    logger.info("REMOVE - agent.getResults(): " + r);
                     if (r == null)
                         continue;
                     MetricsProvider hostResult = hostProviders.get(r.host);
@@ -956,6 +962,7 @@ public class MasterImpl extends UnicastRemoteObject implements Master {
                     PairwiseAggregator<Metrics> aggregator = new
                             PairwiseAggregator<Metrics>(r.metrices.size(), r);
                     result = aggregator.collectStats();
+                    logger.info("REMOVE - result in MetricsProvider: " + result);
                     hostMetrics.put(result.host, result);
                 }
 
@@ -967,6 +974,8 @@ public class MasterImpl extends UnicastRemoteObject implements Master {
                                     grandSumProvider);
 
                     result = aggregator.collectStats();
+
+                    logger.info("REMOVE - result in grandSumProvider: " + result);
 
                     // And finally set it for the final result, too.
 					result.startTime =  runInfo.start;
@@ -1006,13 +1015,18 @@ public class MasterImpl extends UnicastRemoteObject implements Master {
         }
         hostSet.remove("__MASTER__");
 
+        logger.info("REMOVE - hostSet.size() in generateReports: " + hostSet.size());
+
         // Only print the per-host results if there is more than one driver host
         if (hostSet.size() > 1) {
             for (String host : hostSet) {
+                logger.info("REMOVE - host in generateReports: " + host);
                 CharSequence summaryContent = createSummaryReport(
                                         getHostMetrics(results, host), host);
+                logger.info("REMOVE - summaryContent in generateReports: " + summaryContent);
                 if (summaryContent != null) {
                     String runOutputDir = runInfo.resultsDir + fs;
+                    logger.info("REMOVE - runOutputDir in generateReports: " + runOutputDir);
                     FileWriter summary = new FileWriter(runOutputDir + 
                             "summary.xml." + host);
                     FileWriter detail = new FileWriter(runOutputDir + 
