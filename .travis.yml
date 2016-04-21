@@ -37,6 +37,7 @@ deploy:
   file: 
     - nightly/faban-kit-dev.tar.gz
     - nightly/faban-agent-dev.tar.gz
+    - stage/lib/fabandriver.jar
   skip_cleanup: true
   on:
     tags: false
