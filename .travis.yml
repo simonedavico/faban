@@ -42,5 +42,5 @@ deploy:
   skip_cleanup: true
   on:
     tags: false
-    repo: benchflow/faban
+    repo: simonedavico/faban
     branch: dev
